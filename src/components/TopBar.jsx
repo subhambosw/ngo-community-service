@@ -6,6 +6,7 @@ export default function TopBar({ activeView, setMobileOpen, userState, onResetPr
     switch (activeView) {
       case 'home': return 'home';
       case 'overview': return 'overview';
+      case 'alerts': return 'cyber-threat-alerts';
       case 'threat-map': return 'global-threat-radar';
       case 'incident-response': return 'incident-war-room';
       case 'compliance': return 'compliance-soc2';

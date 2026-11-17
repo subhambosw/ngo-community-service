@@ -17,6 +17,7 @@ import IncidentResponse from './components/IncidentResponse';
 import ComplianceHub from './components/ComplianceHub';
 import Leaderboard from './components/Leaderboard';
 import ResourceLibrary from './components/ResourceLibrary';
+import CyberAlerts from './components/CyberAlerts';
 import { getUserState, addXP, resetProgress } from './utils/storage';
 import { Zap, Compass, MessageSquare, Home, Globe } from 'lucide-react';
 
@@ -99,6 +100,12 @@ export default function App() {
             <Overview 
               setActiveView={setActiveView}
               userState={userState}
+            />
+          )}
+
+          {activeView === 'alerts' && (
+            <CyberAlerts 
+              onAwardXP={handleAwardXP}
             />
           )}
 

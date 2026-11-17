@@ -15,7 +15,8 @@ import {
   Globe,
   AlertOctagon,
   Trophy,
-  FileCheck2
+  FileCheck2,
+  Bell
 } from 'lucide-react';
 
 export default function Sidebar({ activeView, setActiveView, mobileOpen, setMobileOpen, userState }) {
@@ -25,6 +26,7 @@ export default function Sidebar({ activeView, setActiveView, mobileOpen, setMobi
       items: [
         { id: 'home', label: 'Home Welcome', icon: Home },
         { id: 'overview', label: 'Main Terminal', icon: LayoutDashboard },
+        { id: 'alerts', label: 'Global Cyber Alerts', icon: Bell, badge: 'ALERT' },
         { id: 'threat-map', label: 'Live Threat Radar', icon: Globe, badge: 'LIVE' },
         { id: 'incident-response', label: 'Incident War Room', icon: AlertOctagon, badge: 'DRILL' },
       ]

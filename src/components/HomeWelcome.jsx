@@ -167,6 +167,13 @@ export default function HomeWelcome({ setActiveView, userState, onAwardXP }) {
             JUMP DIRECTLY TO:
           </span>
           <button
+            onClick={() => { playArcadeChime(); setActiveView('alerts'); }}
+            className="px-3 py-1.5 rounded-lg bg-red-950/40 hover:bg-red-900/50 border border-red-500/30 text-xs font-mono text-red-200 hover:text-white transition-all hover:-translate-y-0.5 flex items-center gap-1.5"
+          >
+            <span className="w-1.5 h-1.5 rounded-full bg-red-400 animate-pulse" />
+            <span>🚨 Threat Alerts</span>
+          </button>
+          <button
             onClick={() => { playArcadeChime(); setActiveView('threat-map'); }}
             className="px-3 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 text-xs font-mono text-zinc-300 hover:text-white transition-all hover:-translate-y-0.5"
           >
