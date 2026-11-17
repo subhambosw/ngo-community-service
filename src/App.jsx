@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import Sidebar from './components/Sidebar';
-import TopBar from './components/TopBar';
+import NavbarMega from './components/navigation/NavbarMega';
+import SidebarAccordion from './components/navigation/SidebarAccordion';
+import MobileNavDrawer from './components/navigation/MobileNavDrawer';
 import Overview from './components/Overview';
 import LessonsHub from './components/LessonsHub';
 import PhishingSimulator from './components/PhishingSimulator';
@@ -28,6 +29,7 @@ import { Zap, Compass, MessageSquare, Home, Globe } from 'lucide-react';
 export default function App() {
   const [activeView, setActiveView] = useState('home');
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
   const [userState, setUserState] = useState(getUserState());
   const [certModalOpen, setCertModalOpen] = useState(false);
   const [toastMessage, setToastMessage] = useState(null);
@@ -58,7 +60,7 @@ export default function App() {
   return (
     <div className="min-h-screen bg-[#000000] text-zinc-100 font-sans selection:bg-white selection:text-black relative overflow-x-hidden">
       
-      {/* 1. Immersive 3D Monochrome Fluted Background Wallpaper (High Definition & Prominent Effect) */}
+      {/* 1. Immersive 3D Monochrome Fluted Background Wallpaper */}
       <div 
         className="fixed inset-0 z-0 bg-cover bg-center bg-no-repeat pointer-events-none opacity-70 filter contrast-125 brightness-115 scale-105 transition-opacity duration-1000"
         style={{ backgroundImage: `url('/monochrome-bg.jpg')` }}
@@ -70,22 +72,35 @@ export default function App() {
       <div className="fixed inset-0 z-0 bg-[radial-gradient(circle_at_80%_80%,_var(--tw-gradient-stops))] from-white/[0.05] via-transparent to-transparent pointer-events-none" />
       <div className="fixed inset-0 z-0 bg-grid-monochrome opacity-15 pointer-events-none" />
 
-      {/* 3. Left Fixed Sidebar */}
-      <Sidebar 
+      {/* 3. Collapsible Left Accordion Sidebar */}
+      <SidebarAccordion 
         activeView={activeView}
         setActiveView={setActiveView}
-        mobileOpen={mobileOpen}
-        setMobileOpen={setMobileOpen}
+        isCollapsed={sidebarCollapsed}
+        onToggleCollapse={() => setSidebarCollapsed(!sidebarCollapsed)}
         userState={userState}
       />
 
-      {/* 4. Main Content Area */}
-      <div className="lg:pl-64 flex flex-col min-h-screen relative z-10">
+      {/* 4. Dedicated Responsive Mobile Slide-In Navigation Drawer */}
+      <MobileNavDrawer 
+        isOpen={mobileOpen}
+        onClose={() => setMobileOpen(false)}
+        activeView={activeView}
+        setActiveView={setActiveView}
+        userState={userState}
+        onResetProgress={handleResetProgress}
+      />
+
+      {/* 5. Main Content Area */}
+      <div className={`${sidebarCollapsed ? 'lg:pl-16' : 'lg:pl-72'} flex flex-col min-h-screen relative z-10 transition-all duration-300`}>
         
-        {/* Top Header Bar */}
-        <TopBar 
+        {/* Top Navigation Bar with Mega Menu */}
+        <NavbarMega 
           activeView={activeView}
+          setActiveView={setActiveView}
           setMobileOpen={setMobileOpen}
+          isSidebarCollapsed={sidebarCollapsed}
+          onToggleSidebar={() => setSidebarCollapsed(!sidebarCollapsed)}
           userState={userState}
           onResetProgress={handleResetProgress}
         />
@@ -212,8 +227,9 @@ export default function App() {
         </main>
 
         {/* Floating Quick Action Capsule */}
-        <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-40 flex items-center bg-[#09090b]/85 border border-white/20 rounded-full p-1 shadow-[0_20px_50px_rgba(0,0,0,0.95),inset_0_1px_1px_rgba(255,255,255,0.4)] backdrop-blur-2xl">
+        <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-30 flex items-center bg-[#09090b]/85 border border-white/20 rounded-full p-1 shadow-[0_20px_50px_rgba(0,0,0,0.95),inset_0_1px_1px_rgba(255,255,255,0.4)] backdrop-blur-2xl">
           <button 
+            type="button"
             onClick={() => setActiveView('home')}
             className={`flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-semibold transition-all cursor-pointer ${
               activeView === 'home' 
@@ -225,6 +241,7 @@ export default function App() {
             <span>Home</span>
           </button>
           <button 
+            type="button"
             onClick={() => setActiveView('overview')}
             className={`flex items-center gap-1.5 px-3 sm:px-4 py-2 rounded-full text-xs font-semibold transition-all cursor-pointer ${
               activeView === 'overview' 
@@ -236,6 +253,7 @@ export default function App() {
             <span className="hidden sm:inline">Terminal</span>
           </button>
           <button 
+            type="button"
             onClick={() => setActiveView('threat-map')}
             className={`flex items-center gap-1.5 px-3 sm:px-4 py-2 rounded-full text-xs font-semibold transition-all cursor-pointer ${
               activeView === 'threat-map' 
@@ -247,6 +265,7 @@ export default function App() {
             <span>Radar</span>
           </button>
           <button 
+            type="button"
             onClick={() => setActiveView('glossary')}
             className={`flex items-center gap-1.5 px-3 sm:px-4 py-2 rounded-full text-xs font-semibold transition-all cursor-pointer ${
               activeView === 'glossary' 
