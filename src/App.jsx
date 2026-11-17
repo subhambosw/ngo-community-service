@@ -18,6 +18,10 @@ import ComplianceHub from './components/ComplianceHub';
 import Leaderboard from './components/Leaderboard';
 import ResourceLibrary from './components/ResourceLibrary';
 import CyberAlerts from './components/CyberAlerts';
+import PracticeGames from './components/PracticeGames';
+import SecurityHealthCheck from './components/SecurityHealthCheck';
+import EmergencyHelp from './components/EmergencyHelp';
+import CareerTracks from './components/CareerTracks';
 import { getUserState, addXP, resetProgress } from './utils/storage';
 import { Zap, Compass, MessageSquare, Home, Globe } from 'lucide-react';
 
@@ -109,6 +113,32 @@ export default function App() {
             />
           )}
 
+          {activeView === 'help' && (
+            <EmergencyHelp 
+              setActiveView={setActiveView}
+            />
+          )}
+
+          {activeView === 'practice' && (
+            <PracticeGames 
+              onAwardXP={handleAwardXP}
+              setActiveView={setActiveView}
+            />
+          )}
+
+          {activeView === 'health' && (
+            <SecurityHealthCheck 
+              setActiveView={setActiveView}
+              onAwardXP={handleAwardXP}
+            />
+          )}
+
+          {activeView === 'careers' && (
+            <CareerTracks 
+              setActiveView={setActiveView}
+            />
+          )}
+
           {activeView === 'threat-map' && (
             <ThreatMap />
           )}
@@ -185,7 +215,7 @@ export default function App() {
         <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-40 flex items-center bg-[#09090b]/85 border border-white/20 rounded-full p-1 shadow-[0_20px_50px_rgba(0,0,0,0.95),inset_0_1px_1px_rgba(255,255,255,0.4)] backdrop-blur-2xl">
           <button 
             onClick={() => setActiveView('home')}
-            className={`flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-semibold transition-all ${
+            className={`flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-semibold transition-all cursor-pointer ${
               activeView === 'home' 
                 ? 'btn-glossy !text-black shadow-[0_0_15px_rgba(255,255,255,0.4)]' 
                 : 'text-zinc-400 hover:text-white'
@@ -196,7 +226,7 @@ export default function App() {
           </button>
           <button 
             onClick={() => setActiveView('overview')}
-            className={`flex items-center gap-1.5 px-3 sm:px-4 py-2 rounded-full text-xs font-semibold transition-all ${
+            className={`flex items-center gap-1.5 px-3 sm:px-4 py-2 rounded-full text-xs font-semibold transition-all cursor-pointer ${
               activeView === 'overview' 
                 ? 'btn-glossy !text-black shadow-[0_0_15px_rgba(255,255,255,0.4)]' 
                 : 'text-zinc-400 hover:text-white'
@@ -207,7 +237,7 @@ export default function App() {
           </button>
           <button 
             onClick={() => setActiveView('threat-map')}
-            className={`flex items-center gap-1.5 px-3 sm:px-4 py-2 rounded-full text-xs font-semibold transition-all ${
+            className={`flex items-center gap-1.5 px-3 sm:px-4 py-2 rounded-full text-xs font-semibold transition-all cursor-pointer ${
               activeView === 'threat-map' 
                 ? 'btn-glossy !text-black shadow-[0_0_15px_rgba(255,255,255,0.4)]' 
                 : 'text-zinc-400 hover:text-white'
@@ -218,7 +248,7 @@ export default function App() {
           </button>
           <button 
             onClick={() => setActiveView('glossary')}
-            className={`flex items-center gap-1.5 px-3 sm:px-4 py-2 rounded-full text-xs font-semibold transition-all ${
+            className={`flex items-center gap-1.5 px-3 sm:px-4 py-2 rounded-full text-xs font-semibold transition-all cursor-pointer ${
               activeView === 'glossary' 
                 ? 'btn-glossy !text-black shadow-[0_0_15px_rgba(255,255,255,0.4)]' 
                 : 'text-zinc-400 hover:text-white'

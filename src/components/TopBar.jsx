@@ -7,6 +7,10 @@ export default function TopBar({ activeView, setMobileOpen, userState, onResetPr
       case 'home': return 'home';
       case 'overview': return 'overview';
       case 'alerts': return 'cyber-threat-alerts';
+      case 'help': return 'scammed-emergency-help';
+      case 'practice': return 'practice-and-games';
+      case 'health': return 'security-health-check';
+      case 'careers': return 'career-roadmaps';
       case 'threat-map': return 'global-threat-radar';
       case 'incident-response': return 'incident-war-room';
       case 'compliance': return 'compliance-soc2';
@@ -47,7 +51,7 @@ export default function TopBar({ activeView, setMobileOpen, userState, onResetPr
         </div>
       </div>
 
-      {/* Right: User Profile (Matching Reference: N. Aggarwal | LEVEL 04 | [NA]) */}
+      {/* Right: User Profile */}
       <div className="flex items-center gap-4">
         <button
           onClick={onResetProgress}
@@ -68,7 +72,7 @@ export default function TopBar({ activeView, setMobileOpen, userState, onResetPr
           </div>
 
           <div className="w-8 h-8 rounded-lg bg-gradient-to-b from-white/15 to-white/5 border border-white/25 flex items-center justify-center text-xs font-bold text-white font-mono shadow-[0_0_15px_rgba(255,255,255,0.15),inset_0_1px_0_rgba(255,255,255,0.3)]">
-            NA
+            <span>{userState.userInitials || 'NA'}</span>
           </div>
         </div>
       </div>

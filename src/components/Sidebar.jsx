@@ -16,7 +16,11 @@ import {
   AlertOctagon,
   Trophy,
   FileCheck2,
-  Bell
+  Bell,
+  Gamepad2,
+  ShieldCheck,
+  Compass,
+  PhoneCall
 } from 'lucide-react';
 
 export default function Sidebar({ activeView, setActiveView, mobileOpen, setMobileOpen, userState }) {
@@ -27,13 +31,17 @@ export default function Sidebar({ activeView, setActiveView, mobileOpen, setMobi
         { id: 'home', label: 'Home Welcome', icon: Home },
         { id: 'overview', label: 'Main Terminal', icon: LayoutDashboard },
         { id: 'alerts', label: 'Global Cyber Alerts', icon: Bell, badge: 'ALERT' },
+        { id: 'help', label: 'Scammed? Emergency', icon: PhoneCall, badge: '1930' },
         { id: 'threat-map', label: 'Live Threat Radar', icon: Globe, badge: 'LIVE' },
         { id: 'incident-response', label: 'Incident War Room', icon: AlertOctagon, badge: 'DRILL' },
       ]
     },
     {
-      title: 'FORENSIC LABS',
+      title: 'PRACTICE & SIMULATIONS',
       items: [
+        { id: 'practice', label: 'Practice & Games', icon: Gamepad2, badge: 'GAMES' },
+        { id: 'health', label: 'Security Health Check', icon: ShieldCheck, badge: 'AUDIT' },
+        { id: 'careers', label: 'Career Roadmaps', icon: Compass, badge: 'PATHS' },
         { id: 'lessons', label: 'Curriculum Tracks', icon: BookOpen },
         { id: 'password', label: 'Password & Breach Lab', icon: KeyRound },
         { id: 'phishing', label: 'Phishing Spotter', icon: AlertTriangle },
@@ -113,7 +121,7 @@ export default function Sidebar({ activeView, setActiveView, mobileOpen, setMobi
                         setActiveView(item.id);
                         setMobileOpen(false);
                       }}
-                      className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium transition-all ${
+                      className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium transition-all cursor-pointer ${
                         isActive
                           ? 'btn-glossy font-bold !shadow-[0_0_20px_rgba(255,255,255,0.4),inset_0_1px_0_#ffffff]'
                           : 'text-zinc-400 hover:text-white hover:bg-white/[0.08] hover:border-white/10'
@@ -127,7 +135,9 @@ export default function Sidebar({ activeView, setActiveView, mobileOpen, setMobi
                         <span className={`text-[9px] font-mono px-1.5 py-0.5 rounded font-bold ${
                           isActive 
                             ? 'bg-black text-white' 
-                            : 'bg-white/10 text-zinc-300'
+                            : item.badge === '1930' || item.badge === 'ALERT'
+                              ? 'bg-red-500/20 text-red-300 border border-red-500/30'
+                              : 'bg-white/10 text-zinc-300'
                         }`}>
                           {item.badge}
                         </span>
