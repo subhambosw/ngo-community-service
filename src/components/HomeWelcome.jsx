@@ -167,6 +167,18 @@ export default function HomeWelcome({ setActiveView, userState, onAwardXP }) {
             JUMP DIRECTLY TO:
           </span>
           <button
+            onClick={() => { playArcadeChime(); setActiveView('threat-map'); }}
+            className="px-3 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 text-xs font-mono text-zinc-300 hover:text-white transition-all hover:-translate-y-0.5"
+          >
+            🌐 Threat Radar
+          </button>
+          <button
+            onClick={() => { playArcadeChime(); setActiveView('incident-response'); }}
+            className="px-3 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 text-xs font-mono text-zinc-300 hover:text-white transition-all hover:-translate-y-0.5"
+          >
+            ⚡ Crisis War Room
+          </button>
+          <button
             onClick={() => { playArcadeChime(); setActiveView('phishing'); }}
             className="px-3 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 text-xs font-mono text-zinc-300 hover:text-white transition-all hover:-translate-y-0.5"
           >

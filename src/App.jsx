@@ -12,8 +12,13 @@ import SecurityQuiz from './components/SecurityQuiz';
 import CertificateModal from './components/CertificateModal';
 import ThreatGlossary from './components/ThreatGlossary';
 import HomeWelcome from './components/HomeWelcome';
+import ThreatMap from './components/ThreatMap';
+import IncidentResponse from './components/IncidentResponse';
+import ComplianceHub from './components/ComplianceHub';
+import Leaderboard from './components/Leaderboard';
+import ResourceLibrary from './components/ResourceLibrary';
 import { getUserState, addXP, resetProgress } from './utils/storage';
-import { Zap, Compass, MessageSquare, Home } from 'lucide-react';
+import { Zap, Compass, MessageSquare, Home, Globe } from 'lucide-react';
 
 export default function App() {
   const [activeView, setActiveView] = useState('home');
@@ -97,6 +102,30 @@ export default function App() {
             />
           )}
 
+          {activeView === 'threat-map' && (
+            <ThreatMap />
+          )}
+
+          {activeView === 'incident-response' && (
+            <IncidentResponse 
+              onAwardXP={handleAwardXP}
+            />
+          )}
+
+          {activeView === 'compliance' && (
+            <ComplianceHub />
+          )}
+
+          {activeView === 'leaderboard' && (
+            <Leaderboard 
+              userState={userState}
+            />
+          )}
+
+          {activeView === 'resources' && (
+            <ResourceLibrary />
+          )}
+
           {activeView === 'lessons' && (
             <LessonsHub 
               setActiveView={setActiveView}
@@ -160,25 +189,36 @@ export default function App() {
           </button>
           <button 
             onClick={() => setActiveView('overview')}
-            className={`flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-semibold transition-all ${
+            className={`flex items-center gap-1.5 px-3 sm:px-4 py-2 rounded-full text-xs font-semibold transition-all ${
               activeView === 'overview' 
                 ? 'btn-glossy !text-black shadow-[0_0_15px_rgba(255,255,255,0.4)]' 
                 : 'text-zinc-400 hover:text-white'
             }`}
           >
             <Compass className="w-3.5 h-3.5" />
-            <span>Terminal</span>
+            <span className="hidden sm:inline">Terminal</span>
+          </button>
+          <button 
+            onClick={() => setActiveView('threat-map')}
+            className={`flex items-center gap-1.5 px-3 sm:px-4 py-2 rounded-full text-xs font-semibold transition-all ${
+              activeView === 'threat-map' 
+                ? 'btn-glossy !text-black shadow-[0_0_15px_rgba(255,255,255,0.4)]' 
+                : 'text-zinc-400 hover:text-white'
+            }`}
+          >
+            <Globe className="w-3.5 h-3.5" />
+            <span>Radar</span>
           </button>
           <button 
             onClick={() => setActiveView('glossary')}
-            className={`flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-semibold transition-all ${
+            className={`flex items-center gap-1.5 px-3 sm:px-4 py-2 rounded-full text-xs font-semibold transition-all ${
               activeView === 'glossary' 
                 ? 'btn-glossy !text-black shadow-[0_0_15px_rgba(255,255,255,0.4)]' 
                 : 'text-zinc-400 hover:text-white'
             }`}
           >
             <MessageSquare className="w-3.5 h-3.5" />
-            <span>Ask CyberBuddy</span>
+            <span className="hidden sm:inline">Ask CyberBuddy</span>
           </button>
         </div>
 
