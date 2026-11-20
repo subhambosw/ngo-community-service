@@ -1,16 +1,2685 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>CyberGuard - Security Education</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@500;600;700;800&family=Press+Start+2P&family=Silkscreen:wght@400;700&display=swap" rel="stylesheet">
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
-  </body>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>CyberAware: Interactive Cybersecurity Education & Awareness Platform</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+
+:root{--bg:#fff;--soft:#F6F7F9;--surface:#fff;--ink:#0F172A;--muted:#64748B;--line:#E2E8F0;--accent:#1D4ED8;--accent-soft:#EEF3FF;--good:#15803D;--bad:#B91C1C;--warn:#B45309;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0B1020;--soft:#111827;--surface:#0F172A;--ink:#F1F5F9;--muted:#94A3B8;--line:#1E293B;--accent:#7AA2FF;--accent-soft:#16213B;--good:#4ADE80;--bad:#F87171;--warn:#FBBF24;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0B1020;--soft:#111827;--surface:#0F172A;--ink:#F1F5F9;--muted:#94A3B8;--line:#1E293B;--accent:#7AA2FF;--accent-soft:#16213B;--good:#4ADE80;--bad:#F87171;--warn:#FBBF24;color-scheme:dark}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 70px)}
+*,*::before,*::after{box-sizing:inherit}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.65 Inter,system-ui,-apple-system,"Segoe UI",sans-serif;-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--bg);z-index:10}
+h1,h2,h3{font-weight:600;letter-spacing:-.02em;line-height:1.15;margin:0}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:9;background:var(--bg);border-bottom:1px solid var(--line)}
+.bar{max-width:820px;margin:auto;padding:12px 20px;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.brand{font-weight:600;font-size:18px;letter-spacing:-.02em;margin-right:auto}
+.brand span{color:var(--accent)}
+nav{display:flex;gap:2px;overflow:visible}
+nav button{font:inherit;font-size:14px;background:none;border:0;color:var(--muted);padding:6px 12px;border-radius:6px;cursor:pointer}
+nav button:hover{color:var(--ink)}
+nav button[aria-current="true"]{color:var(--ink);font-weight:600;background:var(--soft)}
+.xp{font-size:13px;font-weight:500;color:var(--muted);background:var(--soft);border-radius:20px;padding:3px 12px;white-space:nowrap}
+button:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+main{max-width:820px;margin:auto;padding:56px 20px 80px}
+.hero h1{font-size:clamp(34px,6vw,52px);letter-spacing:-.035em;line-height:1.08;max-width:17ch}
+.hero p{max-width:54ch;color:var(--muted);font-size:18px;margin:16px 0 32px}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:24px;box-shadow:0 1px 2px rgba(15,23,42,.04)}
+.pw{display:flex;gap:8px;flex-wrap:wrap}
+.pw input{flex:1;min-width:200px;font:inherit;font-size:17px;padding:12px 14px;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink)}
+.pw input:focus{border-color:var(--accent)}
+.btn{font:inherit;font-size:15px;font-weight:500;background:var(--accent);color:#fff;border:1px solid var(--accent);border-radius:10px;padding:10px 18px;cursor:pointer}
+.btn:hover{filter:brightness(1.08)}
+.btn:disabled{opacity:.45;cursor:default;filter:none}
+.btn.alt{background:transparent;color:var(--ink);border-color:var(--line)}
+.btn.alt:hover:not(:disabled){background:var(--soft);filter:none}
+.meter{display:flex;gap:6px;margin:20px 0 10px}
+.meter i{flex:1;height:5px;border-radius:3px;background:var(--line)}
+.time{font-size:28px;font-weight:600;letter-spacing:-.02em}
+.checks{list-style:none;padding:0;margin:16px 0 0;display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:6px 16px;font-size:14px;color:var(--muted)}
+.checks li::before{content:"○ ";color:var(--muted)}
+.checks li.ok{color:var(--ink)}
+.checks li.ok::before{content:"● ";color:var(--good)}
+.note{color:var(--muted);font-size:14px;margin:6px 0 0}
+h2{font-size:24px;margin:72px 0 6px}
+.sub{color:var(--muted);margin:0 0 24px;max-width:58ch}
+.mod{border-top:1px solid var(--line)}
+.mod:last-child{border-bottom:1px solid var(--line)}
+.mod>button{all:unset;box-sizing:border-box;width:100%;display:flex;gap:16px;align-items:center;padding:18px 2px;cursor:pointer}
+.mod>button:hover .mt b{color:var(--accent)}
+.mod>button:focus-visible{outline:2px solid var(--accent)}
+.ico{display:none}
+.mt{flex:1}.mt b{font-weight:600;font-size:17px;display:block}
+.mt small{color:var(--muted);font-size:14px}
+.tag{font-size:13px;color:var(--muted)}
+.tag.done{color:var(--good);font-weight:500}
+.body{padding:0 2px 24px;max-width:62ch}
+.body ul{margin:0 0 16px;padding-left:20px;color:var(--muted)}.body li{margin:8px 0}
+.try{background:var(--accent-soft);padding:12px 16px;border-radius:10px;margin:0 0 16px;font-size:15px}
+.opt{display:block;width:100%;text-align:left;font:inherit;background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:10px;padding:13px 16px;margin:10px 0;cursor:pointer}
+.opt:hover:not(:disabled){border-color:var(--accent)}
+.opt.right{border-color:var(--good);background:color-mix(in srgb,var(--good) 10%,var(--surface))}
+.opt.wrong{border-color:var(--bad);background:color-mix(in srgb,var(--bad) 10%,var(--surface))}
+.fb{margin:16px 0;padding:14px 18px;border-radius:10px;background:var(--soft)}
+.prog{height:4px;background:var(--line);border-radius:2px;margin-bottom:20px;overflow:hidden}.prog i{display:block;height:100%;background:var(--accent)}
+.mail{border:1px solid var(--line);border-radius:12px;background:var(--soft);padding:18px 20px;margin-bottom:18px;overflow-wrap:anywhere}
+.mail .f{font-size:14px;color:var(--muted)}.mail b{display:block;margin:4px 0 10px}
+.row{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-bottom:32px}
+.stat{border:1px solid var(--line);border-radius:12px;padding:16px 18px;color:var(--muted);font-size:14px}
+.stat b{font-size:28px;font-weight:600;color:var(--ink);letter-spacing:-.02em;display:block}
+.badges{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}
+.badge{display:flex;gap:12px;align-items:center;border:1px solid var(--line);border-radius:12px;padding:14px 16px;color:var(--muted);font-size:14px}
+.badge::before{content:"";width:10px;height:10px;border-radius:50%;background:var(--line);flex:none}
+.badge b{font-size:15px;font-weight:600}
+.badge.on{color:var(--muted);border-color:var(--accent);background:var(--accent-soft)}
+.badge.on::before{background:var(--accent)}.badge.on b{color:var(--ink)}
+footer{max-width:820px;margin:auto;padding:0 20px 36px;color:var(--muted);font-size:13px}
+@media (max-width:560px){main{padding-top:36px}h2{margin-top:56px}}
+:root{--bg:#F3F6FC;--soft:#E9EFFB;--surface:#fff;--ink:#0B1B3A;--muted:#52627F;--line:#D8E1F0;--accent:#4F46E5;--accent-soft:#ECEBFF;--teal:#0D9488;--good:#0F8A4F;--bad:#D6293E;--warn:#C2610C;--navy:#0B1B3A;--on-accent:#fff}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#080E22;--soft:#0F1736;--surface:#121B3F;--ink:#EEF2FF;--muted:#9AA8CC;--line:#222E5C;--accent:#8B8CFF;--accent-soft:#1B2252;--teal:#2DD4BF;--good:#4ADE80;--bad:#FF6B7D;--warn:#FBBF24;--navy:#060B1D;--on-accent:#0B1020}}
+:root[data-theme="dark"]{--bg:#080E22;--soft:#0F1736;--surface:#121B3F;--ink:#EEF2FF;--muted:#9AA8CC;--line:#222E5C;--accent:#8B8CFF;--accent-soft:#1B2252;--teal:#2DD4BF;--good:#4ADE80;--bad:#FF6B7D;--warn:#FBBF24;--navy:#060B1D;--on-accent:#0B1020}
+body::before{background:var(--navy)}
+header{background:var(--navy);border-bottom:0}
+.brand{color:#fff}.brand span{color:#2DD4BF}
+nav button{color:#AEBBE0}nav button:hover{color:#fff}
+nav button[aria-current="true"]{color:#fff;background:rgba(255,255,255,.14)}
+.xp{background:rgba(255,255,255,.14);color:#fff}
+.btn{color:var(--on-accent)}
+main{padding-top:24px}
+.banner{background:radial-gradient(800px 300px at 90% -10%,rgba(45,212,191,.4),transparent 60%),linear-gradient(135deg,#0B1B3A,#2D2BA8);color:#fff;border-radius:22px;padding:44px 34px 84px}
+.banner h1{font-size:clamp(32px,6vw,50px);letter-spacing:-.035em;line-height:1.08;max-width:16ch}
+.banner p{color:#C9D4F5;font-size:18px;max-width:52ch;margin:14px 0 22px}
+.chips{display:flex;gap:8px;flex-wrap:wrap}
+.chip{border:1px solid rgba(255,255,255,.28);background:rgba(255,255,255,.09);border-radius:20px;padding:4px 14px;font-size:14px}
+.pwp{margin:-52px 14px 0;position:relative;box-shadow:0 14px 34px rgba(11,27,58,.2)}
+.mgrid,.threats{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px}
+.mod{border:1px solid var(--line);border-top:4px solid var(--c);border-radius:14px;background:var(--surface)}
+.mod:last-child{border-bottom:1px solid var(--line)}
+.mod.open{grid-column:1/-1}
+.mod:nth-child(1){--c:#4F46E5}.mod:nth-child(2){--c:#E11D48}.mod:nth-child(3){--c:#D97706}.mod:nth-child(4){--c:#0D9488}.mod:nth-child(5){--c:#7C3AED}.mod:nth-child(6){--c:#0284C7}
+.mod>button{padding:18px}
+.ico{display:flex;width:40px;height:40px;align-items:center;justify-content:center;border-radius:10px;background:color-mix(in srgb,var(--c) 15%,transparent);font-size:20px;flex:none}
+.body{padding:0 18px 20px;max-width:none}
+.tc{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:18px}
+.tc .k{display:inline-block;font-size:12px;font-weight:600;color:var(--c);background:color-mix(in srgb,var(--c) 13%,transparent);border-radius:20px;padding:2px 10px;margin-bottom:10px}
+.tc h3{font-size:18px;margin-bottom:6px}.tc p{margin:0 0 12px;color:var(--muted);font-size:15px}
+.tc .d{font-size:14px;background:var(--soft);border-radius:10px;padding:10px 12px}
+.ck{display:flex;gap:12px;align-items:center;width:100%;text-align:left;font:inherit;font-size:15px;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:12px 14px;margin:8px 0;cursor:pointer}
+.ck::before{content:"";width:18px;height:18px;border-radius:5px;border:2px solid var(--line);flex:none}
+.ck.on{border-color:var(--teal)}.ck.on::before{background:var(--teal);border-color:var(--teal);box-shadow:inset 0 0 0 3px var(--surface)}
+details{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 18px;margin:10px 0}
+summary{cursor:pointer;font-weight:600}details p{color:var(--muted);margin:10px 0 0}
+.opt{overflow-wrap:anywhere}
+.stat,.badge{background:var(--surface)}.stat{border-top:3px solid var(--accent)}
+.panel .prog{margin-top:0}
+footer{margin-top:20px;border-top:1px solid var(--line);padding-top:20px}
+.fcs{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 20px}
+.fc{font:inherit;font-size:14px;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:20px;padding:6px 16px;cursor:pointer}
+.fc[aria-pressed="true"]{background:var(--accent);color:var(--on-accent);border-color:var(--accent)}
+.news{display:grid;gap:16px}
+.nc{background:var(--surface);border:1px solid var(--line);border-left:5px solid var(--c);border-radius:14px;padding:20px 22px}
+.nc.sev-High{--c:var(--bad)}.nc.sev-Medium{--c:var(--warn)}.nc.sev-Ongoing{--c:var(--accent)}
+.nh{display:flex;justify-content:space-between;gap:10px;margin-bottom:8px;font-size:13px}
+.sv{font-weight:600;color:var(--c);background:color-mix(in srgb,var(--c) 13%,transparent);padding:2px 10px;border-radius:20px}
+.nd{color:var(--muted)}
+.nc h3{font-size:20px;margin-bottom:8px}.nc p{margin:0 0 10px;color:var(--muted);font-size:15px}.nc p.who{color:var(--ink)}
+.do{background:var(--soft);border-radius:10px;padding:12px 16px;margin:12px 0;font-size:15px}
+.do ul{margin:6px 0 0;padding-left:20px}.do li{margin:4px 0}
+.nf{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;font-size:14px}
+.nf a{color:var(--accent)}.nf .btn{padding:7px 14px;font-size:14px}
+.nf .btn:disabled{opacity:1;color:var(--good);border-color:var(--good)}
+a.btn{text-decoration:none;display:inline-block}
+.abar{background:#B4172B;color:#fff}
+.ain{max-width:820px;margin:auto;padding:10px 20px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;font-size:15px}
+.ab{display:flex;gap:8px}
+.abar button{font:inherit;font-size:14px;border:1px solid rgba(255,255,255,.65);background:transparent;color:#fff;border-radius:8px;padding:4px 12px;cursor:pointer}
+.abar button:hover{background:rgba(255,255,255,.15)}
+.bd{background:#B4172B;color:#fff;border-radius:10px;font-size:11px;padding:1px 7px;margin-left:6px;font-weight:600}
+.nc.al-Critical{--c:var(--bad)}.nc.al-High{--c:var(--warn)}
+.tier{font-size:12px;font-weight:600;color:var(--good);border:1px solid color-mix(in srgb,var(--good) 45%,transparent);border-radius:20px;padding:1px 10px;margin-left:4px}
+.vl{margin:0;padding-left:20px}.vl li{margin:8px 0}
+.held{border:1px dashed var(--line);border-radius:12px;padding:12px 16px;margin:10px 0;font-size:15px;color:var(--muted)}
+.held b{color:var(--ink)}
+.steps{counter-reset:s;list-style:none;padding:0;margin:0}
+.steps li{counter-increment:s;display:flex;gap:14px;padding:12px 0;border-top:1px solid var(--line)}
+.steps li:first-child{border-top:0;padding-top:0}.steps li:last-child{padding-bottom:0}
+.steps li::before{content:counter(s);flex:none;width:28px;height:28px;border-radius:50%;background:var(--accent);color:var(--on-accent);display:grid;place-items:center;font-weight:600;font-size:14px}
+.linkb{font:inherit;font-size:14px;background:none;border:0;color:var(--accent);cursor:pointer;padding:0;text-decoration:underline}
+.scb{font:inherit;text-align:left;cursor:pointer;color:var(--ink);width:100%}.scb:hover{border-color:var(--accent)}
+.hi{width:100%;font:inherit;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink)}.hx{display:block;margin-top:10px;font-size:12px;word-break:break-all;color:var(--muted)}code{background:var(--soft);padding:1px 6px;border-radius:5px;font-size:.9em}
+pre.art{background:var(--soft);border-radius:10px;padding:12px 14px;overflow-x:auto;font-size:13px;line-height:1.5;margin:0 0 14px}
+.body h4{margin:14px 0 4px;font-size:15px}
+
+
+/* NAVIGATION REDESIGN STYLES: MEGA MENU + COLLAPSIBLE SIDEBAR + MOBILE DRAWER */
+
+/* ==========================================================================
+   CYBERAWARE MODERN NAVIGATION REDESIGN: MEGA MENU + COLLAPSIBLE SIDEBAR
+   ========================================================================== */
+
+/* Layout & Root Adjustments */
+:root {
+  --nav-height: 52px;
+  --sidebar-w: 280px;
+  --sidebar-w-collapsed: 0px;
+  --trans-base: 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+  --header-bg: #0B1B3A;
+  --header-border: rgba(255, 255, 255, 0.08);
+}
+
+:root[data-theme="light"] {
+  --header-bg: #0F172A;
+  --header-border: rgba(255, 255, 255, 0.1);
+}
+
+/* Site Header */
+header#site-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: var(--header-bg);
+  border-bottom: 1px solid var(--header-border);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+  transition: background var(--trans-base);
+}
+
+.header-inner {
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 16px;
+  height: var(--nav-height);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+/* Brand */
+.brand-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 17px;
+  letter-spacing: -0.025em;
+  color: #fff;
+  cursor: pointer;
+  user-select: none;
+}
+
+.brand-icon {
+  width: 26px;
+  height: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, rgba(45, 212, 191, 0.2), rgba(79, 70, 229, 0.3));
+  border: 1px solid rgba(45, 212, 191, 0.4);
+  border-radius: 7px;
+  color: #2DD4BF;
+  box-shadow: 0 0 10px rgba(45, 212, 191, 0.2);
+}
+
+.brand-text span {
+  color: #2DD4BF;
+}
+
+.brand-badge {
+  font-size: 9px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 1px 6px;
+  background: rgba(45, 212, 191, 0.15);
+  color: #2DD4BF;
+  border-radius: 5px;
+  border: 1px solid rgba(45, 212, 191, 0.3);
+  margin-left: 2px;
+}
+
+/* Desktop Horizontal Navigation */
+.desktop-nav {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  overflow: visible !important;
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+}
+
+.desktop-nav::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+
+.nav-item-wrapper {
+  position: relative;
+}
+
+.nav-link-btn {
+  font: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  background: none;
+  border: 0;
+  color: #AEBBE0;
+  padding: 6px 11px;
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  transition: all 0.16s ease;
+  white-space: nowrap;
+}
+
+.nav-link-btn:hover {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.nav-link-btn[aria-expanded="true"],
+.nav-link-btn[aria-current="true"] {
+  color: #fff;
+  font-weight: 600;
+  background: rgba(255, 255, 255, 0.14);
+}
+
+.nav-chevron {
+  display: inline-flex;
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  color: #8A9BBF;
+}
+
+.nav-link-btn:hover .nav-chevron,
+.nav-link-btn[aria-expanded="true"] .nav-chevron {
+  color: #fff;
+}
+
+.nav-link-btn[aria-expanded="true"] .nav-chevron {
+  transform: rotate(180deg);
+}
+
+.nav-alert-dot {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  background: #FF6B7D;
+  border-radius: 50%;
+  box-shadow: 0 0 6px #FF6B7D;
+}
+
+.nav-badge-pill {
+  font-size: 11px;
+  font-weight: 700;
+  background: #D6293E;
+  color: #fff;
+  padding: 1px 6px;
+  border-radius: 10px;
+  line-height: 1.3;
+}
+
+/* Mega Menu Dropdown Container */
+.mega-dropdown-panel {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 50%;
+  transform: translateX(-50%) translateY(-6px);
+  width: min(1140px, 94vw);
+  background: var(--surface);
+  color: var(--ink);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  box-shadow: 0 24px 50px -10px rgba(0, 0, 0, 0.38), 0 0 0 1px rgba(255, 255, 255, 0.05);
+  padding: 24px 28px 20px;
+  opacity: 0;
+  pointer-events: none;
+  visibility: hidden;
+  transition: opacity 0.2s cubic-bezier(0.16, 1, 0.3, 1), transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.2s;
+  z-index: 120;
+}
+
+.mega-dropdown-panel.open {
+  opacity: 1;
+  pointer-events: auto;
+  visibility: visible;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* Mega Menu Columns */
+.mega-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 28px;
+}
+
+.mega-col-title {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--muted);
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--line);
+}
+
+.mega-items-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.mega-item-btn {
+  font: inherit;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 9px 12px;
+  border-radius: 10px;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  text-align: left;
+  width: 100%;
+  transition: all 0.16s ease;
+  color: inherit;
+  text-decoration: none;
+}
+
+.mega-item-btn:hover,
+.mega-item-btn:focus-visible {
+  background: var(--soft);
+  transform: translateX(3px);
+}
+
+.mega-item-btn.active {
+  background: var(--accent-soft);
+}
+
+.mega-item-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: var(--soft);
+  color: var(--accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 1px;
+  transition: all 0.16s ease;
+}
+
+.mega-item-btn:hover .mega-item-icon {
+  background: var(--accent);
+  color: #fff;
+  box-shadow: 0 4px 10px rgba(79, 70, 229, 0.25);
+}
+
+.mega-item-text {
+  flex: 1;
+  min-width: 0;
+}
+
+.mega-item-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink);
+  line-height: 1.3;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.mega-item-desc {
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.35;
+  margin-top: 2px;
+}
+
+.item-completed-badge {
+  color: var(--good);
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+/* Mega Menu Featured Card */
+.mega-featured-card {
+  background: linear-gradient(145deg, var(--soft), rgba(79, 70, 229, 0.08));
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 12px;
+  height: 100%;
+}
+
+.mega-featured-badge {
+  display: inline-block;
+  align-self: flex-start;
+  font-size: 10.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 3px 8px;
+  border-radius: 6px;
+  background: rgba(79, 70, 229, 0.15);
+  color: var(--accent);
+  border: 1px solid rgba(79, 70, 229, 0.25);
+}
+
+.mega-featured-badge.warn {
+  background: rgba(214, 41, 62, 0.15);
+  color: var(--bad);
+  border-color: rgba(214, 41, 62, 0.3);
+}
+
+.mega-featured-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--ink);
+  margin: 4px 0 6px;
+  line-height: 1.25;
+}
+
+.mega-featured-desc {
+  font-size: 12.5px;
+  color: var(--muted);
+  line-height: 1.45;
+}
+
+.mega-featured-btn {
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 8px 14px;
+  border-radius: 8px;
+  background: var(--accent);
+  color: #fff;
+  border: 0;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: all 0.16s ease;
+  width: 100%;
+  margin-top: 4px;
+}
+
+.mega-featured-btn:hover {
+  filter: brightness(1.1);
+  transform: translateY(-1px);
+}
+
+/* Mega Menu Bottom Bar */
+.mega-bottom-strip {
+  margin-top: 20px;
+  padding-top: 14px;
+  border-top: 1px solid var(--line);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  font-size: 12.5px;
+  color: var(--muted);
+}
+
+.mega-quick-pills {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.mega-pill-btn {
+  font: inherit;
+  font-size: 12px;
+  font-weight: 500;
+  background: var(--soft);
+  color: var(--ink);
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  padding: 4px 11px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  transition: all 0.16s ease;
+}
+
+.mega-pill-btn:hover {
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
+}
+
+/* Header Actions Right */
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.emergency-quick-btn {
+  font: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  background: rgba(214, 41, 62, 0.18);
+  color: #FF6B7D;
+  border: 1px solid rgba(214, 41, 62, 0.35);
+  border-radius: 16px;
+  padding: 4px 10px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.16s ease;
+  white-space: nowrap;
+}
+
+.emergency-quick-btn:hover {
+  background: #D6293E;
+  color: #fff;
+  border-color: #D6293E;
+  box-shadow: 0 0 10px rgba(214, 41, 62, 0.4);
+}
+
+.pulse-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #FF6B7D;
+  box-shadow: 0 0 0 0 rgba(255, 107, 125, 0.7);
+  animation: pulse-ring 1.8s infinite;
+}
+
+@keyframes pulse-ring {
+  0% { box-shadow: 0 0 0 0 rgba(255, 107, 125, 0.7); }
+  70% { box-shadow: 0 0 0 5px rgba(255, 107, 125, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(255, 107, 125, 0); }
+}
+
+.xp-badge-nav {
+  font-size: 12px;
+  font-weight: 600;
+  color: #fff;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 16px;
+  padding: 3px 10px;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  cursor: pointer;
+  transition: all 0.16s ease;
+}
+
+.xp-badge-nav:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.icon-btn-nav {
+  font: inherit;
+  width: 32px;
+  height: 32px;
+  border-radius: 7px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #AEBBE0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.16s ease;
+}
+
+.icon-btn-nav:hover {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.16);
+}
+
+.hamburger-btn {
+  display: none;
+}
+
+/* ==========================================================================
+   PAGE WRAPPER & SIDEBAR ACCORDION
+   ========================================================================== */
+.site-wrapper {
+  max-width: 1440px;
+  margin: 0 auto;
+  display: flex;
+  align-items: flex-start;
+  min-height: calc(100vh - var(--nav-height));
+  position: relative;
+  transition: all var(--trans-base);
+}
+
+/* Sidebar Accordion (Desktop) */
+aside#desktop-sidebar {
+  width: var(--sidebar-w);
+  flex-shrink: 0;
+  position: sticky;
+  top: var(--nav-height);
+  height: calc(100vh - var(--nav-height));
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 20px 14px 28px 20px;
+  border-right: 1px solid var(--line);
+  background: var(--bg);
+  transition: width var(--trans-base), padding var(--trans-base), opacity var(--trans-base);
+  z-index: 40;
+}
+
+/* Collapsed Sidebar State */
+.sidebar-collapsed aside#desktop-sidebar {
+  width: 0;
+  padding: 0;
+  overflow: hidden;
+  border-right: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.sidebar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--line);
+}
+
+.sidebar-title {
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.sidebar-toggle-btn {
+  font: inherit;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--muted);
+  background: var(--soft);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 3px 8px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  transition: all 0.15s ease;
+}
+
+.sidebar-toggle-btn:hover {
+  color: var(--ink);
+  border-color: var(--muted);
+}
+
+/* Floating Sidebar Restore Pill (When collapsed) */
+#sidebar-restore-btn {
+  display: none;
+  position: fixed;
+  bottom: 24px;
+  left: 24px;
+  z-index: 60;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  background: var(--surface);
+  color: var(--ink);
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  padding: 9px 16px;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.18);
+  cursor: pointer;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.18s ease;
+}
+
+.sidebar-collapsed #sidebar-restore-btn {
+  display: inline-flex;
+}
+
+#sidebar-restore-btn:hover {
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px rgba(79, 70, 229, 0.3);
+}
+
+/* Accordion Categories */
+.sidebar-accordion-group {
+  margin-bottom: 10px;
+}
+
+.accordion-category-btn {
+  font: inherit;
+  width: 100%;
+  padding: 8px 10px;
+  border-radius: 8px;
+  background: transparent;
+  border: 0;
+  color: var(--ink);
+  font-size: 13.5px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  user-select: none;
+}
+
+.accordion-category-btn:hover {
+  background: var(--soft);
+}
+
+.accordion-category-btn[aria-expanded="true"] {
+  color: var(--accent);
+}
+
+.category-label-left {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+.category-icon {
+  width: 22px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--accent);
+}
+
+.category-chevron {
+  color: var(--muted);
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.accordion-category-btn[aria-expanded="true"] .category-chevron {
+  transform: rotate(90deg);
+  color: var(--accent);
+}
+
+.accordion-items-container {
+  display: none;
+  padding: 4px 0 6px 14px;
+  margin-left: 10px;
+  border-left: 2px solid var(--line);
+}
+
+.accordion-items-container.open {
+  display: block;
+}
+
+.sidebar-sub-item {
+  font: inherit;
+  width: 100%;
+  padding: 6px 10px;
+  border-radius: 6px;
+  background: transparent;
+  border: 0;
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.15s ease;
+}
+
+.sidebar-sub-item:hover {
+  color: var(--ink);
+  background: var(--soft);
+}
+
+.sidebar-sub-item.active {
+  color: var(--accent);
+  background: var(--accent-soft);
+  font-weight: 600;
+}
+
+.sub-item-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.sub-item-icon {
+  width: 16px;
+  height: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.sub-item-title {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.sidebar-progress-box {
+  margin-top: 24px;
+  padding: 14px;
+  background: var(--soft);
+  border-radius: 12px;
+  border: 1px solid var(--line);
+}
+
+.sidebar-progress-title {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.progress-track {
+  height: 6px;
+  background: var(--line);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  background: var(--accent);
+  border-radius: 3px;
+  transition: width 0.3s ease;
+}
+
+/* Sidebar Level Section Styles */
+.sidebar-level-block {
+  margin: 6px 0 10px;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.sidebar-level-hdr {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 5px 8px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--muted);
+  background: var(--soft);
+  border-radius: 6px;
+  margin-bottom: 4px;
+}
+
+.sidebar-level-hdr.locked {
+  background: rgba(214, 41, 62, 0.08);
+  color: var(--bad);
+  border: 1px dashed rgba(214, 41, 62, 0.25);
+}
+
+.sidebar-level-hdr.unlocked {
+  background: rgba(15, 138, 79, 0.08);
+  color: var(--good);
+  border: 1px solid rgba(15, 138, 79, 0.2);
+}
+
+.level-pill {
+  font-size: 9.5px;
+  font-weight: 700;
+  padding: 1px 6px;
+  border-radius: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.level-pill.locked {
+  background: rgba(214, 41, 62, 0.15);
+  color: var(--bad);
+}
+
+.level-pill.unlocked {
+  background: rgba(15, 138, 79, 0.15);
+  color: var(--good);
+}
+
+.sidebar-level-req {
+  font-size: 11px;
+  color: var(--muted);
+  padding: 4px 6px 8px;
+  line-height: 1.45;
+}
+
+.sidebar-demo-toggle-btn {
+  font: inherit;
+  font-size: 11.5px;
+  font-weight: 600;
+  width: 100%;
+  padding: 6px 10px;
+  border-radius: 8px;
+  border: 1px dashed var(--accent);
+  background: var(--accent-soft);
+  color: var(--accent);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: all 0.15s ease;
+}
+
+.sidebar-demo-toggle-btn:hover {
+  filter: brightness(1.1);
+  transform: translateY(-1px);
+}
+
+/* Main Content Area */
+main#app {
+  flex: 1;
+  min-width: 0;
+  max-width: 920px;
+  margin: 0 auto;
+  padding: 40px 24px 80px;
+  transition: max-width var(--trans-base);
+}
+
+.sidebar-collapsed main#app {
+  max-width: 1040px;
+}
+
+/* ==========================================================================
+   MOBILE NAVIGATION DRAWER
+   ========================================================================== */
+.drawer-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(8, 14, 34, 0.7);
+  backdrop-filter: blur(6px);
+  z-index: 200;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+}
+
+.drawer-backdrop.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+aside#mobile-drawer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: min(340px, 86vw);
+  background: var(--surface);
+  color: var(--ink);
+  box-shadow: 10px 0 30px rgba(0, 0, 0, 0.3);
+  z-index: 210;
+  transform: translateX(-100%);
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+aside#mobile-drawer.open {
+  transform: translateX(0);
+}
+
+.drawer-header {
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--header-bg);
+  border-bottom: 1px solid var(--header-border);
+}
+
+.drawer-header .brand {
+  font-size: 18px;
+}
+
+.drawer-close-btn {
+  font: inherit;
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 0;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.drawer-close-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.drawer-user-card {
+  padding: 12px 20px;
+  background: var(--soft);
+  border-bottom: 1px solid var(--line);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.drawer-body {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 16px 14px;
+}
+
+.drawer-footer {
+  padding: 14px 20px;
+  border-top: 1px solid var(--line);
+  background: var(--soft);
+}
+
+.drawer-emergency-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: #D6293E;
+  color: #fff;
+  font-size: 13.5px;
+  font-weight: 600;
+  padding: 10px 14px;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: all 0.16s ease;
+}
+
+.drawer-emergency-link:hover {
+  filter: brightness(1.1);
+}
+
+/* Responsive Media Queries */
+@media (max-width: 980px) {
+  .desktop-nav {
+    display: none;
+  }
+  aside#desktop-sidebar {
+    display: none;
+  }
+  #sidebar-restore-btn {
+    display: none !important;
+  }
+  .hamburger-btn {
+    display: flex;
+  }
+  .header-actions .emergency-quick-btn {
+    display: none;
+  }
+  main#app {
+    padding: 32px 16px 64px;
+  }
+}
+
+@media (max-width: 600px) {
+  .header-inner {
+    padding: 0 14px;
+  }
+  .brand-text {
+    font-size: 18px;
+  }
+  .brand-badge {
+    display: none;
+  }
+  .xp-badge-nav {
+    font-size: 12px;
+    padding: 3px 9px;
+  }
+}
+
+</style>
+</head>
+<body>
+
+<!-- Modern Sticky Header with Desktop Mega Menu & Mobile Drawer -->
+<header id="site-header">
+  <div class="header-inner">
+    <!-- Brand / Logo -->
+    <div class="brand-group">
+      <a class="brand" href="#learn" onclick="navTo('learn'); return false;" aria-label="CyberAware Home">
+        <div class="brand-icon">
+          <svg class="lucide lucide-shield" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+        <div class="brand-text"><span>Cyber</span>Aware</div>
+        <span class="brand-badge">Initiative</span>
+      </a>
+    </div>
+
+    <!-- Desktop Mega Menu Navigation -->
+    <nav id="desktop-mega-nav" class="desktop-nav" aria-label="Main Navigation">
+      <!-- Generated dynamically from NAV_CONFIG -->
+    </nav>
+
+    <!-- Header Actions (Emergency Helpline, XP Badge, Theme Toggle, Mobile Hamburger) -->
+    <div class="header-actions">
+      <!-- 24/7 Helpline Quick Link -->
+      <button class="emergency-quick-btn" id="header-emergency-btn" title="Emergency Help: Call 1930">
+        <span class="pulse-dot"></span>
+        <span>Helpline: 1930</span>
+      </button>
+
+      <!-- User XP Counter -->
+      <div class="xp-badge-nav" id="xp" onclick="navTo('me')" title="View Your Learning Progress">0 XP</div>
+
+      <!-- Theme Switcher -->
+      <button class="icon-btn-nav" id="theme-toggle-btn" aria-label="Toggle Dark/Light Mode" title="Toggle Theme">
+        <svg class="lucide lucide-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+      </button>
+
+      <!-- Mobile Hamburger Button -->
+      <button class="icon-btn-nav hamburger-btn" id="mobile-menu-btn" aria-label="Open Navigation Menu" aria-expanded="false" aria-controls="mobile-drawer">
+        <svg class="lucide lucide-menu" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="18" x2="20" y2="18"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- Mobile Navigation Drawer -->
+<div class="drawer-backdrop" id="mobile-drawer-backdrop" aria-hidden="true"></div>
+<aside id="mobile-drawer" class="mobile-drawer" aria-label="Mobile Navigation Drawer" aria-hidden="true">
+  <div class="drawer-header">
+    <div class="brand">
+      <div class="brand-icon">
+        <svg class="lucide lucide-shield" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      </div>
+      <div class="brand-text"><span>Cyber</span>Aware</div>
+    </div>
+    <button class="drawer-close-btn" id="mobile-drawer-close" aria-label="Close Mobile Navigation">
+      <svg class="lucide lucide-x" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+  </div>
+  
+  <div class="drawer-user-card">
+    <span id="mobile-xp-val">0 XP</span>
+    <span id="mobile-badge-val" style="color:var(--muted)">0 / 9 Badges</span>
+  </div>
+
+  <div class="drawer-body">
+    <nav id="mobile-accordion-nav">
+      <!-- Populated dynamically from NAV_CONFIG -->
+    </nav>
+  </div>
+
+  <div class="drawer-footer">
+    <a href="tel:1930" class="drawer-emergency-link">
+      <svg class="lucide lucide-phone-call" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/><path d="M14 2a8 8 0 0 1 8 8"/><path d="M14 6a4 4 0 0 1 4 4"/></svg>
+      <span>Emergency Fraud Helpline: <b>1930</b></span>
+    </a>
+  </div>
+</aside>
+
+<!-- Alert Banner -->
+<div id="abar"></div>
+
+<!-- Site Layout: Desktop Sidebar Accordion + Main Content -->
+<div class="site-wrapper" id="site-wrapper">
+  <!-- Desktop Collapsible Sidebar Accordion -->
+  <aside id="desktop-sidebar" aria-label="Course Navigator">
+    <div class="sidebar-header">
+      <div class="sidebar-title">
+        <svg class="lucide lucide-book-open" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+        <span>Navigator</span>
+      </div>
+      <button class="sidebar-toggle-btn" id="sidebar-collapse-btn" title="Collapse Sidebar to focus content">
+        <svg class="lucide lucide-chevron-left" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+        <span>Collapse</span>
+      </button>
+    </div>
+
+    <div class="sidebar-tree" id="sidebar-accordion-tree">
+      <!-- Populated from NAV_CONFIG -->
+    </div>
+
+    <div class="sidebar-progress-box">
+      <div class="sidebar-progress-title">
+        <span>Learning Progress</span>
+        <span id="sidebar-progress-text">0% completed</span>
+      </div>
+      <div class="progress-track">
+        <div class="progress-bar-fill" id="sidebar-progress-fill" style="width: 0%"></div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Restore Sidebar Pill (Visible when sidebar collapsed) -->
+  <button id="sidebar-restore-btn" aria-label="Expand Topic Navigator">
+    <svg class="lucide lucide-sidebar" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M9 3v18"/></svg>
+    <span>Course Navigator</span>
+  </button>
+
+  <!-- Main Content View -->
+  <main id="app"></main>
+</div>
+
+<footer>
+  <div style="max-width:820px;margin:auto">
+    Everything you type here stays in your browser. Nothing is sent anywhere.
+    <div style="margin-top:8px;font-size:13px;opacity:0.8">
+      <span>CyberAware Community Service Project</span> &bull;
+      <a href="#help" onclick="navTo('help');return false;" style="color:inherit">Helpline: 1930</a> &bull;
+      <a href="#health" onclick="navTo('health');return false;" style="color:inherit">Health Check</a> &bull;
+      <a href="#me" onclick="navTo('me');return false;" style="color:inherit">Progress Scorecard</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+
+/* ==========================================================================
+   LUCIDE ICONS & NAVIGATION SYSTEM (MEGA MENU + COLLAPSIBLE ACCORDION SIDEBAR)
+   ========================================================================== */
+
+const ICONS = {
+  "shield": '<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>',
+  "shield-check": '<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/>',
+  "shield-alert": '<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>',
+  "key": '<circle cx="7.5" cy="15.5" r="5.5"/><path d="m21 2-9.6 9.6"/><path d="m15.5 7.5 2.3 2.3a1 1 0 0 0 1.4 0l2.1-2.1a1 1 0 0 0 0-1.4L19 4"/>',
+  "key-round": '<path d="M2 18v3c0 .6.4 1 1 1h4v-3h3v-3h2l1.4-1.4a6.5 6.5 0 1 0-4-4Z"/><circle cx="16.5" cy="7.5" r=".5" fill="currentColor"/>',
+  "mail": '<rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>',
+  "mail-warning": '<rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/><line x1="12" y1="11" x2="12" y2="14"/><line x1="12" y1="17" x2="12.01" y2="17"/>',
+  "users": '<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>',
+  "bug": '<rect width="8" height="14" x="8" y="6" rx="4"/><path d="m19 7-3 2"/><path d="m5 7 3 2"/><path d="m19 19-3-2"/><path d="m5 19 3-2"/><path d="M20 13h-4"/><path d="M4 13h4"/><path d="m10 4 1 2"/><path d="m14 4-1 2"/>',
+  "eye": '<path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/>',
+  "wifi": '<path d="M12 20h.01"/><path d="M2 8.82a15 15 0 0 1 20 0"/><path d="M5 12.86a10 10 0 0 1 14 0"/><path d="M8.5 16.43a5 5 0 0 1 7 0"/>',
+  "globe": '<circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>',
+  "lock": '<rect width="18" height="11" x="3" y="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>',
+  "terminal": '<polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/>',
+  "crosshair": '<circle cx="12" cy="12" r="10"/><line x1="22" y1="12" x2="18" y2="12"/><line x1="6" y1="12" x2="2" y2="12"/><line x1="12" y1="6" x2="12" y2="2"/><line x1="12" y1="22" x2="12" y2="18"/>',
+  "code": '<polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/>',
+  "cloud": '<path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/>',
+  "file-search": '<path d="M4 22h14a2 2 0 0 0 2-2V7.5L14.5 2H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2z"/><circle cx="11.5" cy="14.5" r="2.5"/><path d="m13.5 16.5 2 2"/>',
+  "scale": '<path d="m16 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/><path d="m2 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z"/><path d="M7 21h10"/><path d="M12 3v18"/><path d="M3 7h2c2 0 5-1 7-2 2 1 5 2 7 2h2"/>',
+  "zap": '<polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>',
+  "cpu": '<rect width="16" height="16" x="4" y="4" rx="2"/><rect width="6" height="6" x="9" y="9" rx="1"/><path d="M15 2v2M15 20v2M2 15h2M2 9h2M20 15h2M20 9h2M9 2v2M9 20v2"/>',
+  "award": '<circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/>',
+  "check-circle": '<path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/>',
+  "alert-triangle": '<path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>',
+  "alert-octagon": '<polygon points="7.86 2 16.14 2 22 7.86 22 16.14 16.14 22 7.86 22 2 16.14 2 7.86 7.86 2"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>',
+  "bell": '<path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/>',
+  "list": '<line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/>',
+  "laptop": '<path d="M20 16V7a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v9m16 0H4m16 0 1.28 2.55a1 1 0 0 1-.9 1.45H3.62a1 1 0 0 1-.9-1.45L4 16"/>',
+  "flag": '<path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/>',
+  "phone": '<path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>',
+  "phone-call": '<path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/><path d="M14 2a8 8 0 0 1 8 8"/><path d="M14 6a4 4 0 0 1 4 4"/>',
+  "phone-off": '<path d="M10.68 13.31a16 16 0 0 0 3.41 2.6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7 2 2 0 0 1 1.72 2v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.42 19.42 0 0 1-3.33-2.67m-2.67-3.34a19.79 19.79 0 0 1-3.07-8.63A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91"/><line x1="22" y1="2" x2="2" y2="22"/>',
+  "life-buoy": '<circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="4"/><line x1="4.93" y1="4.93" x2="9.17" y2="9.17"/><line x1="14.83" y1="14.83" x2="19.07" y2="19.07"/><line x1="14.83" y1="9.17" x2="19.07" y2="4.93"/><line x1="4.93" y1="19.07" x2="9.17" y2="14.83"/>',
+  "banknote": '<rect width="20" height="12" x="2" y="6" rx="2"/><circle cx="12" cy="12" r="2"/><path d="M6 12h.01M18 12h.01"/>',
+  "user-x": '<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="17" y1="8" x2="22" y2="13"/><line x1="22" y1="8" x2="17" y2="13"/>',
+  "external-link": '<path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/>',
+  "smartphone": '<rect width="14" height="20" x="5" y="2" rx="2" ry="2"/><path d="M12 18h.01"/>',
+  "activity": '<path d="M22 12h-4l-3 9L9 3l-3 9H2"/>',
+  "chevron-down": '<polyline points="6 9 12 15 18 9"/>',
+  "chevron-right": '<polyline points="9 18 15 12 9 6"/>',
+  "chevron-left": '<polyline points="15 18 9 12 15 6"/>',
+  "menu": '<line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="18" x2="20" y2="18"/>',
+  "x": '<line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>',
+  "sidebar": '<rect width="18" height="18" x="3" y="3" rx="2"/><path d="M9 3v18"/>',
+  "sun": '<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>',
+  "moon": '<path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>',
+  "book-open": '<path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>',
+  "sliders": '<line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/><line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/><line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/><line x1="1" y1="14" x2="7" y2="14"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="17" y1="16" x2="23" y2="16"/>',
+  "file-code": '<path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><path d="m10 13-2 2 2 2"/><path d="m14 17 2-2-2-2"/>',
+  "workflow": '<rect width="8" height="8" x="3" y="3" rx="2"/><path d="M7 11v4a2 2 0 0 0 2 2h4"/><rect width="8" height="8" x="13" y="13" rx="2"/>',
+  "check": '<polyline points="20 6 9 17 4 12"/>',
+  "sparkles": '<path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3Z"/>'
+};
+
+function ico(name, size = 18, cls = "") {
+  const content = ICONS[name] || ICONS["shield"];
+  return `<svg class="lucide lucide-${name} ${cls}" width="${size}" height="${size}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${content}</svg>`;
+}
+
+/* ==========================================================================
+   CENTRALIZED NAVIGATION DATA CONFIGURATION (NAV_CONFIG)
+   Organized categories, columns, nested sub-items, descriptions, & view targets
+   ========================================================================== */
+
+const NAV_CONFIG = [
+  {
+    id: "learn",
+    label: "Learn & Topics",
+    icon: "book-open",
+    view: "learn",
+    description: "Core cybersecurity habits, technical foundations, and career pathways",
+    megaMenu: {
+      columns: [
+        {
+          title: "Level 1: Core Habits",
+          icon: "shield",
+          items: [
+            { id: "pw", label: "Passwords", desc: "Length beats cleverness", icon: "key", view: "learn", action: { type: "mod", id: "pw" } },
+            { id: "ph", label: "Phishing", desc: "Spot the bait before you bite", icon: "mail", view: "learn", action: { type: "mod", id: "ph" } },
+            { id: "se", label: "Social Engineering", desc: "Hacking people, not computers", icon: "users", view: "learn", action: { type: "mod", id: "se" } },
+            { id: "mw", label: "Malware", desc: "Viruses, ransomware & trojans", icon: "bug", view: "learn", action: { type: "mod", id: "mw" } },
+            { id: "pv", label: "Privacy", desc: "Share less, control permissions", icon: "eye", view: "learn", action: { type: "mod", id: "pv" } },
+            { id: "wf", label: "Safe Wi-Fi & Web", desc: "Public hotspots & traffic risks", icon: "wifi", view: "learn", action: { type: "mod", id: "wf" } }
+          ]
+        },
+        {
+          title: "Level 2: Foundations",
+          icon: "terminal",
+          items: [
+            { id: "net", label: "How Internet Works", desc: "IPs, DNS, ports & HTTPS", icon: "globe", view: "learn", action: { type: "scroll", id: "mods2" } },
+            { id: "fw", label: "Firewalls & VPNs", desc: "Perimeter defense & tunnels", icon: "shield-check", view: "learn", action: { type: "scroll", id: "mods2" } },
+            { id: "enc", label: "Encryption & Ciphers", desc: "Ciphers, digests & hashes", icon: "lock", view: "learn", action: { type: "scroll", id: "mods2" } },
+            { id: "log", label: "Login & Session Security", desc: "Cookies, tokens & 2FA mechanisms", icon: "key-round", view: "learn", action: { type: "scroll", id: "mods2" } },
+            { id: "cli", label: "Linux Command Line", desc: "Essential server shell commands", icon: "terminal", view: "learn", action: { type: "scroll", id: "mods2" } }
+          ]
+        },
+        {
+          title: "Level 4: Career Pathways",
+          icon: "award",
+          items: [
+            { id: "def", label: "Security Analyst", desc: "SOC monitoring & incident triage", icon: "shield-alert", view: "learn", action: { type: "track", id: "def" } },
+            { id: "eth", label: "Ethical Hacking", desc: "Pen testing & vulnerability audits", icon: "crosshair", view: "learn", action: { type: "track", id: "eth" } },
+            { id: "code", label: "Secure Coding", desc: "AppSec & code vulnerability defense", icon: "code", view: "learn", action: { type: "track", id: "code" } },
+            { id: "cloud", label: "Cloud Security", desc: "Shared responsibility & IAM policies", icon: "cloud", view: "learn", action: { type: "track", id: "cloud" } },
+            { id: "for", label: "Digital Forensics", desc: "Breach analysis & digital evidence", icon: "file-search", view: "learn", action: { type: "track", id: "for" } },
+            { id: "law", label: "Privacy & Cyber Law", desc: "Compliance, rights & global rules", icon: "scale", view: "learn", action: { type: "track", id: "law" } }
+          ]
+        }
+      ],
+      quickPills: [
+        { label: "Password Crack Time Tester", icon: "key", view: "learn", action: { type: "focus-pw" } },
+        { label: "Daily Hygiene Checklist", icon: "check-circle", view: "learn", action: { type: "scroll", id: "chk" } },
+        { label: "Threat Matrix", icon: "alert-triangle", view: "learn", action: { type: "scroll", id: "threats" } }
+      ]
+    }
+  },
+  {
+    id: "games",
+    label: "Practice & Drills",
+    icon: "zap",
+    view: "games",
+    description: "Hands-on simulations, interactive labs, and knowledge assessments",
+    megaMenu: {
+      columns: [
+        {
+          title: "Simulations & Drills",
+          icon: "zap",
+          items: [
+            { id: "drill-phish", label: "Spot the Phish", desc: "Simulated inbox phishing trainer", icon: "mail-warning", view: "games", action: { type: "scroll-view", view: "games" } },
+            { id: "drill-url", label: "Real vs Fake URL", desc: "Detect lookalike domains & spoofing", icon: "external-link", view: "games", action: { type: "scroll-view", view: "games" } },
+            { id: "drill-scen", label: "Attack Scenarios", desc: "Real-world decision branching drills", icon: "workflow", view: "games", action: { type: "scroll-view", view: "games" } }
+          ]
+        },
+        {
+          title: "Level 3: Security Labs",
+          icon: "cpu",
+          items: [
+            { id: "lab-caesar", label: "Caesar Cipher Lab", desc: "Interactive frequency & shift breaker", icon: "lock", view: "games", action: { type: "scroll-view", view: "games" } },
+            { id: "lab-headers", label: "HTTP Header Audit", desc: "Analyze real security response headers", icon: "file-code", view: "games", action: { type: "scroll-view", view: "games" } },
+            { id: "lab-perm", label: "Permissions Inspection", desc: "Evaluate mobile app permission risks", icon: "sliders", view: "games", action: { type: "scroll-view", view: "games" } }
+          ]
+        },
+        {
+          title: "Verify Your Knowledge",
+          icon: "award",
+          featuredCard: {
+            badge: "Earn up to 100 XP",
+            badgeType: "accent",
+            title: "Cyber Awareness Quiz",
+            desc: "10 randomized questions across all core topics with instant feedback and badge unlocks.",
+            btnText: "Start Knowledge Quiz",
+            view: "quiz",
+            action: { type: "quiz-start" }
+          }
+        }
+      ]
+    }
+  },
+  {
+    id: "updates",
+    label: "Threat Advisories",
+    icon: "bell",
+    view: "updates",
+    badge: "live",
+    description: "Real-time threat alerts, exploited zero-days, and regional warnings",
+    megaMenu: {
+      columns: [
+        {
+          title: "Advisory Categories",
+          icon: "list",
+          items: [
+            { id: "news-all", label: "All Recent Advisories", desc: "Complete timeline of security alerts", icon: "list", view: "updates", action: { type: "filter-news", filter: "All" } },
+            { id: "news-acc", label: "Accounts & Data Breaches", desc: "Credential leaks & account compromises", icon: "users", view: "updates", action: { type: "filter-news", filter: "Accounts" } },
+            { id: "news-scams", label: "Scams & Social Traps", desc: "Extortion, gift cards & delivery phishing", icon: "alert-triangle", view: "updates", action: { type: "filter-news", filter: "Scams" } },
+            { id: "news-dev", label: "Device & OS Exploits", desc: "Zero-days in Chrome, Android, NAS systems", icon: "laptop", view: "updates", action: { type: "filter-news", filter: "Devices" } }
+          ]
+        },
+        {
+          title: "National & Regional Focus",
+          icon: "flag",
+          items: [
+            { id: "news-india", label: "India Advisories (CERT-In)", desc: "National cyber threats & fraud warnings", icon: "flag", view: "updates", action: { type: "filter-news", filter: "India" } },
+            { id: "trap-arrest", label: "“Digital Arrest” Scams", desc: "Fake police & WhatsApp extortion tactics", icon: "phone-off", view: "updates", action: { type: "filter-news", filter: "India" } },
+            { id: "trap-apk", label: "Fake Challan & Bill APKs", desc: "Malicious utility payment Android trojans", icon: "bug", view: "updates", action: { type: "filter-news", filter: "India" } }
+          ]
+        },
+        {
+          title: "Critical Exploit Notice",
+          icon: "alert-octagon",
+          featuredCard: {
+            badge: "CRITICAL SEVERITY",
+            badgeType: "warn",
+            title: "Chrome XML Zero-Day Fix",
+            desc: "Google released an emergency update addressing an actively exploited use-after-free vulnerability.",
+            btnText: "View Protection Action",
+            view: "updates",
+            action: { type: "filter-news", filter: "Devices" }
+          }
+        }
+      ]
+    }
+  },
+  {
+    id: "help",
+    label: "Incident Help & Triage",
+    icon: "life-buoy",
+    view: "help",
+    description: "Step-by-step immediate incident response and official emergency helplines",
+    megaMenu: {
+      columns: [
+        {
+          title: "Immediate Action Plans",
+          icon: "life-buoy",
+          items: [
+            { id: "help-money", label: "I Lost Money", desc: "Freeze accounts, reverse UPI, call 1930", icon: "banknote", view: "help", action: { type: "help-step", index: 0 } },
+            { id: "help-pw", label: "I Gave My Password", desc: "Kill active sessions, change passphrases", icon: "key", view: "help", action: { type: "help-step", index: 1 } },
+            { id: "help-hack", label: "My Account Was Hacked", desc: "Account recovery & 2FA lockdown flow", icon: "user-x", view: "help", action: { type: "help-step", index: 2 } },
+            { id: "help-link", label: "I Clicked a Bad Link", desc: "Disconnect, scan device & reset logins", icon: "external-link", view: "help", action: { type: "help-step", index: 3 } },
+            { id: "help-blackmail", label: "Blackmail or Extortion", desc: "Never pay, secure evidence, report", icon: "shield-alert", view: "help", action: { type: "help-step", index: 4 } }
+          ]
+        },
+        {
+          title: "Official Helplines (India)",
+          icon: "phone",
+          items: [
+            { id: "hl-1930", label: "National Cyber Helpline: 1930", desc: "Toll-free 24/7 financial fraud hotline", icon: "phone-call", view: "help", action: { type: "scroll-help" } },
+            { id: "hl-portal", label: "cybercrime.gov.in", desc: "Official National Cybercrime Portal", icon: "globe", view: "help", action: { type: "scroll-help" } },
+            { id: "hl-chakshu", label: "Chakshu Sanchar Saathi", desc: "Report scam SMS & WhatsApp numbers", icon: "smartphone", view: "help", action: { type: "scroll-help" } }
+          ]
+        },
+        {
+          title: "Personal Diagnostic",
+          icon: "activity",
+          featuredCard: {
+            badge: "10 Quick Questions",
+            badgeType: "accent",
+            title: "Security Health Check",
+            desc: "Audit your digital hygiene, identify exposure gaps, and get a tailored security action plan.",
+            btnText: "Start Health Check",
+            view: "health",
+            action: { type: "health-start" }
+          }
+        }
+      ]
+    }
+  },
+  {
+    id: "me",
+    label: "My Progress",
+    icon: "award",
+    view: "me",
+    isDirect: true,
+    description: "Personal security scorecard, XP earned, and achievements"
+  }
+];
+
+/* Navigation UI State */
+let activeMegaMenu = null;
+let navHoverTimer = null;
+let sidebarCollapsed = false;
+try {
+  sidebarCollapsed = localStorage.getItem("cyberaware_sidebar") === "true";
+} catch(e) {}
+let expandedAccordions = { learn: true, games: false, updates: false, help: false, me: false };
+
+/* Helper to navigate smoothly to a view and perform an action */
+function navTo(targetView, action = null) {
+  closeMegaMenu();
+  closeMobileDrawer();
+  
+  if (targetView && typeof targetView === "string") {
+    view = targetView;
+  }
+  
+  // Set expanded accordion in sidebar
+  if (expandedAccordions.hasOwnProperty(view)) {
+    expandedAccordions[view] = true;
+  }
+  
+  // If specific action:
+  if (action) {
+    if (action.type === "mod") {
+      open = action.id;
+    } else if (action.type === "quiz-start") {
+      qz = { i: 0, s: 0, a: null };
+    } else if (action.type === "health-start") {
+      hc = { i: 0, ans: [] };
+    } else if (action.type === "filter-news") {
+      nf = action.filter;
+    } else if (action.type === "help-step") {
+      hs = action.index;
+    } else if (action.type === "track") {
+      open4 = action.id;
+    }
+  }
+  
+  render();
+  
+  // Smooth scroll or focus if requested
+  setTimeout(() => {
+    if (action) {
+      if (action.type === "mod" && action.id) {
+        const el = document.querySelector(`[data-m="${action.id}"]`);
+        if (el) el.scrollIntoView({ behavior: "smooth", block: "center" });
+      } else if (action.type === "focus-pw") {
+        const inp = document.getElementById("pw");
+        if (inp) {
+          inp.scrollIntoView({ behavior: "smooth", block: "center" });
+          inp.focus();
+        }
+      } else if (action.type === "scroll" && action.id) {
+        const el = document.getElementById(action.id);
+        if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+      } else {
+        scrollTo({ top: 0, behavior: "smooth" });
+      }
+    } else {
+      scrollTo({ top: 0, behavior: "smooth" });
+    }
+  }, 80);
+}
+
+/* ==========================================================================
+   LEVEL UNLOCK CHECK HELPER
+   ========================================================================== */
+function l2ok() {
+  if (typeof S === "undefined" || !S) return false;
+  if (S.demoUnlocked) return true;
+  const doneCount = S.done ? S.done.length : 0;
+  const modsCount = typeof MODS !== "undefined" ? MODS.length : 6;
+  return doneCount >= modsCount && (S.best || 0) >= 8;
+}
+
+/* ==========================================================================
+   RENDER MEGA MENU (DESKTOP)
+   ========================================================================== */
+function renderDesktopMegaNav() {
+  const container = document.getElementById("desktop-mega-nav");
+  if (!container) return;
+  
+  let html = "";
+  NAV_CONFIG.forEach(item => {
+    const isActive = view === item.view;
+    const hasSubmenu = !!item.megaMenu;
+    const isMenuOpen = activeMegaMenu === item.id;
+    const unread = item.id === "updates" && typeof unack === "function" ? unack() : 0;
+    
+    html += `
+      <div class="nav-item-wrapper" data-nav-id="${item.id}">
+        <button class="nav-link-btn" 
+                data-target-view="${item.view}" 
+                data-menu-id="${item.id}"
+                aria-haspopup="${hasSubmenu ? 'true' : 'false'}"
+                aria-expanded="${isMenuOpen ? 'true' : 'false'}"
+                aria-current="${isActive ? 'true' : 'false'}">
+          ${ico(item.icon, 16)}
+          <span>${item.label}</span>
+          ${unread ? `<span class="nav-badge-pill">${unread}</span>` : ""}
+          ${hasSubmenu ? `<span class="nav-chevron" title="Open ${item.label} Menu">${ico("chevron-down", 14)}</span>` : ""}
+        </button>
+        ${hasSubmenu ? renderMegaDropdownPanel(item, isMenuOpen) : ""}
+      </div>
+    `;
+  });
+  
+  container.innerHTML = html;
+  
+  // Attach event handlers for Direct Click Navigation (hover popups removed)
+  container.querySelectorAll(".nav-item-wrapper").forEach(wrapper => {
+    const navId = wrapper.dataset.navId;
+    const btn = wrapper.querySelector(".nav-link-btn");
+    const cfg = NAV_CONFIG.find(c => c.id === navId);
+    
+    if (cfg) {
+      // Click handler: DIRECT NAVIGATION TO THE VIEW!
+      btn.addEventListener("click", (e) => {
+        // If clicking specifically on the chevron icon, toggle menu
+        if (e.target.closest(".nav-chevron")) {
+          e.preventDefault();
+          e.stopPropagation();
+          if (activeMegaMenu === navId) {
+            closeMegaMenu();
+          } else {
+            openMegaMenu(navId);
+          }
+          return;
+        }
+        
+        // Otherwise direct click navigates to page immediately!
+        e.preventDefault();
+        e.stopPropagation();
+        closeMegaMenu();
+        navTo(cfg.view);
+      });
+    }
+  });
+}
+
+function renderMegaDropdownPanel(item, isOpen) {
+  const mm = item.megaMenu;
+  if (!mm) return "";
+  
+  const isUnlocked = l2ok();
+  const l1Count = (typeof S !== "undefined" && S.done) ? S.done.length : 0;
+  const qzBest = (typeof S !== "undefined" && S.best) ? S.best : 0;
+  
+  let colsHtml = "";
+  mm.columns.forEach(col => {
+    const isLevel2 = col.title.includes("Level 2");
+    const isLevel3 = col.title.includes("Level 3");
+    const isLevel4 = col.title.includes("Level 4");
+    const isLevelLocked = (isLevel2 || isLevel3 || isLevel4) && !isUnlocked;
+    
+    let colContent = "";
+    if (isLevelLocked) {
+      colContent = `
+        <div class="mega-featured-card" style="background: rgba(214, 41, 62, 0.05); border: 1px dashed rgba(214, 41, 62, 0.25);">
+          <div>
+            <span class="mega-featured-badge warn">🔒 Locked</span>
+            <h4 class="mega-featured-title" style="margin-top:6px">Complete Level 1 &amp; Quiz</h4>
+            <p class="mega-featured-desc">Finish all 6 core lessons (${l1Count}/6) and score &ge; 8/10 on the Quiz (best: ${qzBest}/10) to unlock these topics.</p>
+          </div>
+          <button class="mega-featured-btn" style="background:var(--accent)" data-view="quiz" data-action='{"type":"quiz-start"}'>
+            <span>Take Knowledge Quiz</span>
+            ${ico("chevron-right", 14)}
+          </button>
+        </div>
+      `;
+    } else if (col.items) {
+      colContent = `
+        <div class="mega-items-list">
+          ${col.items.map(sub => {
+            const isDone = (typeof S !== "undefined" && S) && 
+                           ((S.done && S.done.includes(sub.id)) || 
+                            (S.done2 && S.done2.includes(sub.id)) || 
+                            (S.l4 && S.l4.includes(sub.id)) ||
+                            (S.ch && S.ch.includes(sub.id)));
+            return `
+              <button class="mega-item-btn" 
+                      data-view="${sub.view}" 
+                      data-action='${JSON.stringify(sub.action || {})}'>
+                <div class="mega-item-icon">${ico(sub.icon, 16)}</div>
+                <div class="mega-item-text">
+                  <div class="mega-item-name">
+                    <span>${sub.label}</span>
+                    ${isDone ? `<span class="item-completed-badge">${ico("check", 12)} Done</span>` : ""}
+                  </div>
+                  <div class="mega-item-desc">${sub.desc}</div>
+                </div>
+              </button>
+            `;
+          }).join("")}
+        </div>
+      `;
+    } else if (col.featuredCard) {
+      const card = col.featuredCard;
+      colContent = `
+        <div class="mega-featured-card">
+          <div>
+            <span class="mega-featured-badge ${card.badgeType || ''}">${card.badge}</span>
+            <h4 class="mega-featured-title">${card.title}</h4>
+            <p class="mega-featured-desc">${card.desc}</p>
+          </div>
+          <button class="mega-featured-btn" 
+                  data-view="${card.view}" 
+                  data-action='${JSON.stringify(card.action || {})}'>
+            <span>${card.btnText}</span>
+            ${ico("chevron-right", 14)}
+          </button>
+        </div>
+      `;
+    }
+    
+    colsHtml += `
+      <div class="mega-col">
+        <div class="mega-col-title">
+          ${ico(isLevelLocked ? "lock" : col.icon, 14)}
+          <span>${col.title} ${isLevelLocked ? `<span class="level-pill locked" style="margin-left:auto">Locked</span>` : ''}</span>
+        </div>
+        ${colContent}
+      </div>
+    `;
+  });
+  
+  let bottomHtml = "";
+  if (mm.quickPills && mm.quickPills.length) {
+    bottomHtml = `
+      <div class="mega-bottom-strip">
+        <span>Quick Jump:</span>
+        <div class="mega-quick-pills">
+          ${mm.quickPills.map(p => `
+            <button class="mega-pill-btn" data-view="${p.view}" data-action='${JSON.stringify(p.action || {})}'>
+              ${ico(p.icon, 12)}
+              <span>${p.label}</span>
+            </button>
+          `).join("")}
+        </div>
+      </div>
+    `;
+  }
+  
+  return `
+    <div class="mega-dropdown-panel ${isOpen ? 'open' : ''}" role="region" aria-label="${item.label} Submenu">
+      <div class="mega-grid">${colsHtml}</div>
+      ${bottomHtml}
+    </div>
+  `;
+}
+
+function openMegaMenu(menuId) {
+  activeMegaMenu = menuId;
+  const container = document.getElementById("desktop-mega-nav");
+  if (!container) return;
+  
+  container.querySelectorAll(".nav-item-wrapper").forEach(wrap => {
+    const id = wrap.dataset.navId;
+    const btn = wrap.querySelector(".nav-link-btn");
+    const panel = wrap.querySelector(".mega-dropdown-panel");
+    const isThis = id === menuId;
+    
+    btn.setAttribute("aria-expanded", isThis ? "true" : "false");
+    if (panel) {
+      panel.classList.toggle("open", isThis);
+    }
+  });
+  
+  // Attach click listeners to submenu items inside opened panel
+  const activePanel = container.querySelector(`[data-nav-id="${menuId}"] .mega-dropdown-panel`);
+  if (activePanel) {
+    activePanel.querySelectorAll("[data-action]").forEach(b => {
+      b.onclick = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        const v = b.dataset.view;
+        let act = {};
+        try { act = JSON.parse(b.dataset.action || "{}"); } catch(err){}
+        closeMegaMenu();
+        navTo(v, act);
+      };
+    });
+  }
+}
+
+function closeMegaMenu() {
+  activeMegaMenu = null;
+  const container = document.getElementById("desktop-mega-nav");
+  if (!container) return;
+  container.querySelectorAll(".nav-item-wrapper").forEach(wrap => {
+    const btn = wrap.querySelector(".nav-link-btn");
+    const panel = wrap.querySelector(".mega-dropdown-panel");
+    if (btn) btn.setAttribute("aria-expanded", "false");
+    if (panel) panel.classList.remove("open");
+  });
+}
+
+/* ==========================================================================
+   RENDER SIDEBAR ACCORDION (DESKTOP)
+   ========================================================================== */
+function renderSidebarAccordion() {
+  const container = document.getElementById("sidebar-accordion-tree");
+  if (!container) return;
+  
+  const isUnlocked = l2ok();
+  const l1Count = (typeof S !== "undefined" && S.done) ? S.done.length : 0;
+  const qzBest = (typeof S !== "undefined" && S.best) ? S.best : 0;
+  
+  let html = "";
+  NAV_CONFIG.forEach(cat => {
+    const isExpanded = !!expandedAccordions[cat.id];
+    const isCurrentView = view === cat.id;
+    
+    // Build nested items with level-unlock logic
+    let subItemsHtml = "";
+    if (cat.megaMenu && cat.megaMenu.columns) {
+      cat.megaMenu.columns.forEach(col => {
+        const isLevel2 = col.title.includes("Level 2");
+        const isLevel3 = col.title.includes("Level 3");
+        const isLevel4 = col.title.includes("Level 4");
+        const isLevelLocked = (isLevel2 || isLevel3 || isLevel4) && !isUnlocked;
+        
+        let colItems = "";
+        if (col.items) {
+          colItems = col.items.map(sub => {
+            const isSubActive = (actionMatchesActive(sub));
+            const isDone = (typeof S !== "undefined" && S) && 
+                           ((S.done && S.done.includes(sub.id)) || 
+                            (S.done2 && S.done2.includes(sub.id)) || 
+                            (S.l4 && S.l4.includes(sub.id)) ||
+                            (S.ch && S.ch.includes(sub.id)));
+            return `
+              <button class="sidebar-sub-item ${isSubActive ? 'active' : ''}" 
+                      data-view="${sub.view}" 
+                      data-action='${JSON.stringify(sub.action || {})}'>
+                <div class="sub-item-left">
+                  <div class="sub-item-icon">${ico(sub.icon, 14)}</div>
+                  <span class="sub-item-title">${sub.label}</span>
+                </div>
+                ${isDone ? `<span class="item-completed-badge">${ico("check", 11)}</span>` : ""}
+              </button>
+            `;
+          }).join("");
+        } else if (col.featuredCard) {
+          const card = col.featuredCard;
+          colItems = `
+            <button class="sidebar-sub-item ${view === card.view ? 'active' : ''}" 
+                    data-view="${card.view}" 
+                    data-action='${JSON.stringify(card.action || {})}'>
+              <div class="sub-item-left">
+                <div class="sub-item-icon">${ico("award", 14)}</div>
+                <span class="sub-item-title">${card.title}</span>
+              </div>
+            </button>
+          `;
+        }
+        
+        if (isLevelLocked) {
+          // Locked level: DO NOT show topics! Show locked requirement
+          subItemsHtml += `
+            <div class="sidebar-level-block locked">
+              <div class="sidebar-level-hdr locked">
+                <span>🔒 ${col.title}</span>
+                <span class="level-pill locked">Locked</span>
+              </div>
+              <div class="sidebar-level-req">
+                Complete Level 1 (${l1Count}/6) &amp; Quiz score &ge; 8/10 (best: ${qzBest}/10) to unlock topics.
+              </div>
+            </div>
+          `;
+        } else {
+          // Unlocked level: SHOW the topics!
+          const isLeveled = isLevel2 || isLevel3 || isLevel4 || col.title.includes("Level 1");
+          subItemsHtml += `
+            <div class="sidebar-level-block ${isLeveled ? 'unlocked' : ''}">
+              <div class="sidebar-level-hdr ${isLeveled ? 'unlocked' : ''}">
+                <span>${isLeveled ? '🔓 ' : ''}${col.title}</span>
+                ${isLeveled ? `<span class="level-pill unlocked">${col.title.includes("Level 1") ? `${l1Count}/6` : 'Unlocked'}</span>` : ''}
+              </div>
+              <div class="sidebar-level-items">
+                ${colItems}
+              </div>
+            </div>
+          `;
+        }
+      });
+    }
+    
+    html += `
+      <div class="sidebar-accordion-group">
+        <button class="accordion-category-btn ${isCurrentView ? 'active-cat' : ''}" 
+                data-cat-id="${cat.id}" 
+                aria-expanded="${isExpanded ? 'true' : 'false'}">
+          <div class="category-label-left">
+            <span class="category-icon">${ico(cat.icon, 16)}</span>
+            <span>${cat.label}</span>
+          </div>
+          <span class="category-chevron">${ico("chevron-right", 14)}</span>
+        </button>
+        ${subItemsHtml ? `<div class="accordion-items-container ${isExpanded ? 'open' : ''}">${subItemsHtml}</div>` : ""}
+      </div>
+    `;
+  });
+  
+  // Quick demo toggle button for testing level unlock
+  html += `
+    <div style="padding: 12px 4px 4px;">
+      <button class="sidebar-demo-toggle-btn" id="sidebar-level-unlock-btn" title="Toggle locked / unlocked states for previewing">
+        ${ico(isUnlocked ? "lock" : "sparkles", 13)}
+        <span>${isUnlocked ? "Re-Lock Advanced Levels" : "⚡ Unlock All Levels (Demo)"}</span>
+      </button>
+    </div>
+  `;
+  
+  container.innerHTML = html;
+  
+  // Attach Demo Unlock button event
+  const demoBtn = document.getElementById("sidebar-level-unlock-btn");
+  if (demoBtn) {
+    demoBtn.onclick = (e) => {
+      e.stopPropagation();
+      if (typeof S !== "undefined" && S) {
+        S.demoUnlocked = !S.demoUnlocked;
+        save();
+        render();
+      }
+    };
+  }
+  
+  // Attach accordion category toggle events
+  container.querySelectorAll(".accordion-category-btn").forEach(btn => {
+    btn.onclick = (e) => {
+      e.stopPropagation();
+      const catId = btn.dataset.catId;
+      const cfg = NAV_CONFIG.find(c => c.id === catId);
+      
+      // Navigate directly to category view when clicking header
+      if (cfg) {
+        navTo(cfg.view);
+      }
+      
+      expandedAccordions[catId] = !expandedAccordions[catId];
+      btn.setAttribute("aria-expanded", expandedAccordions[catId] ? "true" : "false");
+      const subContainer = btn.nextElementSibling;
+      if (subContainer) {
+        subContainer.classList.toggle("open", expandedAccordions[catId]);
+      }
+    };
+  });
+  
+  // Attach sub-item click events
+  container.querySelectorAll(".sidebar-sub-item").forEach(itemBtn => {
+    itemBtn.onclick = (e) => {
+      e.stopPropagation();
+      const v = itemBtn.dataset.view;
+      let act = {};
+      try { act = JSON.parse(itemBtn.dataset.action || "{}"); } catch(err){}
+      navTo(v, act);
+    };
+  });
+}
+
+function actionMatchesActive(sub) {
+  if (view !== sub.view) return false;
+  if (!sub.action) return false;
+  if (sub.action.type === "mod" && open === sub.action.id) return true;
+  if (sub.action.type === "filter-news" && nf === sub.action.filter) return true;
+  if (sub.action.type === "help-step" && hs === sub.action.index) return true;
+  return false;
+}
+
+/* ==========================================================================
+   RENDER MOBILE NAVIGATION DRAWER
+   ========================================================================== */
+function renderMobileDrawer() {
+  const container = document.getElementById("mobile-accordion-nav");
+  if (!container) return;
+  
+  const isUnlocked = l2ok();
+  const l1Count = (typeof S !== "undefined" && S.done) ? S.done.length : 0;
+  const qzBest = (typeof S !== "undefined" && S.best) ? S.best : 0;
+  
+  let html = "";
+  NAV_CONFIG.forEach(cat => {
+    const isExpanded = !!expandedAccordions[cat.id];
+    let subHtml = "";
+    
+    if (cat.megaMenu && cat.megaMenu.columns) {
+      cat.megaMenu.columns.forEach(col => {
+        const isLevel2 = col.title.includes("Level 2");
+        const isLevel3 = col.title.includes("Level 3");
+        const isLevel4 = col.title.includes("Level 4");
+        const isLevelLocked = (isLevel2 || isLevel3 || isLevel4) && !isUnlocked;
+        
+        let colItems = "";
+        if (col.items) {
+          colItems = col.items.map(sub => `
+            <button class="sidebar-sub-item ${actionMatchesActive(sub) ? 'active' : ''}" 
+                    data-view="${sub.view}" 
+                    data-action='${JSON.stringify(sub.action || {})}'>
+              <div class="sub-item-left">
+                <div class="sub-item-icon">${ico(sub.icon, 15)}</div>
+                <span class="sub-item-title">${sub.label}</span>
+              </div>
+              ${ico("chevron-right", 12)}
+            </button>
+          `).join("");
+        }
+        
+        if (isLevelLocked) {
+          subHtml += `
+            <div class="sidebar-level-block locked">
+              <div class="sidebar-level-hdr locked">
+                <span>🔒 ${col.title}</span>
+                <span class="level-pill locked">Locked</span>
+              </div>
+              <div class="sidebar-level-req">
+                Complete Level 1 (${l1Count}/6) &amp; Quiz score &ge; 8/10 to unlock.
+              </div>
+            </div>
+          `;
+        } else {
+          const isLeveled = isLevel2 || isLevel3 || isLevel4 || col.title.includes("Level 1");
+          subHtml += `
+            <div class="sidebar-level-block ${isLeveled ? 'unlocked' : ''}">
+              <div class="sidebar-level-hdr ${isLeveled ? 'unlocked' : ''}">
+                <span>${isLeveled ? '🔓 ' : ''}${col.title}</span>
+                ${isLeveled ? `<span class="level-pill unlocked">${col.title.includes("Level 1") ? `${l1Count}/6` : 'Unlocked'}</span>` : ''}
+              </div>
+              <div class="sidebar-level-items">
+                ${colItems}
+              </div>
+            </div>
+          `;
+        }
+      });
+    }
+    
+    html += `
+      <div class="sidebar-accordion-group">
+        <button class="accordion-category-btn" 
+                data-drawer-cat="${cat.id}"
+                aria-expanded="${isExpanded ? 'true' : 'false'}">
+          <div class="category-label-left">
+            <span class="category-icon">${ico(cat.icon, 18)}</span>
+            <span>${cat.label}</span>
+          </div>
+          <span class="category-chevron">${ico("chevron-right", 15)}</span>
+        </button>
+        ${subHtml ? `<div class="accordion-items-container ${isExpanded ? 'open' : ''}">${subHtml}</div>` : ""}
+      </div>
+    `;
+  });
+  
+  container.innerHTML = html;
+  
+  container.querySelectorAll("[data-drawer-cat]").forEach(btn => {
+    btn.onclick = (e) => {
+      e.stopPropagation();
+      const catId = btn.dataset.drawerCat;
+      const cfg = NAV_CONFIG.find(c => c.id === catId);
+      if (cfg) {
+        navTo(cfg.view);
+      }
+      expandedAccordions[catId] = !expandedAccordions[catId];
+      btn.setAttribute("aria-expanded", expandedAccordions[catId] ? "true" : "false");
+      const next = btn.nextElementSibling;
+      if (next) next.classList.toggle("open", expandedAccordions[catId]);
+    };
+  });
+  
+  container.querySelectorAll(".sidebar-sub-item").forEach(itemBtn => {
+    itemBtn.onclick = (e) => {
+      e.stopPropagation();
+      const v = itemBtn.dataset.view;
+      let act = {};
+      try { act = JSON.parse(itemBtn.dataset.action || "{}"); } catch(err){}
+      navTo(v, act);
+    };
+  });
+}
+
+function openMobileDrawer() {
+  const drawer = document.getElementById("mobile-drawer");
+  const backdrop = document.getElementById("mobile-drawer-backdrop");
+  const btn = document.getElementById("mobile-menu-btn");
+  if (drawer) drawer.classList.add("open");
+  if (backdrop) backdrop.classList.add("open");
+  if (btn) btn.setAttribute("aria-expanded", "true");
+  document.body.style.overflow = "hidden";
+}
+
+function closeMobileDrawer() {
+  const drawer = document.getElementById("mobile-drawer");
+  const backdrop = document.getElementById("mobile-drawer-backdrop");
+  const btn = document.getElementById("mobile-menu-btn");
+  if (drawer) drawer.classList.remove("open");
+  if (backdrop) backdrop.classList.remove("open");
+  if (btn) btn.setAttribute("aria-expanded", "false");
+  document.body.style.overflow = "";
+}
+
+/* ==========================================================================
+   SIDEBAR TOGGLE & THEME TOGGLE
+   ========================================================================== */
+function toggleSidebar() {
+  sidebarCollapsed = !sidebarCollapsed;
+  applySidebarState();
+  try {
+    localStorage.setItem("cyberaware_sidebar", sidebarCollapsed ? "true" : "false");
+  } catch(e) {}
+}
+
+function applySidebarState() {
+  const wrapper = document.getElementById("site-wrapper");
+  if (wrapper) {
+    wrapper.classList.toggle("sidebar-collapsed", sidebarCollapsed);
+  }
+}
+
+function toggleTheme() {
+  const root = document.documentElement;
+  const current = root.getAttribute("data-theme") || (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+  const next = current === "dark" ? "light" : "dark";
+  root.setAttribute("data-theme", next);
+  try {
+    localStorage.setItem("cyberaware_theme", next);
+  } catch(e) {}
+  updateThemeIcon();
+}
+
+function updateThemeIcon() {
+  const btn = document.getElementById("theme-toggle-btn");
+  if (!btn) return;
+  const isDark = document.documentElement.getAttribute("data-theme") === "dark" || 
+                 (!document.documentElement.getAttribute("data-theme") && window.matchMedia("(prefers-color-scheme: dark)").matches);
+  btn.innerHTML = ico(isDark ? "sun" : "moon", 18);
+  btn.setAttribute("title", isDark ? "Switch to Light Mode" : "Switch to Dark Mode");
+}
+
+/* Centralized Nav UI Update Callback */
+function updateNavUI() {
+  renderDesktopMegaNav();
+  renderSidebarAccordion();
+  renderMobileDrawer();
+}
+
+/* ==========================================================================
+   GLOBAL EVENT LISTENERS (CLICK OUTSIDE, ESCAPE, KEYBOARD NAV, INITIALIZATION)
+   ========================================================================== */
+document.addEventListener("DOMContentLoaded", () => {
+  // Initialize Theme
+  try {
+    const savedTheme = localStorage.getItem("cyberaware_theme");
+    if (savedTheme) {
+      document.documentElement.setAttribute("data-theme", savedTheme);
+    }
+  } catch(e) {}
+  updateThemeIcon();
+  
+  // Apply saved sidebar state
+  applySidebarState();
+  
+  // Close mega menu when clicking outside
+  document.addEventListener("click", (e) => {
+    if (!e.target.closest("#desktop-mega-nav") && activeMegaMenu) {
+      closeMegaMenu();
+    }
+  });
+  
+  // Escape key closes mega menu and mobile drawer
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") {
+      closeMegaMenu();
+      closeMobileDrawer();
+    }
+  });
+  
+  // Mobile drawer triggers
+  const mobBtn = document.getElementById("mobile-menu-btn");
+  if (mobBtn) {
+    mobBtn.onclick = () => openMobileDrawer();
+  }
+  
+  const drawerCloseBtn = document.getElementById("mobile-drawer-close");
+  if (drawerCloseBtn) {
+    drawerCloseBtn.onclick = () => closeMobileDrawer();
+  }
+  
+  const backdrop = document.getElementById("mobile-drawer-backdrop");
+  if (backdrop) {
+    backdrop.onclick = () => closeMobileDrawer();
+  }
+  
+  // Sidebar collapse & restore triggers
+  const collapseBtn = document.getElementById("sidebar-collapse-btn");
+  if (collapseBtn) {
+    collapseBtn.onclick = () => toggleSidebar();
+  }
+  
+  const restoreBtn = document.getElementById("sidebar-restore-btn");
+  if (restoreBtn) {
+    restoreBtn.onclick = () => toggleSidebar();
+  }
+  
+  // Theme button
+  const themeBtn = document.getElementById("theme-toggle-btn");
+  if (themeBtn) {
+    themeBtn.onclick = () => toggleTheme();
+  }
+  
+  // Header emergency button
+  const emBtn = document.getElementById("header-emergency-btn");
+  if (emBtn) {
+    emBtn.onclick = () => navTo("help");
+  }
+  
+  // Initial render
+  updateNavUI();
+});
+
+
+
+const MODS=[
+{id:"pw",ico:"🔑",t:"Passwords",s:"Length beats cleverness",p:["Long passphrases (four or more random words) are stronger and easier to remember than short, complex ones.","Use a different password for every account, so one leak doesn’t unlock the rest.","A password manager remembers them all for you. Turn on two-factor authentication (2FA) for email first."],tr:"Test a passphrase in the checker at the top of the Learn page."},
+{id:"ph",ico:"🎣",t:"Phishing",s:"Spot the bait before you bite",p:["Phishing messages fake a trusted sender and push you to click, log in, or pay.","Check the real sender address and hover over links before clicking. Look for small spelling changes in the domain.","Urgency (“act in 24 hours!”), threats, and surprise prizes are red flags. When unsure, go to the website directly instead."],tr:"Play “Spot the phish” in the Games tab."},
+{id:"se",ico:"🎭",t:"Social engineering",s:"Hacking people, not computers",p:["Attackers manipulate trust, fear, curiosity, or helpfulness to get information or access.","Common tricks: fake tech support calls, “your boss needs gift cards”, and strangers asking for one-time codes.","Slow down, verify through a second channel (call the person on a known number), and never share OTP codes."],tr:"Next time someone urgently asks for a code, call them back on a number you already had."},
+{id:"mw",ico:"🦠",t:"Malware",s:"Software that works against you",p:["Malware includes viruses, spyware, ransomware, and fake apps that steal data or lock your files.","It usually arrives through pirated software, unknown attachments, or unofficial app stores.","Install updates, use official stores, keep backups, and don’t run files you weren’t expecting."],tr:"Check that automatic updates are on for your phone and laptop."},
+{id:"pv",ico:"🕶️",t:"Privacy",s:"Share less, control more",p:["Everything you post can be copied, screenshotted, and combined to build a profile of you.","Review app permissions: a flashlight app has no need for your contacts or location.","Set social accounts to private, and avoid posting your address, school ID, tickets, or travel plans."],tr:"Open your phone’s permissions list and remove one you don’t need."},
+{id:"wf",ico:"📶",t:"Safe browsing and Wi‑Fi",s:"Know where you’re connecting",p:["Look for https:// and the correct domain before entering any login details.","Public Wi‑Fi can be spied on or imitated. Avoid banking on it, or use a VPN or your mobile data.","Keep your browser updated and be wary of pop-ups telling you your device is infected."],tr:"Check the address bar before your next login, character by character."}];
+const QS=[
+["pw","Which password is the strongest?",["P@ssw0rd1","Sunshine2024","maple-train-orbit-lantern","Qw!9"],2,"Length and randomness win. Four unrelated words are long, memorable, and hard to guess."],
+["pw","What does 2FA add to a password?",["A second proof that it’s really you","A longer password","Faster logins","Free antivirus"],0,"2FA asks for something beyond the password, like an app code, so a stolen password alone isn’t enough."],
+["ph","An email says “Your account closes in 24 hours, click here.” What first?",["Click quickly","Reply with your password","Ignore the link and visit the site directly","Forward it to friends"],2,"Urgency is a classic phishing tactic. Go to the official site yourself instead of using the link."],
+["ph","Which domain is most likely fake?",["accounts.google.com","paypa1-secure.com","support.microsoft.com","www.amazon.in"],1,"“paypa1” swaps the letter l for the number 1, a lookalike trick."],
+["se","A caller says they’re from your bank and asks for the OTP they just sent. You…",["Read the OTP","Hang up and call the bank’s official number","Give half the code","Ask them to text it again"],1,"Banks never ask for OTPs. Hang up and call a number from your card or the official site."],
+["se","Why does “the boss needs gift cards urgently” work on people?",["It’s well written","It uses authority and urgency","Gift cards are hackable","It needs malware"],1,"It pressures you with authority and time limits so you skip verifying."],
+["mw","Ransomware does what?",["Speeds up your PC","Locks your files and demands payment","Blocks pop-ups","Deletes spam"],1,"Ransomware encrypts your files. Offline backups are your best protection."],
+["mw","Safest place to install apps from?",["Links in chat groups","Cracked-software sites","Official app stores","Email attachments"],2,"Official stores check apps. Cracked software often hides malware."],
+["pv","A game app asks for your contacts, mic, and location. Best move?",["Allow all","Allow only what the game needs","Uninstall your phone","Use the same password"],1,"Grant the minimum permissions an app really needs."],
+["wf","Is it safe to log into your bank on open café Wi‑Fi?",["Yes, if it has a password","Better to use mobile data or a VPN","Yes, if it’s fast","Yes, in a private tab"],1,"Public networks can be monitored or faked. Mobile data is safer for sensitive logins."]];
+const MAILS=[
+{f:"security@paypa1-support.com",s:"Unusual sign-in: verify now",b:"We locked your account. Confirm your password within 24 hours at the link below or it will be closed.",ph:1,w:"Lookalike domain (paypa1), a threat, and a deadline. Real services don’t ask you to confirm passwords by link."},
+{f:"no-reply@github.com",s:"[GitHub] A new SSH key was added",b:"A key named “laptop” was added to your account. If this was you, no action is needed. Otherwise review your keys in settings.",ph:0,w:"Real sender domain, no pressure, and it doesn’t demand you click a link. Still, go to settings yourself if unsure."},
+{f:"hr-desk@university-payroll.co",s:"Scholarship refund of ₹18,500",b:"You’re eligible for a refund. Reply with your bank account number and card PIN to receive it today.",ph:1,w:"Nobody legitimate asks for your PIN. A surprise payout plus a request for private data is a scam."},
+{f:"library@yourcollege.edu",s:"Book due in 3 days",b:"“Intro to Networks” is due Friday. You can renew it from your library account on the college website.",ph:0,w:"Expected, specific, no pressure, and it points you to the site rather than a link."},
+{f:"CEO <ceo.office@gmail.com>",s:"Quick favour, urgent",b:"I’m in a meeting. Buy five gift cards and send me the codes. Don’t call, I’ll explain later.",ph:1,w:"An executive using a free email address, urgency, secrecy, and gift cards. Verify by calling a known number."}];
+const BADGES=[["🌱","First step","Finish your first lesson"],["📚","Cyber aware","Finish all six lessons"],["🎯","Quiz whiz","Score 80% or more in the quiz"],["🎣","Phish spotter","Get 3 phishing answers right"],["🔐","Password pro","Test a very strong password"],["🧭","Health checked","Complete the security health check"],["🧱","Foundations","Finish all Level 2 lessons"],["🧪","Hands-on","Finish all three Level 3 challenges"],["🗺️","Pathfinder","Explore all six Level 4 tracks"]];
+let S={done:[],xp:0,badges:[],phish:0,best:0,checks:[],news:[],ack:[],hand:[]};
+try{const r=localStorage.getItem("cyberaware");if(r)S=Object.assign(S,JSON.parse(r))}catch(e){}
+function save(){try{localStorage.setItem("cyberaware",JSON.stringify(S))}catch(e){}}
+function xp(n){S.xp+=n;save();head()}
+function badge(i){if(!S.badges.includes(i)){S.badges.push(i);save()}}
+const $=s=>document.querySelector(s);
+let view="learn",open=null,qz=null,ph={i:0,a:null,n:0};
+const TABS=[["learn","Learn"],["updates","Security updates"],["help","Get help"],["health","Health check"],["quiz","Quiz"],["games","Practice"],["me","Progress"]];
+function head(){
+ updateNavUI();
+ $("#xp").textContent = S.xp + " XP";
+ const mxp = $("#mobile-xp-val"); if(mxp) mxp.textContent = S.xp + " XP";
+ const mbd = $("#mobile-badge-val"); if(mbd) mbd.textContent = S.badges.length + " / " + BADGES.length + " Badges";
+ const pbar = $("#sidebar-progress-fill");
+ if(pbar) {
+   const total = MODS.length + (MODS2 ? MODS2.length : 0) + (CH ? CH.length : 0);
+   const done = (S.done ? S.done.length : 0) + (S.done2 ? S.done2.length : 0) + (S.ch ? S.ch.length : 0);
+   const pct = Math.min(100, Math.round((done / Math.max(1, total)) * 100));
+   pbar.style.width = pct + "%";
+   const ptext = $("#sidebar-progress-text");
+   if(ptext) ptext.textContent = pct + "% completed";
+ }
+ bar();
+}
+function render(){head();({learn,updates,help,health,quiz,games,me})[view]()}
+/* ---------- Learn ---------- */
+const CHK=["Turn on 2FA for your email and bank","Use a password manager","Update your phone and laptop","Back up your important files","Review app permissions","Lock your screen with a PIN or biometrics"];
+function learn(){
+ const T=[["#E11D48","Most common","Phishing","Fake messages that trick you into giving up logins or money.","Check the sender and never click urgent links."],["#D97706","High impact","Ransomware","Malware that locks your files until you pay.","Keep offline backups and install updates."],["#4F46E5","Often missed","Reused passwords","One leaked password gets tried on all your other accounts.","Use a unique password per site, plus 2FA."],["#0284C7","In public places","Fake Wi‑Fi","A hotspot that copies a café or campus network to watch your traffic.","Use mobile data or a VPN for logins."]];
+ const F=[["Do I really need a password manager?","It’s the easiest way to use a unique, long password everywhere without memorising them. Free options exist and many browsers include one."],["Is 2FA annoying?","It adds a few seconds, but it stops most account takeovers even when your password leaks. App-based codes are safer than SMS."],["What should I do if I clicked a bad link?","Don’t enter anything. If you did, change that password right away, turn on 2FA, and tell your IT team or bank."],["Does incognito mode make me anonymous?","No. It only stops your device saving history. Websites and networks can still see your activity."]];
+ $("#app").innerHTML=`<section class="banner"><h1>Stay safe online, one small habit at a time</h1><p>Short lessons, real examples, and practice drills that teach you to spot threats and protect your accounts.</p><button class="btn" id="cta" style="background:#fff;color:#0B1B3A;border-color:#fff">Start the basics</button></section>
+ <div class="panel pwp"><h3 style="font-size:19px;margin-bottom:14px">How long would your password last?</h3><div class="pw"><input id="pw" type="password" autocomplete="off" placeholder="Try a password or passphrase" aria-label="Password to test"><button class="btn alt" id="show">Show</button></div>
+ <div class="meter" id="meter"><i></i><i></i><i></i><i></i></div><div class="time" id="time">Start typing…</div><div class="note" id="tip">Runs only in your browser. Nothing is sent or stored.</div><ul class="checks" id="chk"></ul><p class="note" style="margin-top:14px">The time is a rough estimate that assumes a fast offline attack. A unique passphrase plus 2FA matters more than any score.</p></div>
+ <h2>Lessons</h2><p class="sub">Six short lessons. Finish each for 20 XP.</p><div class="mgrid" id="mods"></div>
+ <h2>Level 2: Foundations</h2><p class="sub">For when you want to go deeper. How the internet, networks, encryption and logins really work.</p><div class="mgrid" id="mods2"></div>
+ <h2>Level 4: Choose a track</h2><p class="sub">When you’re ready to aim at a career, explore six directions and see what each one involves.</p><div id="l4m"></div><div class="mgrid" id="l4" style="margin-top:14px"></div>
+ <h2>Your safety checklist</h2><p class="sub">Tick off the habits you already have, and set up the rest this week.</p><div class="panel" id="safe"></div>
+ <h2>Questions beginners ask</h2>${F.map(f=>`<details><summary>${f[0]}</summary><p>${f[1]}</p></details>`).join("")}`;
+ const inp=$("#pw");inp.oninput=()=>check(inp.value);check("");$("#tip").textContent="Runs only in your browser. Nothing is sent or stored.";
+ $("#show").onclick=e=>{const t=inp.type=="password";inp.type=t?"text":"password";e.target.textContent=t?"Hide":"Show"};
+ mods();mods2();lvl4();safe();
+ $("#cta").onclick=()=>{open=(MODS.find(m=>!S.done.includes(m.id))||MODS[0]).id;mods();document.getElementById("mods").scrollIntoView({behavior:"smooth"})};
+}
+function safe(){const n=S.checks.length;
+ $("#safe").innerHTML=`<div class="prog"><i style="width:${n/CHK.length*100}%"></i></div><p class="note" style="margin-bottom:6px">${n} of ${CHK.length} done</p>`+CHK.map((t,i)=>`<button class="ck ${S.checks.includes(i)?"on":""}" data-k="${i}" role="checkbox" aria-checked="${S.checks.includes(i)}">${t}</button>`).join("");
+ document.querySelectorAll("[data-k]").forEach(b=>b.onclick=()=>{const k=+b.dataset.k;S.checks=S.checks.includes(k)?S.checks.filter(x=>x!=k):[...S.checks,k];save();safe()});}
+const COMMON=["password","123456","12345678","qwerty","abc123","letmein","iloveyou","admin","welcome","monkey","dragon","111111","passw0rd","password1","india123","sunshine"];
+function check(v){
+ const rules=[["12 or more characters",v.length>=12],["Upper and lower case",/[a-z]/.test(v)&&/[A-Z]/.test(v)],["Contains a number",/\d/.test(v)],["Contains a symbol or space",/[^A-Za-z0-9]/.test(v)],["Not a common password",v&&!COMMON.some(c=>v.toLowerCase().includes(c))]];
+ $("#chk").innerHTML=rules.map(([t,o])=>`<li class="${o?"ok":""}">${t}</li>`).join("");
+ if(!v){$("#time").textContent="Start typing…";$("#tip").textContent="";document.querySelectorAll("#meter i").forEach(i=>i.style.background="");return}
+ let pool=0;if(/[a-z]/.test(v))pool+=26;if(/[A-Z]/.test(v))pool+=26;if(/\d/.test(v))pool+=10;if(/[^A-Za-z0-9]/.test(v))pool+=33;
+ let bits=v.length*Math.log2(pool||1);
+ if(/(.)\1{2,}/.test(v)||/(0123|1234|2345|abcd|qwer|asdf)/i.test(v))bits*=.7;
+ const weak=COMMON.some(c=>v.toLowerCase().includes(c));if(weak)bits=Math.min(bits,20);
+ const sec=Math.pow(2,bits)/2/1e10;
+ const lv=bits<35?1:bits<55?2:bits<75?3:4;
+ const col=["","var(--bad)","var(--warn)","var(--accent)","var(--good)"][lv];
+ document.querySelectorAll("#meter i").forEach((el,i)=>el.style.background=i<lv?col:"");
+ $("#time").textContent=fmt(sec);
+ $("#tip").textContent=weak?"This is on every attacker’s list of common passwords.":lv<3?"Make it longer. Four random words joined together work well.":lv<4?"Good. A few more characters would make it excellent.":"Strong. Don’t reuse it anywhere else.";
+ if(lv==4&&v.length>=14&&!S.badges.includes(4)){badge(4);xp(15)}
+}
+function fmt(s){if(s<1)return"Cracked instantly";const u=[[31536000*1e3,"millennia"],[31536000,"years"],[86400,"days"],[3600,"hours"],[60,"minutes"],[1,"seconds"]];
+ if(s>=31536000*1e6)return"Longer than the age of human history";
+ for(const[k,n]of u)if(s>=k)return"About "+Math.round(s/k).toLocaleString()+" "+n;return"Instantly"}
+function mods(){
+ $("#mods").innerHTML=MODS.map(m=>`<div class="mod ${open==m.id?"open":""}"><button data-m="${m.id}" aria-expanded="${open==m.id}"><span class="ico">${m.ico}</span><span class="mt"><b>${m.t}</b><small>${m.s}</small></span><span class="tag ${S.done.includes(m.id)?"done":""}">${S.done.includes(m.id)?"Done":"Open"}</span></button>
+ ${open==m.id?`<div class="body"><ul>${m.p.map(x=>`<li>${x}</li>`).join("")}</ul><p class="try">Try this: ${m.tr}</p>${S.done.includes(m.id)?"":`<button class="btn" data-c="${m.id}">Mark as done (+20 XP)</button>`}</div>`:""}</div>`).join("");
+ document.querySelectorAll("[data-m]").forEach(b=>b.onclick=()=>{open=open==b.dataset.m?null:b.dataset.m;mods()});
+ document.querySelectorAll("[data-c]").forEach(b=>b.onclick=()=>{S.done.push(b.dataset.c);badge(0);if(S.done.length==MODS.length)badge(1);xp(20);mods()});
+}
+const N=[
+{id:"cf",d:"4 Nov 2026",s:"High",c:"India Accounts",t:"CERT-In warns of AI-assisted attacks on Indian banks and fintech apps",w:"India’s national cyber agency issued a Critical-rated advisory about a group it calls “Crafty Falcon”, which targets lenders, payment firms and crypto exchanges to move money without permission. One early sign is tiny test transactions, such as ₹1.",r:"Anyone who uses UPI, wallets, loan apps, or crypto platforms in India.",a:["Switch on SMS and app alerts for every transaction.","Check statements for small unknown debits and report them to your bank at once.","Use only official apps and never share OTPs or PINs.","Report fraud on 1930 or at cybercrime.gov.in."],src:"Moneylife",u:"https://www.moneylife.in/article/crafty-falcon-cyber-threat-escalates-as-aidriven-attacks-target-banks-fintechs-and-nbfcs/82128.html"},
+{id:"ex",d:"14 Nov 2026",s:"High",c:"Accounts Scams",t:"Extortion group claims huge Expedia traveller data theft",w:"A new group called n0n says it stole nearly a billion traveller records through a compromised third-party provider. This is the attackers’ claim and was not independently confirmed in the report I found.",r:"People who have booked flights or hotels through Expedia or partner sites.",a:["Change your travel-account password and turn on 2FA.","Ignore “booking problem” or “refund” messages and check your trip in the official app.","Be wary of calls from “support” that quote your booking details."],src:"Security Affairs",u:"https://securityaffairs.com/page/4?page=3416"},
+{id:"ir",d:"10 Nov 2026",s:"High",c:"Accounts",t:"Iris Ohyama cloud breach may expose 7.7 million customers",w:"The Japanese household-goods maker says a cloud data breach may have exposed customer details, including names and passwords.",r:"Customers of its online shops, and anyone who reused that password elsewhere.",a:["Change that password everywhere you used it.","Use a unique password for each site.","Check if your email appears in known breaches at haveibeenpwned.com."],src:"Security Affairs",u:"https://securityaffairs.com/page/4?page=3416"},
+{id:"ch",d:"10 Nov 2026",s:"High",c:"Devices",t:"Google fixes another actively exploited Chrome zero-day",w:"Google’s 9 Nov Chrome update fixes nine flaws, including a use-after-free bug in Chrome’s XML component that Google says is already being exploited. Reports count it as the eighth exploited Chrome zero-day this year.",r:"Everyone who uses Chrome or other Chromium-based browsers.",a:["Open Chrome menu, then Help, then About Google Chrome to update.","Click Relaunch so the fix actually applies.","Keep automatic updates on for your other browsers."],src:"Google Chrome Releases",u:"https://chromereleases.googleblog.com/2026/11/stable-channel-update-for-desktop_018223192.html"},
+{id:"qn",d:"9 Nov 2026",s:"Medium",c:"Devices",t:"Attackers hack QNAP storage devices through Plex2Shell flaws",w:"QNAP warns that flaws called Plex2Shell are being used to break into network-attached storage (NAS) boxes that many people use for backups and media.",r:"Students and families who run a home NAS, especially one reachable from the internet.",a:["Install the latest QNAP and Plex updates.","Don’t expose the NAS directly to the internet; use a VPN.","Keep an offline copy of important files."],src:"Security Affairs",u:"https://securityaffairs.com/page/27?page=3403"},
+{id:"sb",d:"7 Nov 2026",s:"Medium",c:"Accounts Scams",t:"Smartbox confirms customer names and emails were exposed",w:"The gift-voucher company confirmed a cyber attack on 3 November. It says names and email addresses were exposed but payment data stayed secure.",r:"Customers of Smartbox, who may now receive convincing phishing emails.",a:["Treat any email mentioning Smartbox or vouchers with suspicion.","Don’t click links. Type the website address yourself.","Change your password if you reused it."],src:"HeadTopics",u:"https://it.headtopics.com/news/smartbox-cyber-attack-november-7-data-breach-confirmed-by-89647349"},
+{id:"bf",d:"Upcoming: 27–30 Nov",s:"Ongoing",c:"Scams",t:"Black Friday and Cyber Monday phishing wave",w:"Fake shipping notices, fake invoices, and “your payment failed” emails tend to peak around the sales.",r:"Anyone shopping online, using delivery apps, or expecting parcels.",a:["Track parcels in the official shop or courier app, not through links in messages.","Pay only on sites you reached by typing the address or using the official app.","Be suspicious of deals that look too good and demand quick payment."],src:"MEAN CEO",u:"https://blog.mean.ceo/data-breach-news-november-2026/"},
+{id:"in",d:"Ongoing advisory",s:"Ongoing",c:"India Scams Devices",t:"“Digital arrest” calls and fake e-challan or gas-bill APK files",w:"CERT-In has warned about scammers who pose as officials and claim you are under investigation. It also flagged Android malware spread through fake e-challan or utility-bill messages that ask you to install an APK file.",r:"Everyday phone users in India, including students and parents.",a:["Hang up. Government agencies don’t arrest people over WhatsApp or video calls.","Never install an APK from a link. Use the Play Store only.","Check challans and bills on the official website.","Report scams on 1930 or cybercrime.gov.in."],src:"Moneylife",u:"https://www.moneylife.in/article/fraud-alert-why-seniors-are-in-the-crosshairs/article/fraud-alert-from-echallan-gas-bill-updates-to-apk-traps-how-malware-scams-are-draining-bank-accounts/79996.html"}];
+let nf="All";
+function news(){
+ S.news=S.news||[];
+ const L=N.filter(n=>nf=="All"||n.c.split(" ").includes(nf));
+ const H=[["#4F46E5","Update fast","Install updates for your phone, browser, and apps as soon as they appear. Many attacks use bugs that already have fixes."],["#0D9488","Lock every account","Use a unique password per site, a password manager, and 2FA on email and banking."],["#E11D48","Verify before acting","Pause on urgent messages. Confirm by opening the official app or calling a known number."],["#0284C7","Watch for signs","Turn on alerts for logins and payments, and check your accounts weekly."]];
+ $("#un").innerHTML=`<h2>More security news</h2><p class="sub">Recent attacks that could affect everyday users, with what to do about each. This is a snapshot from 17 Nov 2026, based on public security news. Attacker claims are marked as unconfirmed.</p>
+ <div class="fcs">${["All","India","Accounts","Devices","Scams"].map(c=>`<button class="fc" data-f="${c}" aria-pressed="${nf==c}">${c}</button>`).join("")}</div>
+ <div class="news">${L.map(n=>`<article class="nc sev-${n.s}"><div class="nh"><span class="sv">${n.s}</span><span class="nd">${n.d}</span></div><h3>${n.t}</h3><p>${n.w}</p><p class="who"><b>Who’s at risk:</b> ${n.r}</p><div class="do"><b>Do this now</b><ul>${n.a.map(a=>`<li>${a}</li>`).join("")}</ul></div><div class="nf"><a href="${n.u}" target="_blank" rel="noopener noreferrer">Source: ${n.src}</a><button class="btn alt" data-n="${n.id}" ${S.news.includes(n.id)?"disabled":""}>${S.news.includes(n.id)?"Done ✓":"I’ve done this"}</button></div></article>`).join("")}</div>
+ 
+ <div class="panel" style="margin-top:20px"><h3 style="font-size:18px;margin-bottom:6px">Was your email in a breach?</h3><p class="note" style="margin:0 0 12px">Have I Been Pwned is a free, well-known service that checks if your email appeared in a known data leak.</p><a class="btn" href="https://haveibeenpwned.com" target="_blank" rel="noopener noreferrer">Check my email</a></div>`;
+ document.querySelectorAll("[data-f]").forEach(b=>b.onclick=()=>{nf=b.dataset.f;news()});
+ document.querySelectorAll("[data-n]").forEach(b=>b.onclick=()=>{S.news.push(b.dataset.n);save();news()});
+}
+const SNAP="2026-11-17";
+const A=[
+{id:"chrome",sev:"Critical",tier:"Official vendor notice",i:"Google Chrome Releases",d:"9 Nov 2026",v:"17 Nov 2026",t:"Chrome zero-day is being exploited. Update and relaunch now",w:"Google says an exploit for CVE-2026-125350, a high-severity use-after-free flaw in Chrome’s XML component, exists in the wild. Fixed Stable builds start at 157.0.8103.50 on Windows, Mac, Linux and Android. Google adds that the rollout can take days or weeks, so check by hand.",r:"Everyone who uses Chrome on a computer or an Android phone.",a:["Desktop: open the three-dot menu, then Help, then About Google Chrome, and let it update.","Click Relaunch. An update does not protect you until the browser restarts.","Android: update Chrome in the Play Store.","Any version newer than 157.0.8103.50 also includes the fix."],x:"Confirmed by Google’s own advisory, and reported by BleepingComputer.",u:"https://chromereleases.googleblog.com/2026/11/stable-channel-update-for-desktop_018223192.html"},
+{id:"crafty",sev:"Critical",tier:"Official government advisory",i:"CERT-In, Government of India (CIAD-2026-0058)",d:"4 Nov 2026",v:"17 Nov 2026",t:"CERT-In Critical advisory: AI-assisted fund-transfer attacks on financial firms",w:"CERT-In says a group it calls CRAFTY FALCON uses AI tools against lenders, fintechs, payment firms and crypto exchanges to trigger unauthorised transfers, sometimes testing routes with ₹1 payments first. The advisory is written for organisations, so the risk to you is indirect.",r:"Customers of Indian banks, loan apps, payment apps and crypto exchanges.",a:["Turn on instant transaction alerts for every account and wallet.","Look for tiny unknown debits such as ₹1 and report them to your bank straight away.","Keep 2FA on for crypto exchanges and payment apps.","Report financial fraud on helpline 1930 or at cybercrime.gov.in."],x:"Confirmed by CERT-In’s own advisory page, and covered by The Register and Infosecurity Magazine.",u:"https://www.cert-in.org.in/s2cMainServlet?pageid=PUBVLNOTES02&VLCODE=CIAD-2026-0058"},
+{id:"digital",sev:"High",tier:"Official advisory, via media",i:"CERT-In, Government of India",d:"Standing advisory",v:"17 Nov 2026",t:"“Digital arrest” calls and fake-challan app files",w:"CERT-In warns about fraudsters who claim you are under investigation and demand money, and notes that government agencies don’t do this over WhatsApp or Skype. A separate CERT-In alert describes Android malware spread through fake e-challan or utility-bill messages that push an APK file.",r:"Everyday phone users in India, especially students and parents.",a:["Hang up. If someone demands money over a call or video chat, it’s most likely a scam.","Install apps only from the Play Store, never from a link or an APK file.","Check challans and bills on the official government or utility site.","Report scams on 1930 or at cybercrime.gov.in."],x:"Reported by Deccan Chronicle and Moneylife. The original notices are on cert-in.org.in.",u:"https://deccanchronicle.com/nation/cyber-watchdog-warns-against-digital-arrest-by-scamsters-1833581"}];
+const HELD=[["Expedia data theft claim (14 Nov)","The claim comes from the attackers themselves, and I found no independent confirmation."],["Iris Ohyama customer data exposure (10 Nov)","Seen only in a news roundup, with no official notice reviewed."],["Server flaws added to the CISA catalog (Nov)","Official, but they affect company servers far more than everyday users. See the CISA feed below."]];
+const unack=()=>A.filter(a=>!(S.ack||[]).includes(a.id)).length;
+const age=()=>Math.floor((Date.now()-Date.parse(SNAP))/864e5);
+function bar(){
+ const a=A.find(x=>x.sev=="Critical"&&!(S.ack||[]).includes(x.id));
+ $("#abar").innerHTML=a?`<div class="abar" role="alert"><div class="ain"><span><b>Critical alert:</b> ${a.t}</span><span class="ab"><button data-g>View</button><button data-d="${a.id}">Dismiss</button></span></div></div>`:"";
+ const g=document.querySelector("[data-g]");if(g)g.onclick=()=>{view="updates";render();scrollTo(0,0)};
+ const d=document.querySelector("[data-d]");if(d)d.onclick=()=>{S.ack=[...(S.ack||[]),d.dataset.d];save();render()};
+}
+function alerts(){
+ S.ack=S.ack||[];S.hand=S.hand||[];const dy=age();
+ $("#ua").innerHTML=`<h2 style="margin-top:0">Verified alerts</h2><p class="sub">Only the most severe issues, taken from official sources and each linked to its original notice. Last verified on 17 Nov 2026.</p>
+ ${dy>=3?`<div class="fb" style="border-left:4px solid var(--warn)"><b>This snapshot is ${dy} days old.</b> Newer alerts may exist. Check the live official feeds below.</div>`:""}
+ <div class="news">${A.map(a=>`<article class="nc al-${a.sev}"><div class="nh"><span><span class="sv">${a.sev}</span><span class="tier">${a.tier}</span></span><span class="nd">${a.d}</span></div><h3>${a.t}</h3><p>${a.w}</p><p class="who"><b>Who’s at risk:</b> ${a.r}</p><div class="do"><b>What to do</b><ul>${a.a.map(x=>`<li>${x}</li>`).join("")}</ul></div><p class="note" style="margin:0 0 12px"><b>Issued by:</b> ${a.i}. <b>Last verified:</b> ${a.v}. ${a.x}</p><div class="nf"><a href="${a.u}" target="_blank" rel="noopener noreferrer">Open the original notice</a><button class="btn alt" data-h="${a.id}" ${S.hand.includes(a.id)?"disabled":""}>${S.hand.includes(a.id)?"Handled ✓":"Mark as handled"}</button></div></article>`).join("")}</div>
+ <div id="un"></div><h2>How we keep alerts trustworthy</h2><div class="panel"><ul class="vl"><li>Every alert comes from a government cyber agency or the affected company’s own security notice.</li><li>Each one links to the original notice so you can read it yourself.</li><li>Claims made by attackers, or reports without official confirmation, never become alerts.</li><li>Critical means confirmed active exploitation or an official Critical rating that reaches everyday users. High means a serious official warning.</li><li>Every alert shows when it was issued and when we last verified it.</li><li>This page is a snapshot, not a live feed. It warns you when it gets old, and the links below always show the latest.</li></ul></div>
+ <h2>Held back for now</h2><p class="sub">Reported, but not issued as alerts because they don’t meet those rules.</p>${HELD.map(h=>`<div class="held"><b>${h[0]}.</b> ${h[1]}</div>`).join("")}
+ <h2>Check the live official feeds</h2><p class="sub">These always show the newest notices.</p><div class="row"><a class="btn alt" href="https://www.cert-in.org.in" target="_blank" rel="noopener noreferrer">CERT-In advisories</a><a class="btn alt" href="https://www.cisa.gov/news-events/cybersecurity-advisories" target="_blank" rel="noopener noreferrer">CISA advisories</a><a class="btn alt" href="https://chromereleases.googleblog.com" target="_blank" rel="noopener noreferrer">Chrome releases</a><a class="btn alt" href="https://cybercrime.gov.in" target="_blank" rel="noopener noreferrer">Report cybercrime</a></div>`;
+ document.querySelectorAll("[data-h]").forEach(b=>b.onclick=()=>{const k=b.dataset.h;if(!S.hand.includes(k)){S.hand.push(k);if(!S.ack.includes(k))S.ack.push(k);save()}render()});
+}
+function updates(){$("#app").innerHTML='<div id="ua"></div>';alerts();news()}
+const HELP=[
+["I lost money",["Call your bank or wallet provider on its official number (from your card or website, never from a message) and ask them to block the card, UPI ID or account.","Call 1930, the national cyber fraud helpline, with the transaction ID, amount, time, and the scammer’s phone number or account.","File a complaint at cybercrime.gov.in and keep the acknowledgement number.","Save evidence: screenshots, call logs, chats, receipts, and links. Don’t delete anything.","Change your banking and email passwords and turn on 2FA."]],
+["I shared a password or OTP",["Change that password now, then change it on any site where you reused it.","Log out of all devices from the account’s security settings.","Turn on 2FA with an authenticator app.","Check recent logins and transactions, and tell your bank if money moved.","Remember that nobody legitimate will ever ask you for an OTP."]],
+["I installed a suspicious app",["Turn off Wi‑Fi and mobile data to cut the connection.","Uninstall the app from Settings, then Apps. If it won’t go, restart in safe mode and try again.","Run a scan with Google Play Protect.","From a different, clean device, change your email and banking passwords.","Call your bank if you used any banking app on that phone."]],
+["I clicked a link",["Close the page and don’t enter any details.","If you typed a password, change it now and turn on 2FA.","Run a security scan and clear your browser data.","Report the message as phishing in your email or chat app, then delete it.","Watch your accounts for unusual activity over the next few weeks."]],
+["Someone is threatening me",["Stay calm and hang up. Government agencies don’t arrest people over WhatsApp, Skype, or video calls.","Do not send money or personal documents.","Tell a family member or friend. Scammers rely on urgency and secrecy.","Report the number on 1930 or at cybercrime.gov.in."]]];
+let hs=0;
+function help(){
+ const h=HELP[hs];
+ $("#app").innerHTML=`<h2 style="margin-top:0">Scammed? Get help</h2><p class="sub">Act in this order. Speed matters, and reporting early gives you the best chance of limiting the damage. Choose what happened.</p>
+ <div class="fcs">${HELP.map((x,i)=>`<button class="fc" data-s="${i}" aria-pressed="${hs==i}">${x[0]}</button>`).join("")}</div>
+ <div class="panel"><ol class="steps">${h[1].map(x=>`<li><span>${x}</span></li>`).join("")}</ol></div>
+ <h2>Where to report in India</h2><div class="panel"><p style="margin:0 0 14px">Use the national cyber fraud helpline or the official portal. Both are run by the Government of India.</p><div class="row" style="margin:0"><a class="btn" href="tel:1930">Call 1930</a><a class="btn alt" href="https://cybercrime.gov.in" target="_blank" rel="noopener noreferrer">cybercrime.gov.in</a></div></div>
+ <p class="note" style="margin-top:16px">This is general guidance, not legal advice. Outside India, contact your bank and your country’s cybercrime authority.</p>`;
+ document.querySelectorAll("[data-s]").forEach(b=>b.onclick=()=>{hs=+b.dataset.s;help()});
+}
+const OPTS=[["Yes",2],["Sometimes",1],["Not yet",0]];
+const HQ=[
+{q:"Is two-factor authentication (2FA) turned on for your main email?",t:"Turn on 2FA for your email",h:"Your email can reset the password of almost every other account.",a:"Open your email’s security settings and enable 2FA, preferably with an authenticator app.",w:3,m:"pw"},
+{q:"Do you use a different password for each important account?",t:"Stop reusing passwords",h:"One leaked password gets tried on all your other accounts.",a:"Start with email, banking and social accounts, and give each a unique password.",w:3,m:"pw"},
+{q:"Do you use a password manager or long passphrases (12 or more characters)?",t:"Use long passphrases or a manager",h:"Length is what makes a password hard to guess.",a:"Switch to four random words, or let a password manager create and remember them.",w:2,m:"pw"},
+{q:"Do your phone and laptop install updates automatically?",t:"Turn on automatic updates",h:"Many attacks use bugs that already have fixes.",a:"Enable automatic updates for your system and browser, and restart when asked.",w:2,m:"mw"},
+{q:"Do you install apps only from official stores?",t:"Install apps only from official stores",h:"APK files from links and chats often hide malware.",a:"Use the Play Store or App Store only, and never install an APK sent over messages.",w:2,m:"mw"},
+{q:"Do you keep OTPs, PINs and CVV private, even from someone claiming to be your bank?",t:"Never share OTPs or PINs",h:"Real banks never ask for them.",a:"If anyone asks, hang up and call the number on your card or the bank’s website.",w:3,m:"se"},
+{q:"Do you check the sender and link before acting on messages about refunds, deliveries or prizes?",t:"Verify before you click",h:"Urgent messages are the most common start of a scam.",a:"Open the official app or type the website address yourself instead of using the link.",w:2,m:"ph"},
+{q:"Do you have a recent backup of your important files?",t:"Back up your files",h:"A backup is your best protection against ransomware or a lost phone.",a:"Copy key files to cloud storage or an external drive, and keep one copy offline.",w:1,m:"mw"},
+{q:"Do you avoid banking and important logins on public Wi‑Fi?",t:"Avoid sensitive logins on public Wi‑Fi",h:"Open networks can be watched or imitated.",a:"Use mobile data or a VPN for banking and other important accounts.",w:1,m:"wf"},
+{q:"Are your social accounts private, and do you avoid posting ID, tickets or your location?",t:"Tighten your privacy",h:"Scammers use public details to look convincing.",a:"Set accounts to private and remove posts that show documents, tickets or your address.",w:1,m:"pv"}];
+let hc=null;
+function hcFinish(){
+ const mx=HQ.reduce((a,q)=>a+2*q.w,0),sc=HQ.reduce((a,q,i)=>a+hc.ans[i]*q.w,0),score=Math.round(sc/mx*100);
+ const gaps=HQ.map((q,i)=>({q,p:hc.ans[i]})).filter(x=>x.p<2).sort((a,b)=>b.q.w-a.q.w||a.p-b.p);
+ hc.res={score,gaps};S.hc={score,date:new Date().toISOString().slice(0,10)};save();
+ if(!S.badges.includes(5)){badge(5);xp(20)}
+}
+function health(){
+ const L=HQ.length;
+ if(!hc){const p=S.hc;
+  $("#app").innerHTML=`<h2 style="margin-top:0">Security health check</h2><p class="sub">Ten quick questions about your everyday habits. You’ll get a score and a short to-do list, ordered by what matters most. Your answers stay in your browser.</p><div class="panel"><button class="btn" id="hs">Start the check</button>${p?`<p class="note">Last result: ${p.score}% on ${p.date}</p>`:""}</div>`;
+  $("#hs").onclick=()=>{hc={i:0,ans:[]};health()};return}
+ if(hc.i>=L){const r=hc.res,lv=r.score>=80?["Strong habits","var(--good)"]:r.score>=50?["Fair, with gaps","var(--warn)"]:["At risk","var(--bad)"];
+  $("#app").innerHTML=`<h2 style="margin-top:0">Your result</h2><div class="panel"><div class="time" style="color:${lv[1]}">${r.score}%</div><p style="margin:2px 0 12px;font-weight:600">${lv[0]}</p><div class="prog" style="margin:0"><i style="width:${r.score}%;background:${lv[1]}"></i></div>${r.gaps.length?`<p class="note" style="margin-top:12px">${r.gaps.length} habit${r.gaps.length>1?"s":""} to improve, most important first.</p>`:`<p style="margin:12px 0 0">No gaps found. Keep it up and re-check every few months.</p>`}</div>
+  ${r.gaps.length?`<h2>Your to-do list</h2><div class="panel"><ol class="steps">${r.gaps.map(g=>`<li><span><b>${g.q.t}</b><br>${g.q.a} <button class="linkb" data-l="${g.q.m}">Open lesson</button></span></li>`).join("")}</ol></div>`:""}
+  <div class="row"><button class="btn" id="rt">Retake the check</button></div><p class="note" style="margin-top:16px">A simple self-assessment based on common good practice, not a security audit.</p>`;
+  $("#rt").onclick=()=>{hc=null;health()};
+  document.querySelectorAll("[data-l]").forEach(b=>b.onclick=()=>{open=b.dataset.l;view="learn";render();document.getElementById("mods").scrollIntoView()});return}
+ const q=HQ[hc.i];
+ $("#app").innerHTML=`<div class="panel"><div class="prog"><i style="width:${hc.i/L*100}%"></i></div><p class="note">Question ${hc.i+1} of ${L}</p><h3 style="font-size:22px;margin:4px 0 6px">${q.q}</h3><p class="note" style="margin:0 0 8px">${q.h}</p>${OPTS.map((o,i)=>`<button class="opt" data-p="${i}">${o[0]}</button>`).join("")}${hc.i?`<div class="row"><button class="btn alt" id="bk">Back</button></div>`:""}</div>`;
+ document.querySelectorAll("[data-p]").forEach(b=>b.onclick=()=>{hc.ans[hc.i]=OPTS[+b.dataset.p][1];hc.i++;if(hc.i>=L)hcFinish();health()});
+ const bk=$("#bk");if(bk)bk.onclick=()=>{hc.i--;health()};
+}
+const MODS2=[
+{id:"net",ico:"🌐",t:"How the internet works",s:"IP addresses, DNS, HTTPS and ports",p:["Every device has an IP address, which works like a postal address for data.","DNS is the internet’s phone book. It turns names like example.com into IP addresses, and attackers try to trick it into sending you to fake sites.","HTTP sends data in plain text, while HTTPS encrypts it between you and the site. The padlock means the connection is encrypted, not that the site is trustworthy.","Ports are numbered doors on a device (443 is the usual one for HTTPS). Fewer open ports means a smaller attack surface."],tr:"Look at the address bar of a site you use and find the https and the real domain name."},
+{id:"fw",ico:"🧱",t:"Networks, firewalls and VPNs",s:"What stands between you and the internet",p:["A home network connects your devices through a router, which sits between them and the internet.","A firewall allows or blocks traffic using rules. Your router and your operating system each have one, so keep both on.","A VPN encrypts traffic between your device and the VPN server. It helps on public Wi‑Fi, but it doesn’t make you anonymous and doesn’t stop phishing or malware.","Change the router’s default admin password and keep its firmware updated."],tr:"Check that your router’s admin password isn’t the default one printed on its label."},
+{id:"enc",ico:"🔐",t:"Encryption and hashing",s:"Scrambling versus fingerprinting",p:["Encryption scrambles data so only someone with the key can read it. It can be reversed with the key.","Hashing turns data into a fixed-length fingerprint that can’t be reversed. The same input always gives the same hash.","Sites should store a hash of your password instead of the password itself, so a leak doesn’t reveal it directly.","Public-key encryption uses a key pair, which is how your browser sets up HTTPS with a site it has never met."],tr:"Use the demo below. Change a single letter and watch the whole hash change."},
+{id:"log",ico:"🪪",t:"How logins work",s:"Hashes, salts, sessions and 2FA",p:["When you log in, the site hashes what you typed and compares it with the stored hash.","A salt is random data added before hashing, so identical passwords get different hashes and precomputed tables stop working.","After you log in, the site gives your browser a session cookie or token. Stealing it can let someone act as you, so sign out on shared computers.","2FA adds a second proof, such as an authenticator code, so a stolen password alone isn’t enough."],tr:"Open the active sessions page of your email account and sign out of any device you don’t recognise."},
+{id:"cli",ico:"⌨️",t:"Linux command line basics",s:"The tool behind most servers",p:["Most servers run Linux, and the terminal is how administrators control them.","Safe starters: <code>pwd</code> shows where you are, <code>ls</code> lists files, <code>cd</code> moves between folders, <code>cat</code> shows a file, and <code>--help</code> explains a command.","<code>grep</code> searches text, which is how admins find suspicious lines in logs, for example <code>grep \"Failed password\" /var/log/auth.log</code> on Ubuntu.","File permissions (read, write, execute) control who can do what, and <code>chmod</code> changes them. Give programs only the access they need."],tr:"Practise in a virtual machine or a learning platform, and never run a command you don’t understand."}];
+const DEMO=`<div class="panel" style="box-shadow:none;margin:0 0 16px"><p class="note" style="margin:0 0 8px">SHA-256 hash demo. Everything runs in your browser.</p><input id="hin" class="hi" value="hello" aria-label="Text to hash"><code id="hout" class="hx"></code></div>`;
+let open2=null;
+// l2ok() is defined above and accounts for S.demoUnlocked
+function mods2(){
+ S.done2=S.done2||[];const el=$("#mods2");if(!el)return;
+ if(!l2ok()){el.innerHTML=`<div class="panel" style="grid-column:1/-1"><b>Level 2 is locked.</b><p class="note" style="margin:6px 0 0">Unlock it by finishing all six lessons (${S.done.length} of ${MODS.length} so far) and scoring 8 of 10 or more on the quiz (best: ${S.best} of 10).</p></div>`;return}
+ el.innerHTML=MODS2.map(m=>`<div class="mod ${open2==m.id?"open":""}"><button data-m2="${m.id}" aria-expanded="${open2==m.id}"><span class="ico">${m.ico}</span><span class="mt"><b>${m.t}</b><small>${m.s}</small></span><span class="tag ${S.done2.includes(m.id)?"done":""}">${S.done2.includes(m.id)?"Done":"Open"}</span></button>${open2==m.id?`<div class="body"><ul>${m.p.map(x=>`<li>${x}</li>`).join("")}</ul>${m.id=="enc"?DEMO:""}<p class="try">Try this: ${m.tr}</p>${S.done2.includes(m.id)?"":`<button class="btn" data-d2="${m.id}">Mark as done (+20 XP)</button>`}</div>`:""}</div>`).join("");
+ el.querySelectorAll("[data-m2]").forEach(b=>b.onclick=()=>{open2=open2==b.dataset.m2?null:b.dataset.m2;mods2()});
+ el.querySelectorAll("[data-d2]").forEach(b=>b.onclick=()=>{S.done2.push(b.dataset.d2);if(S.done2.length==MODS2.length)badge(6);xp(20);mods2()});
+ const hin=$("#hin");if(hin){const f=async()=>{try{const b=await crypto.subtle.digest("SHA-256",new TextEncoder().encode(hin.value));$("#hout").textContent=[...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,"0")).join("")}catch(e){$("#hout").textContent="Hashing isn’t supported in this browser."}};hin.oninput=f;f()}
+}
+const TR=[
+{id:"def",ico:"🛡️",t:"Defence (security analyst)",s:"Watch, investigate, respond",w:"Watch systems for suspicious activity, investigate alerts, and respond to incidents before they spread.",sk:["Networking basics","Reading logs","Windows and Linux basics","Clear incident notes"],st:["Repeat the Level 3 log challenge with your own made-up logs","Learn what a normal login log looks like so odd ones stand out","Try defensive practice labs built for beginners"],c:["CompTIA Security+","ISC2 Certified in Cybersecurity"]},
+{id:"eth",ico:"🔍",t:"Ethical hacking",s:"Test systems, with permission",w:"Test systems with written permission to find weaknesses before criminals do, then write clear reports so they can be fixed.",sk:["Networking","Linux command line","How websites and logins work","Report writing"],st:["Learn the legal rules first and always get written permission","Practise only on platforms built for learning, such as picoCTF, OverTheWire or TryHackMe","Read the OWASP Top 10 to understand common web weaknesses"],c:["CompTIA PenTest+","EC-Council CEH","OffSec OSCP (advanced)"]},
+{id:"code",ico:"💻",t:"Secure coding",s:"Build software that resists attacks",w:"Build software that resists attacks: validating input, protecting secrets, handling logins correctly and fixing flaws early.",sk:["A language such as JavaScript or Python","Input validation","Authentication and sessions","Using dependencies safely"],st:["Read the OWASP Top 10 and the OWASP cheat sheets","Add security to your own project: hash passwords, validate input, limit login attempts","Check that no secrets or API keys are committed to Git"],c:["Often shown through projects and code reviews more than certificates"]},
+{id:"cloud",ico:"☁️",t:"Cloud security",s:"Protect systems that live online",w:"Protect systems that run on cloud platforms by managing who can access what, checking configuration and monitoring activity.",sk:["Networking","Identity and access management","Cloud basics","Configuration review"],st:["Open a free-tier account with a major cloud provider and study its security settings, and set a billing alert first","Learn the idea of least privilege: give each person only the access they need","Practise reading access policies"],c:["Foundational certificates from AWS, Microsoft or Google Cloud","CSA CCSK"]},
+{id:"for",ico:"🧾",t:"Digital forensics",s:"Examine evidence after an incident",w:"Collect and examine digital evidence after an incident, carefully and in a way that can be trusted by investigators and courts.",sk:["How file systems and operating systems store data","Careful note-taking and chain of custody","Reading logs","Patience and accuracy"],st:["Learn how evidence must be preserved and documented","Practise on public sample images and challenges built for learning","Study how phones and browsers store data"],c:["Forensics-focused certifications from providers such as GIAC (check current options)"]},
+{id:"law",ico:"⚖️",t:"Privacy and law",s:"Protect people’s data responsibly",w:"Help organisations handle personal data lawfully, run risk reviews and respond properly when something goes wrong.",sk:["Data protection principles","Policy writing","Risk assessment","Clear communication"],st:["Read India’s Information Technology Act, 2000 and Digital Personal Data Protection Act, 2023","Map what personal data a simple app collects and why","Follow how data breaches are reported"],c:["IAPP certifications such as CIPP or CIPM"]}];
+const MQ=[
+["Which task sounds the most fun?",[["Investigating something suspicious","def"],["Testing a system for weak spots, with permission","eth"],["Building an app that’s hard to break","code"],["Setting up and protecting online servers","cloud"]]],
+["Which describes you best?",[["Careful, patient and detail-focused","for"],["Curious and stubborn with puzzles","eth"],["Good with logic and writing code","code"],["Good at reading rules and explaining things","law"]]],
+["Where would you like to work?",[["Watching dashboards and reacting to alerts","def"],["Digging through evidence after something went wrong","for"],["Working with policies, managers and lawyers","law"],["Configuring and automating systems","cloud"]]],
+["What would you most like to learn?",[["How to read network traffic and logs","def"],["How websites and logins can fail","eth"],["How to write safer code","code"],["How the law protects data","law"]]],
+["Which outcome would make you proudest?",[["Stopping an attack quickly","def"],["Finding a flaw before criminals do","eth"],["Preventing flaws from being built in","code"],["Explaining what happened so it can be proven","for"]]]];
+let open4=null,m4=null;
+function lvl4(){
+ const el=$("#l4"),mt=$("#l4m");if(!el)return;S.l4=S.l4||[];
+ if(!l2ok()){mt.innerHTML=`<div class="panel"><b>Level 4 is locked.</b><p class="note" style="margin:6px 0 0">Unlock it by finishing all six lessons and scoring 8 of 10 or more on the quiz.</p></div>`;el.innerHTML="";return}
+ let top="",best=null;
+ if(!m4)top=`<b>Not sure which track fits?</b><p class="note" style="margin:6px 0 12px">Answer five quick questions to see which direction might suit you.</p><button class="btn" id="m4s">Find my track</button>`;
+ else if(m4.i<MQ.length){const q=MQ[m4.i];top=`<p class="note" style="margin:0">Question ${m4.i+1} of ${MQ.length}</p><p style="font-weight:600;margin:4px 0 8px">${q[0]}</p>${q[1].map((o,i)=>`<button class="opt" data-mq="${i}">${o[0]}</button>`).join("")}`}
+ else{const n={};m4.ans.forEach(a=>n[a]=(n[a]||0)+1);const r=Object.entries(n).sort((a,b)=>b[1]-a[1]);best=r[0][0];const t1=TR.find(x=>x.id==best),t2=r[1]&&TR.find(x=>x.id==r[1][0]);
+  top=`<b>Best match: ${t1.t}</b><p class="note" style="margin:6px 0 12px">${t2?"Also worth a look: "+t2.t+". ":""}This is only a guide. Explore any track below.</p><div class="row" style="margin:0"><button class="btn" id="m4o">Open ${t1.t}</button><button class="btn alt" id="m4r">Retake</button></div>`}
+ mt.innerHTML=`<div class="panel">${top}</div>`;
+ el.innerHTML=TR.map(m=>`<div class="mod ${open4==m.id?"open":""}"><button data-t4="${m.id}" aria-expanded="${open4==m.id}"><span class="ico">${m.ico}</span><span class="mt"><b>${m.t}</b><small>${m.s}</small></span><span class="tag ${S.l4.includes(m.id)?"done":""}">${S.l4.includes(m.id)?"Explored":"Open"}</span></button>${open4==m.id?`<div class="body"><p style="margin:0 0 4px">${m.w}</p><h4>Skills to build</h4><ul>${m.sk.map(x=>`<li>${x}</li>`).join("")}</ul><h4>Where to start</h4><ul>${m.st.map(x=>`<li>${x}</li>`).join("")}</ul><h4>Credentials people use</h4><ul>${m.c.map(x=>`<li>${x}</li>`).join("")}</ul><p class="note">Check each provider’s site for current names, fees and requirements.</p></div>`:""}</div>`).join("");
+ const go=id=>{open4=open4==id?null:id;if(open4&&!S.l4.includes(id)){S.l4.push(id);save();if(S.l4.length==TR.length){badge(8);xp(20)}}lvl4()};
+ el.querySelectorAll("[data-t4]").forEach(b=>b.onclick=()=>go(b.dataset.t4));
+ const s=$("#m4s");if(s)s.onclick=()=>{m4={i:0,ans:[]};lvl4()};
+ mt.querySelectorAll("[data-mq]").forEach(b=>b.onclick=()=>{m4.ans.push(MQ[m4.i][1][+b.dataset.mq][1]);m4.i++;lvl4()});
+ const o=$("#m4o");if(o)o.onclick=()=>{open4=null;go(best);el.scrollIntoView({behavior:"smooth"})};
+ const r=$("#m4r");if(r)r.onclick=()=>{m4=null;lvl4()};
+}
+/* ---------- Quiz ---------- */
+function quiz(){
+ if(!qz){$("#app").innerHTML=`<h2 style="margin-top:0">Quiz</h2><p class="sub">Ten questions across all topics. Each right answer earns 10 XP, and every answer comes with an explanation.</p><div class="panel"><button class="btn" id="go">Start quiz</button>${S.best?`<p class="note">Your best score: ${S.best}/${QS.length}</p>`:""}</div>`;
+  $("#go").onclick=()=>{qz={i:0,s:0,a:null};quiz()};return}
+ if(qz.i>=QS.length){const pass=qz.s/QS.length>=.8;if(qz.s>S.best){S.best=qz.s}if(pass)badge(2);save();
+  $("#app").innerHTML=`<h2 style="margin-top:0">You scored ${qz.s} of ${QS.length}</h2><p class="sub">${pass?"Excellent work. You’ve earned the Quiz whiz badge.":"Review the lessons and try again. You’ve got this."}</p><div class="row"><button class="btn" id="again">Try again</button><button class="btn alt" id="lrn">Back to lessons</button></div>`;
+  $("#again").onclick=()=>{qz=null;quiz()};$("#lrn").onclick=()=>{view="learn";qz=null;render()};return}
+ const q=QS[qz.i];
+ $("#app").innerHTML=`<div class="panel"><div class="prog"><i style="width:${qz.i/QS.length*100}%"></i></div><p class="note">Question ${qz.i+1} of ${QS.length}</p><h3 style="font-size:24px;margin-bottom:10px">${q[1]}</h3>
+ ${q[2].map((o,i)=>`<button class="opt ${qz.a===null?"":i==q[3]?"right":i==qz.a?"wrong":""}" data-o="${i}" ${qz.a!==null?"disabled":""}>${o}</button>`).join("")}
+ ${qz.a!==null?`<div class="fb"><b>${qz.a==q[3]?"Correct.":"Not quite."}</b> ${q[4]}</div><button class="btn" id="nx">${qz.i+1<QS.length?"Next question":"See results"}</button>`:""}</div>`;
+ document.querySelectorAll("[data-o]").forEach(b=>b.onclick=()=>{qz.a=+b.dataset.o;if(qz.a==q[3]){qz.s++;xp(10)}quiz()});
+ const nx=$("#nx");if(nx)nx.onclick=()=>{qz.i++;qz.a=null;quiz()};
+}
+/* ---------- Games ---------- */
+function phishGame(){
+ if(ph.i>=MAILS.length){$("#app").innerHTML=`<h2 style="margin-top:0">Spot the phish: done</h2><p class="sub">You got ${ph.n} of ${MAILS.length} right.</p><div class="row"><button class="btn" id="re">Play again</button></div>`;$("#re").onclick=()=>{ph={i:0,a:null,n:0};games()};return}
+ const m=MAILS[ph.i];
+ $("#app").innerHTML=`<h2 style="margin-top:0">Spot the phish</h2><p class="sub">Is this message a scam or legitimate? (${ph.i+1} of ${MAILS.length})</p>
+ <div class="panel"><div class="mail"><div class="f">From: ${m.f}</div><b>${m.s}</b>${m.b}</div>
+ <div class="row"><button class="btn" data-a="1" ${ph.a!==null?"disabled":""}>Phishing</button><button class="btn alt" data-a="0" ${ph.a!==null?"disabled":""}>Legitimate</button></div>
+ ${ph.a!==null?`<div class="fb"><b>${ph.a==m.ph?"Correct (+10 XP).":"Not this time."}</b> It is ${m.ph?"phishing":"legitimate"}. ${m.w}</div><button class="btn" id="nx">Next message</button>`:""}</div>`;
+ document.querySelectorAll("[data-a]").forEach(b=>b.onclick=()=>{ph.a=+b.dataset.a;if(ph.a==m.ph){ph.n++;S.phish++;if(S.phish>=3)badge(3);xp(10)}games()});
+ const nx=$("#nx");if(nx)nx.onclick=()=>{ph.i++;ph.a=null;games()};
+}
+function games(){phishGame();urlGame();scen();chal()}
+const URLS=[["https://accounts.google.com/signin","https://accounts.google.com.verify-login.net/signin"],["https://www.amazon.in/orders","https://www.amazon.in.secure-orders.co/orders"],["https://netflix.com/login","https://netflix-login.support/login"],["https://github.com/settings","https://github.com.settings-check.io/settings"]];
+let U={i:0,a:null,n:0,f:[1,0,1,0]};
+function urlGame(){
+ let h=`<h2>Real or fake link?</h2><p class="sub">Pick the genuine address. Read the domain from right to left, up to the first single slash.</p><div class="panel">`;
+ if(U.i>=URLS.length)h+=`<b>You got ${U.n} of ${URLS.length} right.</b><div class="row"><button class="btn" id="ur">Play again</button></div>`;
+ else{const p=URLS[U.i],f=U.f[U.i],o=f?[p[1],p[0]]:[p[0],p[1]],r=f?1:0;
+  h+=`<p class="note">Link ${U.i+1} of ${URLS.length}</p>`+o.map((x,i)=>`<button class="opt" data-u="${i}" ${U.a!==null?"disabled":""}>${x}</button>`).join("");
+  if(U.a!==null)h+=`<div class="fb"><b>${U.a==r?"Correct.":"Not quite."}</b> The real site’s domain ends right after the brand name. Extra words before the first single slash mean a different website.</div><button class="btn" id="un">Next link</button>`;}
+ $("#app").insertAdjacentHTML("beforeend",h+"</div>");
+ const p=URLS[U.i];
+ document.querySelectorAll("[data-u]").forEach(b=>{const i=+b.dataset.u;if(U.a!==null){const r=U.f[U.i]?1:0;b.classList.add(i==r?"right":i==U.a?"wrong":"")}
+  b.onclick=()=>{U.a=i;if(i==(U.f[U.i]?1:0)){U.n++;xp(10)}games()}});
+ const un=$("#un");if(un)un.onclick=()=>{U.i++;U.a=null;games()};
+ const ur=$("#ur");if(ur)ur.onclick=()=>{U={i:0,a:null,n:0,f:[1,0,1,0]};games()};
+}
+const SC=[
+{id:"upi",t:"The UPI refund trap",d:"A buyer asks you to scan a QR code to “receive” money.",m:"se",n:{
+start:{t:"You listed your old phone on a resale app. A buyer says they’ve paid, and sends a QR code. They say you must scan it and enter your UPI PIN to receive the money.",c:[["Scan the QR code and enter my UPI PIN","a"],["Say I’ll check my bank app for the payment first","c"],["Ask them to pay to my UPI ID instead","b"]]},
+a:{e:"bad",t:"Scanning a QR and entering your PIN sends money out of your account. You never need a PIN to receive money. Call 1930 straight away and tell your bank."},
+b:{t:"They refuse, saying their account has a limit and you must scan their QR code to “unlock” it.",c:[["Scan it to unlock the payment","a"],["Stop, block the buyer and report them","g"]]},
+c:{t:"Your bank app shows no credit. The buyer pushes you to hurry and “refund the extra” they say they sent.",c:[["Send the refund to be fair","d"],["Ignore it. No credit means no payment","g"]]},
+d:{e:"bad",t:"You can’t refund money you never received, so this is real money leaving your account. Trust your bank statement, never screenshots."},
+g:{e:"good",t:"Genuine payments appear in your account without any PIN, and real buyers don’t rush you. Block them and report the profile in the app."}}},
+{id:"job",t:"The WhatsApp job offer",d:"Easy money for “liking videos” from home.",m:"se",n:{
+start:{t:"An unknown number messages you on WhatsApp: ₹3,000 a day for liking videos from home. You’ll be added to a Telegram task group.",c:[["Join the group to see more","b"],["Reply asking for the company name","c"],["Ignore it, block the number and report it","g"]]},
+b:{t:"In the group you complete tiny tasks and see a ₹150 “payout”. Then the admin asks you to deposit ₹5,000 to unlock bigger tasks.",c:[["Deposit ₹5,000, since the first payout looked real","d"],["Leave the group. Real jobs never charge you to start","g"]]},
+c:{t:"They send a polished PDF with a logo and an HR name, but no verifiable company address or website.",c:[["Treat it as genuine and continue","b"],["Search for the company independently, find nothing, and block","g"]]},
+d:{e:"bad",t:"The small payout was bait to build trust. After the deposit they ask for more “fees” and nothing comes back. Report on 1930 and keep every chat."},
+g:{e:"good",t:"High pay for easy tasks, task groups and deposits are classic job-scam signs. Real employers don’t ask you to pay to start working."}}},
+{id:"sim",t:"The sudden “No service”",d:"Your phone loses signal and your bank emails you.",m:"se",n:{
+start:{t:"Your phone shows “No service” for hours. Then an email from your bank says a new device just logged in to your account.",c:[["Wait. It’s probably a network problem","d"],["Restart the phone and keep checking","d"],["Borrow a phone and call my telecom provider and bank right now","g"]]},
+d:{e:"bad",t:"No service plus unexpected login alerts can mean a SIM swap, where a criminal takes over your number to receive your OTPs. Waiting gave them time to move money."},
+g:{e:"good",t:"Acting fast lets your telecom provider stop the swap and your bank freeze the account. Then change your email and banking passwords and report on 1930."}}},
+{id:"loan",t:"The instant loan app",d:"An app wants your contacts before it lends you money.",m:"pv",n:{
+start:{t:"You need ₹5,000 quickly. An ad promises instant loans with no paperwork. The app asks for access to your contacts, photos and SMS before you can apply.",c:[["Allow everything. I need the money fast","b"],["Allow only contacts so I can finish","b"],["Deny and look for a regulated lender instead","g"]]},
+b:{t:"You receive ₹3,000, but the app demands ₹8,000 back within a week and threatens to message your contacts.",c:[["Pay up to avoid embarrassment","d"],["Stop. Save evidence, report on 1930 and warn my contacts","e"]]},
+d:{e:"bad",t:"Predatory apps use your contacts as leverage and keep raising the demand, so paying rarely ends it."},
+e:{e:"good",t:"Good recovery. Uninstall the app, save screenshots, report on 1930 and tell your contacts to ignore any messages. Next time, check that a lender is regulated by the RBI before you install its app."},
+g:{e:"good",t:"A lender that needs your contacts and photos isn’t a normal lender. Stick to regulated banks and lenders you can verify."}}}];
+let sc=null;
+function scen(){
+ S.sc=S.sc||[];
+ let h=`<div style="margin-bottom:72px"><h2 style="margin-top:0">Scenarios</h2><p class="sub">Make the call in realistic situations. Every choice has a consequence. Reach a good ending for 10 XP.</p>`;
+ if(!sc)h+=`<div class="threats">${SC.map((x,i)=>`<button class="tc scb" data-sc="${i}" style="--c:#4F46E5"><span class="k">${S.sc.includes(x.id)?"Completed":"New"}</span><h3>${x.t}</h3><p style="margin:0">${x.d}</p></button>`).join("")}</div>`;
+ else{const x=SC[sc.i],n=x.n[sc.k];
+  if(n.e){const ok=n.e=="good";h+=`<div class="panel"><h3 style="margin-bottom:10px">${x.t}</h3><div class="fb" style="border-left:4px solid var(${ok?"--good":"--bad"});margin-top:0"><b>${ok?"Good call.":"That went badly."}</b> ${n.t}</div><div class="row"><button class="btn alt" id="sl">Open the related lesson</button><button class="btn" id="sx">Try another scenario</button></div></div>`}
+  else h+=`<div class="panel"><h3 style="margin-bottom:8px">${x.t}</h3><p>${n.t}</p>${n.c.map((c,i)=>`<button class="opt" data-q="${i}">${c[0]}</button>`).join("")}</div>`}
+ $("#app").insertAdjacentHTML("afterbegin",h+"</div>");
+ document.querySelectorAll("[data-sc]").forEach(b=>b.onclick=()=>{sc={i:+b.dataset.sc,k:"start"};games()});
+ document.querySelectorAll("[data-q]").forEach(b=>b.onclick=()=>{const x=SC[sc.i];sc.k=x.n[sc.k].c[+b.dataset.q][1];if(x.n[sc.k].e=="good"&&!S.sc.includes(x.id)){S.sc.push(x.id);xp(10)}games()});
+ const sx=$("#sx");if(sx)sx.onclick=()=>{sc=null;games()};
+ const sl=$("#sl");if(sl)sl.onclick=()=>{open=SC[sc.i].m;view="learn";render();document.getElementById("mods").scrollIntoView()};
+}
+function pathHTML(){
+ const l1=S.done.length==MODS.length,qz=S.best>=8,un=l1&&qz;
+ const L=[["Level 1","Basics","Passwords, phishing, scams, privacy, malware and safe browsing.",l1?"Complete":S.done.length+" of "+MODS.length+" lessons"],["Level 2","Foundations","How the internet and networks work, the Linux command line, encryption and hashing, how logins work, firewalls and VPNs.",un?"Unlocked":"Locked"],["Level 3","Hands-on practice","Safe puzzles: decode a cipher, read a server log, find the suspicious login, spot an insecure form.",un?"Unlocked":"Locked"],["Level 4","Choose a track","Defence, ethical hacking, secure coding, cloud security, forensics, and privacy and law.",un?"Unlocked":"Locked"]];
+ return `<h2>Your learning path</h2><p class="sub">${un?"Levels 2 and 4 are on the Learn page, and Level 3 is on the Practice page.":"Finish all six lessons and score 8 of 10 or more on the quiz to unlock the next levels."}</p>
+ <p class="note" style="margin:-12px 0 14px">${l1?"✓":"○"} All six lessons &nbsp; ${qz?"✓":"○"} Quiz score of 8 or more (best: ${S.best}/10)</p>
+ <div class="threats">${L.map((x,i)=>`<div class="tc" style="--c:${i==0?"#0F8A4F":"#4F46E5"}"><span class="k">${x[3]}</span><h3>${x[0]}: ${x[1]}</h3><p style="margin:0">${x[2]}</p></div>`).join("")}</div>
+ <div class="panel" style="margin-top:16px"><h3 style="font-size:18px;margin-bottom:6px">Ethics comes first</h3><p style="margin:0;color:var(--muted)">Testing a system is legal only with the owner’s written permission. In India, unauthorised access to computers is covered by the Information Technology Act, 2000 (see Sections 43 and 66). This is general information, not legal advice. Practise only on platforms built for learning.</p></div>
+ <div class="panel" style="margin-top:16px"><h3 style="font-size:18px;margin-bottom:6px">Where to keep learning</h3><ul class="vl" style="color:var(--muted)"><li>Practice platforms built for beginners: picoCTF, OverTheWire, TryHackMe and Hack The Box. Free tiers differ, so check each site.</li><li>Common first certifications: CompTIA Security+ and ISC2 Certified in Cybersecurity. Check each provider for current requirements and fees.</li><li>Read the official advisories on the Security updates tab to see real threats being tracked.</li></ul></div>`}
+const CIPH="WKLV LV D VHFXUH OHVVRQ",PLAIN="THIS IS A SECURE LESSON";
+const norm=t=>t.toUpperCase().replace(/[^A-Z]/g,"");
+const dec=(t,n)=>t.replace(/[A-Z]/g,c=>String.fromCharCode((c.charCodeAt(0)-65-n+26)%26+65));
+const CH=[
+{id:"cae",t:"Break the cipher",d:"Decode a secret message.",l2:"enc"},
+{id:"log",t:"Read the server log",d:"Spot the attacker in a login log.",l2:"log",art:`10:02:11  Accepted password for asha from 198.51.100.7\n10:05:42  Failed password for admin from 203.0.113.45\n10:05:44  Failed password for admin from 203.0.113.45\n10:05:46  Failed password for root from 203.0.113.45\n10:05:48  Failed password for ubuntu from 203.0.113.45\n10:06:01  Accepted password for ravi from 192.0.2.19\n10:06:03  Failed password for asha from 198.51.100.7\n10:09:30  Accepted password for admin from 203.0.113.45`,qs:[
+{q:"Which address looks like an automated guessing attack?",o:["198.51.100.7","203.0.113.45","192.0.2.19"],a:1,e:"Four failures in seconds, on different accounts (admin, root, ubuntu), from one address is automated guessing, not a person who forgot a password."},
+{q:"Which line is the most worrying?",o:["The first line, where asha logs in","The last line, where admin logs in from the attacking address","The line where asha fails once"],a:1,e:"A success from the same address right after repeated failures suggests the attacker guessed the admin password. Block the address, reset that password, turn on 2FA, and check what was accessed."}]},
+{id:"frm",t:"Spot the insecure form",d:"Find what is wrong with a login page.",l2:"net",art:`Page address:   http://college-portal.example/login\nFields:         Username, Password\nPassword box:   shows the characters as you type\nAlso asks for:  your ID card number and date of birth\nButton:         "Verify and log in"`,qs:[
+{q:"What is the biggest technical red flag?",o:["The address starts with http://, so the password isn’t encrypted on its way to the site","The page has a login button","The username comes before the password"],a:0,e:"Without HTTPS, anyone on the same network could read what you send. Real login pages use https:// and show the correct domain."},
+{q:"What else should make you suspicious?",o:["It asks for your ID card number and date of birth just to log in","It has two fields","It has a button"],a:0,e:"A login page asks for your credentials, not identity documents. Extra personal details are exactly what phishing pages collect."}]}];
+let ch=null;
+function chDone(id){S.ch=S.ch||[];if(!S.ch.includes(id)){S.ch.push(id);xp(15);if(S.ch.length==CH.length)badge(7)}}
+function chal(){
+ S.ch=S.ch||[];
+ let h=`<div style="margin-top:72px"><h2 style="margin-top:0">Level 3: Hands-on challenges</h2><p class="sub">Safe puzzles that use made-up data. You never touch a real system. Finish each for 15 XP.</p>`;
+ if(!l2ok())h+=`<div class="panel"><b>Locked.</b><p class="note" style="margin:6px 0 0">Unlock Level 3 by finishing all six lessons and scoring 8 of 10 or more on the quiz.</p></div>`;
+ else if(!ch)h+=`<div class="threats">${CH.map((x,i)=>`<button class="tc scb" data-ch="${i}" style="--c:#0D9488"><span class="k">${S.ch.includes(x.id)?"Completed":"New"}</span><h3>${x.t}</h3><p style="margin:0">${x.d}</p></button>`).join("")}</div>`;
+ else{const x=CH[ch.i];
+  if(x.id=="cae")h+=`<div class="panel"><h3 style="margin-bottom:8px">${x.t}</h3><p>You received this message. Every letter was moved forward by the same number of places. Find the shift and read it.</p><code class="hx" style="font-size:18px;margin:0 0 14px;color:var(--ink)">${CIPH}</code><label class="note" for="sh">Shift: <b id="shv">1</b></label><input id="sh" type="range" min="1" max="25" value="1" style="width:100%"><code class="hx" id="prev" style="font-size:16px"></code><input id="ans" class="hi" placeholder="Type the decoded message" aria-label="Decoded message" style="margin-top:12px"><div class="row"><button class="btn" id="ck">Check</button><button class="btn alt" id="bk">Back</button></div><p id="cm" class="note" role="status"></p></div>`;
+  else if(ch.qi>=x.qs.length)h+=`<div class="panel"><h3 style="margin-bottom:8px">${x.t}</h3><p><b>You got ${ch.s} of ${x.qs.length} right.</b> ${ch.s==x.qs.length?"Challenge complete.":"Review the explanations and try again."}</p><div class="row"><button class="btn alt" id="lr">Open the related lesson</button>${ch.s<x.qs.length?`<button class="btn" id="rt">Try again</button>`:""}<button class="btn alt" id="bk">Back to challenges</button></div></div>`;
+  else{const q=x.qs[ch.qi];h+=`<div class="panel"><h3 style="margin-bottom:8px">${x.t}</h3><pre class="art">${x.art}</pre><p class="note" style="margin:0">Question ${ch.qi+1} of ${x.qs.length}</p><p style="font-weight:600;margin:4px 0 6px">${q.q}</p>${q.o.map((o,i)=>`<button class="opt ${ch.a===null?"":i==q.a?"right":i==ch.a?"wrong":""}" data-ko="${i}" ${ch.a!==null?"disabled":""}>${o}</button>`).join("")}${ch.a!==null?`<div class="fb"><b>${ch.a==q.a?"Correct.":"Not quite."}</b> ${q.e}</div><button class="btn" id="nq">${ch.qi+1<x.qs.length?"Next question":"See result"}</button>`:""}</div>`}}
+ $("#app").insertAdjacentHTML("beforeend",h+"</div>");
+ document.querySelectorAll("[data-ch]").forEach(b=>b.onclick=()=>{ch={i:+b.dataset.ch,qi:0,a:null,s:0};games()});
+ document.querySelectorAll("[data-ko]").forEach(b=>b.onclick=()=>{const q=CH[ch.i].qs[ch.qi];ch.a=+b.dataset.ko;if(ch.a==q.a)ch.s++;games()});
+ const nq=$("#nq");if(nq)nq.onclick=()=>{const x=CH[ch.i];ch.qi++;ch.a=null;if(ch.qi>=x.qs.length&&ch.s==x.qs.length)chDone(x.id);games()};
+ const bk=$("#bk");if(bk)bk.onclick=()=>{ch=null;games()};
+ const rt=$("#rt");if(rt)rt.onclick=()=>{ch={i:ch.i,qi:0,a:null,s:0};games()};
+ const lr=$("#lr");if(lr)lr.onclick=()=>{open2=CH[ch.i].l2;view="learn";render();document.getElementById("mods2").scrollIntoView()};
+ const sh=$("#sh");if(sh){const u=()=>{$("#shv").textContent=sh.value;$("#prev").textContent=dec(CIPH,+sh.value)};sh.oninput=u;u();
+  $("#ck").onclick=()=>{const m=$("#cm");if(norm($("#ans").value)==norm(PLAIN)){chDone("cae");m.style.color="var(--good)";m.textContent="Correct. This is a Caesar cipher with a shift of 3. With only 25 possible shifts it’s easy to break, which is why real encryption uses long keys."}else{m.style.color="var(--bad)";m.textContent="Not yet. Slide the shift until the preview makes sense, then type it in."}}}
+}
+/* ---------- Progress ---------- */
+function me(){
+ $("#app").innerHTML=`<h2 style="margin-top:0">Your progress</h2><p class="sub">Saved in this browser only.</p>
+ <div class="stats"><div class="stat"><b>${S.xp}</b>XP earned</div><div class="stat"><b>${S.done.length}/${MODS.length}</b>Lessons done</div><div class="stat"><b>${S.best}/${QS.length}</b>Best quiz score</div><div class="stat"><b>${(S.sc||[]).length}/4</b>Scenarios</div><div class="stat"><b>${(S.ch||[]).length}/3</b>Challenges</div><div class="stat"><b>${S.hc?S.hc.score+"%":"–"}</b>Health check</div><div class="stat"><b>${S.badges.length}/${BADGES.length}</b>Badges</div></div>
+ <div class="badges">${BADGES.map((b,i)=>`<div class="badge ${S.badges.includes(i)?"on":""}"><span class="ico">${b[0]}</span><span><b>${b[1]}</b><br><small>${b[2]}</small></span></div>`).join("")}</div>
+ ${pathHTML()}<div class="row" style="margin-top:24px"><button class="btn alt" id="rs">Reset progress</button></div>`;
+ $("#rs").onclick=()=>{if(confirm("Reset all progress?")){S={done:[],xp:0,badges:[],phish:0,best:0,checks:[],news:[],ack:[],hand:[]};save();render()}};
+}
+render();
+
+</script>
+</body>
 </html>

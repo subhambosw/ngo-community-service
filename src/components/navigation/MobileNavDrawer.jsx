@@ -4,8 +4,8 @@ import {
   X, 
   ChevronDown, 
   PhoneCall, 
-  Zap, 
-  RotateCcw 
+  RotateCcw,
+  Search
 } from 'lucide-react';
 import { navigationConfig } from '../../config/navigation';
 
@@ -17,11 +17,13 @@ export default function MobileNavDrawer({
   userState,
   onResetProgress
 }) {
+  const [filterQuery, setFilterQuery] = useState('');
   const [expandedCategories, setExpandedCategories] = useState({
-    operations: true,
-    labs: false,
-    academy: false,
-    enterprise: false
+    core: true,
+    labs: true,
+    learn: true,
+    intel: true,
+    resources: true
   });
 
   if (!isOpen) return null;
@@ -51,9 +53,10 @@ export default function MobileNavDrawer({
         
         {/* Header */}
         <div className="p-4 border-b border-white/10 flex items-center justify-between shrink-0 bg-black/40">
-          <div 
+          <button 
+            type="button"
             onClick={() => handleSelectView('home')}
-            className="flex items-center gap-2.5 cursor-pointer"
+            className="flex items-center gap-2.5 cursor-pointer text-left"
           >
             <div className="w-8 h-8 rounded-lg bg-white flex items-center justify-center shrink-0 shadow-[0_0_15px_rgba(255,255,255,0.4)]">
               <Shield className="w-4 h-4 text-black fill-black" />
@@ -66,7 +69,7 @@ export default function MobileNavDrawer({
                 ACADEMY
               </span>
             </div>
-          </div>
+          </button>
 
           <button
             type="button"
@@ -78,13 +81,38 @@ export default function MobileNavDrawer({
           </button>
         </div>
 
+        {/* Quick Filter Search */}
+        <div className="px-3 pt-3 pb-1 shrink-0">
+          <div className="relative">
+            <Search className="w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-zinc-500" />
+            <input
+              type="text"
+              value={filterQuery}
+              onChange={e => setFilterQuery(e.target.value)}
+              placeholder="Search topics..."
+              className="w-full bg-white/[0.05] border border-white/10 rounded-xl pl-8 pr-3 py-1.5 text-xs text-white placeholder-zinc-500 focus:outline-none focus:border-white/30 font-sans"
+            />
+          </div>
+        </div>
+
         {/* Scrollable Accordion Section List */}
-        <div className="flex-1 overflow-y-auto p-4 space-y-3">
+        <div className="flex-1 overflow-y-auto p-3 space-y-2.5">
           {navigationConfig.map((category) => {
-            const isExpanded = !!expandedCategories[category.id];
-            const isCategoryActive = category.columns.some(col =>
-              col.items.some(item => item.id === activeView)
-            );
+            const filteredItems = filterQuery.trim() === ''
+              ? category.items
+              : category.items.filter(item => {
+                  const query = filterQuery.toLowerCase();
+                  const matchesLabel = item.label.toLowerCase().includes(query);
+                  const matchesKeywords = item.keywords?.some(k => k.toLowerCase().includes(query));
+                  return matchesLabel || matchesKeywords;
+                });
+
+            if (filterQuery.trim() !== '' && filteredItems.length === 0) {
+              return null;
+            }
+
+            const isExpanded = filterQuery.trim() !== '' ? true : !!expandedCategories[category.id];
+            const isCategoryActive = category.items.some(item => item.id === activeView);
             const CategoryIcon = category.icon;
 
             return (
@@ -100,13 +128,13 @@ export default function MobileNavDrawer({
                 <button
                   type="button"
                   onClick={() => toggleCategory(category.id)}
-                  className="w-full p-3.5 flex items-center justify-between text-left cursor-pointer"
+                  className="w-full p-3 flex items-center justify-between text-left cursor-pointer"
                 >
                   <div className="flex items-center gap-2.5 min-w-0">
                     <div className={`p-1.5 rounded-lg shrink-0 ${
                       isCategoryActive ? 'bg-white text-black' : 'bg-white/10 text-zinc-400'
                     }`}>
-                      <CategoryIcon className="w-4 h-4" />
+                      <CategoryIcon className="w-3.5 h-3.5" />
                     </div>
                     <span className={`text-xs font-bold font-sans tracking-wide truncate ${
                       isCategoryActive ? 'text-white' : 'text-zinc-200'
@@ -120,55 +148,45 @@ export default function MobileNavDrawer({
                   }`} />
                 </button>
 
-                {/* Expanded Submenu List */}
+                {/* Submenu List */}
                 {isExpanded && (
-                  <div className="px-3 pb-3 pt-1 space-y-3 border-t border-white/5">
-                    {category.columns.map((col, colIdx) => (
-                      <div key={colIdx} className="space-y-1">
-                        <div className="px-2 text-[10px] font-mono uppercase tracking-widest text-zinc-500 font-bold">
-                          {col.heading}
-                        </div>
+                  <div className="px-2 pb-2.5 pt-0.5 space-y-1 border-t border-white/5">
+                    {filteredItems.map((item) => {
+                      const isItemActive = activeView === item.id;
+                      const ItemIcon = item.icon;
 
-                        <div className="space-y-1">
-                          {col.items.map((item) => {
-                            const isItemActive = activeView === item.id;
-                            const ItemIcon = item.icon;
+                      return (
+                        <button
+                          key={item.id}
+                          type="button"
+                          onClick={() => handleSelectView(item.id)}
+                          className={`w-full flex items-center justify-between px-2.5 py-2 rounded-xl text-xs font-medium transition-all cursor-pointer ${
+                            isItemActive
+                              ? 'bg-white text-black font-bold shadow-md'
+                              : 'text-zinc-300 hover:text-white hover:bg-white/10 active:bg-white/15'
+                          }`}
+                        >
+                          <div className="flex items-center gap-2.5 truncate">
+                            <ItemIcon className={`w-3.5 h-3.5 shrink-0 ${
+                              isItemActive ? 'text-black' : 'text-zinc-400'
+                            }`} />
+                            <span className="truncate">{item.label}</span>
+                          </div>
 
-                            return (
-                              <button
-                                key={item.id}
-                                type="button"
-                                onClick={() => handleSelectView(item.id)}
-                                className={`w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-xs font-medium transition-all cursor-pointer ${
-                                  isItemActive
-                                    ? 'bg-white text-black font-bold shadow-md'
-                                    : 'text-zinc-300 hover:text-white hover:bg-white/10 active:bg-white/15'
-                                }`}
-                              >
-                                <div className="flex items-center gap-2.5 truncate">
-                                  <ItemIcon className={`w-4 h-4 shrink-0 ${
-                                    isItemActive ? 'text-black' : 'text-zinc-400'
-                                  }`} />
-                                  <span className="truncate">{item.label}</span>
-                                </div>
-
-                                {item.badge && (
-                                  <span className={`text-[9px] font-mono px-1.5 py-0.5 rounded font-bold shrink-0 ml-2 ${
-                                    isItemActive
-                                      ? 'bg-black text-white'
-                                      : item.badge === '1930' || item.badge === 'ALERT'
-                                        ? 'bg-red-500/20 text-red-300 border border-red-500/30'
-                                        : 'bg-white/10 text-zinc-300'
-                                  }`}>
-                                    {item.badge}
-                                  </span>
-                                )}
-                              </button>
-                            );
-                          })}
-                        </div>
-                      </div>
-                    ))}
+                          {item.badge && (
+                            <span className={`text-[9px] font-mono px-1.5 py-0.5 rounded font-bold shrink-0 ml-2 ${
+                              isItemActive
+                                ? 'bg-black text-white'
+                                : item.badge === '1930' || item.badge === 'ALERT'
+                                  ? 'bg-red-500/20 text-red-300 border border-red-500/30'
+                                  : 'bg-white/10 text-zinc-300'
+                            }`}>
+                              {item.badge}
+                            </span>
+                          )}
+                        </button>
+                      );
+                    })}
                   </div>
                 )}
               </div>
@@ -177,26 +195,27 @@ export default function MobileNavDrawer({
         </div>
 
         {/* Footer: Emergency Helpline + User Profile */}
-        <div className="p-4 border-t border-white/10 bg-black/60 space-y-3">
-          <a
-            href="tel:1930"
-            className="w-full py-2.5 px-3 rounded-xl bg-red-600 hover:bg-red-500 text-white text-xs font-mono font-bold flex items-center justify-center gap-2 shadow-lg"
+        <div className="p-3 border-t border-white/10 bg-black/60 space-y-2.5 shrink-0">
+          <button
+            type="button"
+            onClick={() => handleSelectView('help')}
+            className="w-full py-2.5 px-3 rounded-xl bg-red-600 hover:bg-red-500 text-white text-xs font-mono font-bold flex items-center justify-center gap-2 shadow-lg cursor-pointer"
           >
             <PhoneCall className="w-3.5 h-3.5" />
             <span>Emergency Helpline: 1930</span>
-          </a>
+          </button>
 
           <div className="flex items-center justify-between pt-1">
             <div className="flex items-center gap-2">
               <div className="w-7 h-7 rounded-lg bg-white/10 border border-white/20 flex items-center justify-center text-xs font-bold text-white font-mono">
-                {userState.userInitials || 'NA'}
+                {userState?.userInitials || 'NA'}
               </div>
               <div>
                 <p className="text-xs font-bold text-white leading-none">
-                  {userState.userName || 'N. Aggarwal'}
+                  {userState?.userName || 'Student'}
                 </p>
                 <p className="text-[10px] font-mono text-zinc-400 mt-0.5">
-                  {userState.xp || 460} XP &bull; LEVEL 04
+                  {userState?.xp || 460} XP &bull; LEVEL 04
                 </p>
               </div>
             </div>
@@ -206,7 +225,7 @@ export default function MobileNavDrawer({
                 type="button"
                 onClick={onResetProgress}
                 title="Reset Progress"
-                className="p-1.5 text-zinc-400 hover:text-white hover:bg-white/10 rounded-lg transition-colors"
+                className="p-1.5 text-zinc-400 hover:text-white hover:bg-white/10 rounded-lg transition-colors cursor-pointer"
               >
                 <RotateCcw className="w-4 h-4" />
               </button>

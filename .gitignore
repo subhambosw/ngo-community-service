@@ -22,3 +22,18 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Scratch & extraction artifacts
+extracted_zip/
+inspect_*.py
+extract*.py
+test_*.py
+verify_*.py
+print_*.py
+prepare.py
+check_*.py
+make_*.py
+generate_*.py
+build_*.py
+orig_script.js
+orig_style.css

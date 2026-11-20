@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { 
   Shield, 
-  ChevronRight, 
   ChevronDown, 
   PanelLeftClose, 
   PanelLeft, 
+  Search,
   Sparkles,
   Zap,
-  CheckCircle2
+  CheckCircle2,
+  X
 } from 'lucide-react';
 import { navigationConfig, findCategoryForView } from '../../config/navigation';
 
@@ -18,23 +19,18 @@ export default function SidebarAccordion({
   onToggleCollapse, 
   userState 
 }) {
-  // Map of open state per category ID: { [catId]: boolean }
-  const [expandedCategories, setExpandedCategories] = useState(() => {
-    // By default, open the category that contains the activeView
-    const found = findCategoryForView(activeView);
-    const initial = {
-      operations: true,
-      labs: true,
-      academy: false,
-      enterprise: false
-    };
-    if (found) {
-      initial[found.category.id] = true;
-    }
-    return initial;
+  const [filterQuery, setFilterQuery] = useState('');
+
+  // Map of open state per category ID: all open by default for effortless discoverability
+  const [expandedCategories, setExpandedCategories] = useState({
+    core: true,
+    labs: true,
+    learn: true,
+    intel: true,
+    resources: true
   });
 
-  // Whenever activeView changes, make sure its parent category is auto-expanded
+  // Whenever activeView changes, ensure its parent category is expanded
   useEffect(() => {
     const found = findCategoryForView(activeView);
     if (found) {
@@ -55,21 +51,22 @@ export default function SidebarAccordion({
   return (
     <aside 
       className={`
-        fixed top-0 bottom-0 left-0 z-40 bg-[#000000]/90 backdrop-blur-2xl border-r border-white/15 flex flex-col justify-between transition-all duration-300 shadow-[15px_0_50px_rgba(0,0,0,0.9),inset_-1px_0_0_rgba(255,255,255,0.06)]
+        fixed top-0 bottom-0 left-0 z-40 bg-[#000000]/95 backdrop-blur-2xl border-r border-white/15 flex flex-col justify-between transition-all duration-300 shadow-[15px_0_50px_rgba(0,0,0,0.9),inset_-1px_0_0_rgba(255,255,255,0.06)]
         ${isCollapsed ? 'w-16' : 'w-72'}
         hidden lg:flex
       `}
-      aria-label="Sidebar Accordion Navigation"
+      aria-label="Sidebar Navigation"
     >
       
       {/* 1. Sidebar Top Header */}
       <div className="h-16 px-4 border-b border-white/10 flex items-center justify-between shrink-0">
         {!isCollapsed ? (
-          <div 
+          <button 
+            type="button"
             onClick={() => setActiveView('home')}
-            className="flex items-center gap-3 cursor-pointer group"
+            className="flex items-center gap-3 cursor-pointer group text-left"
           >
-            <div className="w-8 h-8 rounded-lg bg-white flex items-center justify-center shrink-0 shadow-[0_0_20px_rgba(255,255,255,0.5),inset_0_1px_1px_#ffffff]">
+            <div className="w-8 h-8 rounded-lg bg-white flex items-center justify-center shrink-0 shadow-[0_0_20px_rgba(255,255,255,0.5),inset_0_1px_1px_#ffffff] group-hover:scale-105 transition-transform">
               <Shield className="w-5 h-5 text-black fill-black" />
             </div>
             <div className="min-w-0">
@@ -80,15 +77,16 @@ export default function SidebarAccordion({
                 SECURITY ACADEMY
               </span>
             </div>
-          </div>
+          </button>
         ) : (
-          <div 
+          <button 
+            type="button"
             onClick={() => setActiveView('home')}
-            className="w-8 h-8 mx-auto rounded-lg bg-white flex items-center justify-center shrink-0 cursor-pointer shadow-[0_0_15px_rgba(255,255,255,0.5)]"
+            className="w-8 h-8 mx-auto rounded-lg bg-white flex items-center justify-center shrink-0 cursor-pointer shadow-[0_0_15px_rgba(255,255,255,0.5)] hover:scale-105 transition-transform"
             title="CyberBuddy Home"
           >
             <Shield className="w-4 h-4 text-black fill-black" />
-          </div>
+          </button>
         )}
 
         {/* Collapse / Expand Toggle Button */}
@@ -108,28 +106,66 @@ export default function SidebarAccordion({
         </button>
       </div>
 
-      {/* 2. Scrollable Accordion Body */}
-      <div className="flex-1 overflow-y-auto px-3 py-4 space-y-3">
+      {/* 2. Optional Quick Search Filter (Visible when expanded) */}
+      {!isCollapsed && (
+        <div className="px-3 pt-3 pb-1 shrink-0">
+          <div className="relative">
+            <Search className="w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-zinc-500" />
+            <input
+              type="text"
+              value={filterQuery}
+              onChange={e => setFilterQuery(e.target.value)}
+              placeholder="Filter topics..."
+              className="w-full bg-white/[0.04] border border-white/10 hover:border-white/20 focus:border-white/40 focus:bg-white/[0.07] rounded-xl pl-8 pr-7 py-1.5 text-xs text-white placeholder-zinc-500 focus:outline-none transition-all font-sans"
+            />
+            {filterQuery && (
+              <button
+                type="button"
+                onClick={() => setFilterQuery('')}
+                className="absolute right-2.5 top-1/2 -translate-y-1/2 text-zinc-400 hover:text-white"
+              >
+                <X className="w-3.5 h-3.5" />
+              </button>
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* 3. Scrollable Clean Categorized Topic List */}
+      <div className="flex-1 overflow-y-auto px-3 py-3 space-y-3 scrollbar-thin">
         {navigationConfig.map((category) => {
-          const isExpanded = !!expandedCategories[category.id];
-          const isCategoryActive = category.columns.some(col =>
-            col.items.some(item => item.id === activeView)
-          );
+          // Filter items if user is searching
+          const filteredItems = filterQuery.trim() === ''
+            ? category.items
+            : category.items.filter(item => {
+                const query = filterQuery.toLowerCase();
+                const matchesLabel = item.label.toLowerCase().includes(query);
+                const matchesKeywords = item.keywords?.some(k => k.toLowerCase().includes(query));
+                return matchesLabel || matchesKeywords;
+              });
+
+          // Skip section if filtering and no matching items
+          if (filterQuery.trim() !== '' && filteredItems.length === 0) {
+            return null;
+          }
+
+          const isExpanded = filterQuery.trim() !== '' ? true : !!expandedCategories[category.id];
+          const isCategoryActive = category.items.some(item => item.id === activeView);
           const CategoryIcon = category.icon;
 
           if (isCollapsed) {
-            // Collapsed Rail View: Just icon triggers with active indicator
+            // Collapsed Rail View: Clean icon triggers with active highlight
             return (
               <div key={category.id} className="relative group flex justify-center">
                 <button
                   type="button"
                   onClick={() => {
-                    onToggleCollapse(); // expand when clicking icon in collapsed mode
+                    onToggleCollapse();
                     toggleCategory(category.id);
                   }}
                   className={`w-10 h-10 rounded-xl flex items-center justify-center transition-all cursor-pointer ${
                     isCategoryActive
-                      ? 'bg-white text-black shadow-[0_0_15px_rgba(255,255,255,0.4)]'
+                      ? 'bg-white text-black shadow-[0_0_15px_rgba(255,255,255,0.4)] font-bold'
                       : 'text-zinc-400 hover:text-white hover:bg-white/10'
                   }`}
                   title={category.label}
@@ -141,7 +177,7 @@ export default function SidebarAccordion({
           }
 
           return (
-            /* Expanded Accordion Group */
+            /* Clean Section Container */
             <div 
               key={category.id}
               className={`rounded-2xl transition-all duration-200 border ${
@@ -150,20 +186,20 @@ export default function SidebarAccordion({
                   : 'border-white/5 bg-transparent hover:border-white/10'
               }`}
             >
-              {/* Category Header Accordion Trigger */}
+              {/* Category Header (Accordion trigger) */}
               <button
                 type="button"
                 onClick={() => toggleCategory(category.id)}
                 aria-expanded={isExpanded}
-                className="w-full flex items-center justify-between p-3 rounded-xl text-left transition-colors cursor-pointer group"
+                className="w-full flex items-center justify-between p-2.5 rounded-xl text-left transition-colors cursor-pointer group"
               >
                 <div className="flex items-center gap-2.5 min-w-0">
                   <div className={`p-1.5 rounded-lg shrink-0 transition-colors ${
                     isCategoryActive 
-                      ? 'bg-white text-black font-bold' 
+                      ? 'bg-white text-black font-bold shadow-sm' 
                       : 'bg-white/5 text-zinc-400 group-hover:text-white group-hover:bg-white/10'
                   }`}>
-                    <CategoryIcon className="w-4 h-4" />
+                    <CategoryIcon className="w-3.5 h-3.5" />
                   </div>
                   <span className={`text-xs font-bold font-sans tracking-wide truncate ${
                     isCategoryActive ? 'text-white' : 'text-zinc-300 group-hover:text-white'
@@ -172,66 +208,52 @@ export default function SidebarAccordion({
                   </span>
                 </div>
 
-                <div className="flex items-center gap-1.5 shrink-0 ml-2">
-                  <ChevronDown 
-                    className={`w-3.5 h-3.5 text-zinc-400 transition-transform duration-200 ${
-                      isExpanded ? 'rotate-180 text-white' : 'text-zinc-500'
-                    }`} 
-                  />
-                </div>
+                <ChevronDown 
+                  className={`w-3.5 h-3.5 text-zinc-400 transition-transform duration-200 ${
+                    isExpanded ? 'rotate-180 text-white' : 'text-zinc-500'
+                  }`} 
+                />
               </button>
 
-              {/* Submenu Accordion Content (Nested) */}
+              {/* Sub-items List */}
               {isExpanded && (
-                <div className="px-2 pb-2.5 pt-0.5 space-y-3 animate-fade-in">
-                  {category.columns.map((col, colIdx) => (
-                    <div key={colIdx} className="space-y-1">
-                      {/* Sub-heading */}
-                      <div className="px-2 pt-1 text-[10px] font-mono uppercase tracking-[0.15em] text-zinc-500 font-semibold">
-                        {col.heading}
-                      </div>
+                <div className="px-2 pb-2 pt-0.5 space-y-0.5 animate-fade-in">
+                  {filteredItems.map((item) => {
+                    const isItemActive = activeView === item.id;
+                    const ItemIcon = item.icon;
 
-                      {/* Nested Links */}
-                      <div className="space-y-0.5 pl-1">
-                        {col.items.map((item) => {
-                          const isItemActive = activeView === item.id;
-                          const ItemIcon = item.icon;
+                    return (
+                      <button
+                        key={item.id}
+                        type="button"
+                        onClick={() => setActiveView(item.id)}
+                        className={`w-full flex items-center justify-between px-2.5 py-2 rounded-xl text-xs font-medium transition-all cursor-pointer ${
+                          isItemActive
+                            ? 'bg-white text-black font-bold shadow-[0_0_15px_rgba(255,255,255,0.35)]'
+                            : 'text-zinc-400 hover:text-white hover:bg-white/[0.08]'
+                        }`}
+                      >
+                        <div className="flex items-center gap-2.5 truncate">
+                          <ItemIcon className={`w-3.5 h-3.5 shrink-0 ${
+                            isItemActive ? 'text-black' : 'text-zinc-400'
+                          }`} />
+                          <span className="truncate">{item.label}</span>
+                        </div>
 
-                          return (
-                            <button
-                              key={item.id}
-                              type="button"
-                              onClick={() => setActiveView(item.id)}
-                              className={`w-full flex items-center justify-between px-2.5 py-1.5 rounded-lg text-xs font-medium transition-all cursor-pointer ${
-                                isItemActive
-                                  ? 'bg-white text-black font-bold shadow-[0_0_15px_rgba(255,255,255,0.35)]'
-                                  : 'text-zinc-400 hover:text-white hover:bg-white/[0.08]'
-                              }`}
-                            >
-                              <div className="flex items-center gap-2 truncate">
-                                <ItemIcon className={`w-3.5 h-3.5 shrink-0 ${
-                                  isItemActive ? 'text-black' : 'text-zinc-400'
-                                }`} />
-                                <span className="truncate">{item.label}</span>
-                              </div>
-
-                              {item.badge && (
-                                <span className={`text-[9px] font-mono px-1.5 py-0.2 rounded font-bold shrink-0 ml-1.5 ${
-                                  isItemActive
-                                    ? 'bg-black text-white'
-                                    : item.badge === '1930' || item.badge === 'ALERT'
-                                      ? 'bg-red-500/20 text-red-300 border border-red-500/30'
-                                      : 'bg-white/10 text-zinc-300'
-                                }`}>
-                                  {item.badge}
-                                </span>
-                              )}
-                            </button>
-                          );
-                        })}
-                      </div>
-                    </div>
-                  ))}
+                        {item.badge && (
+                          <span className={`text-[9px] font-mono px-1.5 py-0.5 rounded font-bold shrink-0 ml-1.5 ${
+                            isItemActive
+                              ? 'bg-black text-white'
+                              : item.badge === '1930' || item.badge === 'ALERT'
+                                ? 'bg-red-500/20 text-red-300 border border-red-500/30'
+                                : 'bg-white/10 text-zinc-300'
+                          }`}>
+                            {item.badge}
+                          </span>
+                        )}
+                      </button>
+                    );
+                  })}
                 </div>
               )}
             </div>
@@ -239,13 +261,13 @@ export default function SidebarAccordion({
         })}
       </div>
 
-      {/* 3. Bottom Readiness Card */}
+      {/* 4. Bottom Readiness Card */}
       {!isCollapsed && (
         <div className="p-3 border-t border-white/10 shrink-0">
           <div className="p-3 rounded-xl bg-gradient-to-b from-white/[0.06] to-black/80 border border-white/10 space-y-2">
             <div className="flex justify-between items-center text-xs font-semibold">
               <span className="text-white">Readiness Score</span>
-              <span className="text-zinc-300 font-mono">{userState.xp || 460} XP</span>
+              <span className="text-zinc-300 font-mono">{userState?.xp || 460} XP</span>
             </div>
             
             <div className="w-full bg-black/60 border border-white/10 h-1.5 rounded-full overflow-hidden p-[1px]">
@@ -253,7 +275,7 @@ export default function SidebarAccordion({
             </div>
 
             <p className="text-[10px] font-mono text-zinc-400 leading-tight">
-              CYBERBUDDY &bull; LEVEL 04
+              CYBER DEFENDER &bull; LEVEL 04
             </p>
           </div>
         </div>
