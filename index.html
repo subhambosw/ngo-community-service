@@ -2412,7 +2412,11 @@ const MODS=[
   "<b>Stop credential stuffing:</b> Never reuse passwords across accounts. When a random forum or small shopping site gets breached, automated bots test those exact leaked email/password pairs against your Gmail, Instagram, and bank accounts.",
   "<b>Use a Password Manager:</b> Tools like Bitwarden, 1Password, or your browser's built-in vault create and store unique 20-character passwords for every site. Better yet, they only autofill on the genuine domain—protecting you from lookalike phishing sites.",
   "<b>Turn on Two-Factor Authentication (2FA):</b> Even if a hacker steals your password, 2FA blocks them without the second proof. Prefer authenticator apps (Google/Microsoft Authenticator) or hardware keys over SMS codes, which are vulnerable to SIM-swapping.",
-  "<b>Secure your primary email first:</b> Your email inbox is the master key to every other account via 'Forgot Password' links. Protect it with your strongest passphrase and 2FA."
+  "<b>Adopt Passkeys (Passwordless Login):</b> Modern platforms (Google, Apple, GitHub) support Passkeys using your phone's fingerprint or Face ID. Passkeys are cryptographically tied to the real website and cannot be phished.",
+  "<b>Secure your primary email first:</b> Your email inbox is the master key to every other account via 'Forgot Password' links. Protect it with your strongest passphrase and 2FA.",
+  "<b>Treat security questions like passwords:</b> Answers to <i>'What was your first school?'</i> or <i>'Mother's maiden name?'</i> can easily be found on social media. Enter random gibberish stored in your password manager instead.",
+  "<b>Never store passwords in plain text:</b> Avoid saving bank PINs or passwords in Apple Notes, WhatsApp chats to yourself, or desktop <code>passwords.txt</code> files.",
+  "<b>Monitor for data breaches:</b> Periodically check your email address on trusted breach trackers like <code>haveibeenpwned.com</code> and immediately rotate any compromised passwords."
 ],tr:"Test a passphrase in the checker at the top of the Learn page."},
 {id:"ph",ico:"🎣",t:"Phishing",s:"Spot the bait before you bite",p:[
   "<b>What phishing really is:</b> Phishing uses fake emails, SMS texts (Smishing), WhatsApp messages, or QR codes (Quishing) disguised as trusted banks, couriers, or colleges to trick you into handing over passwords, card numbers, or money.",
@@ -2420,7 +2424,11 @@ const MODS=[
   "<b>Display Name vs. Real Address:</b> Any scammer can set their display name to <i>'PayPal Security'</i> or <i>'College Admin'</i>. Always expand the header and inspect the actual domain name after the <code>@</code> symbol.",
   "<b>Typosquatting & Subdomain Tricks:</b> Watch for subtle letter swaps like <code>paypa1.com</code> (number 1 instead of l) or deceptive subdomains like <code>accounts.google.com.verify-login.net</code>. Read URLs right-to-left starting from the first single slash (<code>/</code>).",
   "<b>Hover before you click:</b> On desktop, hover your mouse over buttons to preview the true destination URL. Be skeptical of unencrypted <code>http://</code> links, URL shorteners (<code>bit.ly</code>), and unusual extensions (<code>.xyz</code>, <code>.top</code>, <code>.online</code>).",
-  "<b>Use the Out-of-Band Rule:</b> When an alert claims there is an urgent problem with your bank, Netflix, or parcel, never click the link inside the message. Open a new tab and type the official website address yourself."
+  "<b>Spear Phishing (Targeted Attacks):</b> Unlike mass spam, spear phishing uses your real name, college, or recent order details scraped from leaks to look 100% personalized and convincing.",
+  "<b>Clone Phishing:</b> Attackers take a genuine email you previously received (like a real delivery receipt), duplicate it, and swap the safe attachment or link with a malicious one, claiming <i>'Resending updated invoice'</i>.",
+  "<b>Dangerous Email Attachments:</b> Never open unexpected <code>.zip</code>, <code>.html</code>, or macro-enabled Office files (<code>.docm</code>, <code>.xlsm</code>)—even if they appear to come from a classmate or HR.",
+  "<b>Use the Out-of-Band Rule:</b> When an alert claims there is an urgent problem with your bank, Netflix, or parcel, never click the link inside the message. Open a new tab and type the official website address yourself.",
+  "<b>Report Phishing Attempts:</b> Forward suspicious emails to your IT helpdesk or bank's official phishing-report address, and delete them so you don't accidentally click them later."
 ],tr:"Play “Spot the phish” in the Phishing GameLab."},
 {id:"se",ico:"🎭",t:"Social engineering",s:"Hacking people, not computers",p:[
   "<b>Targeting the human element:</b> Why spend months trying to break into encrypted servers when a single convincing phone call or chat message can persuade a user to willingly hand over an OTP or password?",
@@ -2428,6 +2436,10 @@ const MODS=[
   "<b>'Digital Arrest' & Authority Scams:</b> Fraudsters video-call victims in fake police/CBI uniforms, claiming your Aadhaar or a courier parcel is linked to illegal activity and demanding 'verification deposits' over Skype/WhatsApp. Real police never arrest or settle cases over video calls.",
   "<b>UPI QR & Refund Traps:</b> Scammers claim they sent money and ask you to scan a QR code or enter your UPI PIN to 'accept' or 'unlock' the credit. Remember: scanning a QR code and entering your PIN <b>always sends money out</b>—you never need a PIN to receive money.",
   "<b>Task & Part-Time Job Scams:</b> Unknown numbers offering ₹3,000/day for 'liking YouTube videos' pay ₹150 initially to build false trust, then coerce victims into depositing thousands for 'VIP tasks'.",
+  "<b>AI Deepfake Voice & Video Scams:</b> Scammers can clone a family member's voice from a 5-second Instagram reel and call pretending to be in a sudden medical or police emergency needing instant UPI transfer.",
+  "<b>Establish a Family Safe Word:</b> Agree on a secret offline codeword with your parents or close friends to verify identity if anyone ever calls asking for urgent money.",
+  "<b>Baiting (Free USB Drives & Giveaways):</b> Never plug an unknown USB pendrive found in a college lab, library, or parking lot into your laptop—it can auto-execute malware or act as a malicious keyboard.",
+  "<b>Pretexting & Fake Surveys:</b> Be cautious of strangers calling as 'telecom support' or 'bank KYC agents' who ask you to confirm your date of birth, PAN, or SIM serial number.",
   "<b>The Verification Reflex:</b> Slow down, reject secrecy or panic, verify through a second independent channel (hang up and call the person or bank on an official saved number), and <b>never share OTPs, CVVs, or PINs</b>."
 ],tr:"Practice spotting these psychological traps in the interactive Scenarios lab."},
 {id:"mw",ico:"🦠",t:"Malware",s:"Software that works against you",p:[
@@ -2435,21 +2447,36 @@ const MODS=[
   "<b>Fake APK & Utility Scams:</b> On Android, scammers send malicious <code>.apk</code> files via WhatsApp or SMS disguised as <i>'Traffic E-Challan'</i>, <i>'Electricity Bill Update'</i>, or <i>'Wedding Invites'</i>. Installing these bypasses Play Store protections and lets attackers intercept your bank OTPs.",
   "<b>Pirated Software & Cracks:</b> Free 'cracked' versions of paid games, Photoshop, or MS Office are one of the top sources of info-stealers that siphon saved browser passwords and crypto wallets.",
   "<b>Double-Extension Traps:</b> Watch out for email attachments named <code>scholarship_form.pdf.exe</code> or <code>invoice.doc.scr</code>. Windows hides known extensions by default, making malicious programs look like harmless PDFs.",
-  "<b>Defense Strategy:</b> Download software exclusively from official app stores (Google Play / Apple App Store) or verified vendor sites, enable automatic OS and browser updates, and maintain <b>offline backups</b> (on a disconnected USB drive) so ransomware cannot hold your files hostage."
+  "<b>Fake Browser Update Alerts:</b> Compromised websites show pop-ups claiming <i>'Your Chrome/Font/Media Player is outdated—Download Update.exe'</i>. Always update browsers exclusively through their built-in Settings menu.",
+  "<b>USB & Shared Drive Worms:</b> College printer shops and shared lab PCs frequently spread malware via USB drives. Disable AutoRun and scan external drives before opening files.",
+  "<b>Cryptojacking:</b> Malicious scripts hidden in shady streaming or torrent websites hijack your CPU/GPU to mine cryptocurrency, causing loud fans and sudden battery drain.",
+  "<b>Spot Early Signs of Infection:</b> Sudden laptop overheating, unexplained battery drain, unknown apps appearing on your home screen, browser homepage changing by itself, or friends receiving spam links from your account.",
+  "<b>Immediate Containment if Infected:</b> Disconnect Wi-Fi/mobile data right away to stop data theft or spread, run a full offline scan (Windows Defender / Malwarebytes), and change banking/email passwords from a clean second device.",
+  "<b>The 3-2-1 Backup Rule:</b> Keep 3 copies of important files, on 2 different media types, with 1 copy completely offline (disconnected USB/external drive) so ransomware can never hold your life hostage."
 ],tr:"Run the Security Health Check to audit your device update and backup habits."},
 {id:"pv",ico:"🕶️",t:"Privacy",s:"Share less, control more",p:[
   "<b>Your Permanent Digital Footprint:</b> Everything you post publicly—photos, check-ins, college ID cards, concert tickets, or travel dates—can be screenshotted, scraped, and assembled by scammers to guess your password reset questions or craft convincing spear-phishing lures.",
   "<b>Hidden Photo Metadata (EXIF):</b> Raw images captured on smartphones often embed hidden EXIF tags containing the exact GPS latitude/longitude, camera model, and timestamp—potentially revealing your home address or daily school routine.",
   "<b>Principle of Least Privilege:</b> Audit your phone's app permissions regularly. A simple flashlight, calculator, or photo-filter app has zero legitimate reason to demand access to your <b>Contacts, SMS, Microphone, or Background Location</b>.",
   "<b>Third-Party Login Audit:</b> Using 'Sign in with Google/Facebook' on dozens of random quiz or shopping sites grants those apps access to your profile data. Periodically revoke access from apps you no longer use.",
-  "<b>Lock Down Your Profiles:</b> Set social media accounts to Private, restrict who can see your phone number and profile picture on WhatsApp/Telegram, and disable personalized ad tracking in your phone's privacy settings."
+  "<b>Protect Identity Documents (Masked Aadhaar):</b> Never upload raw photos of your PAN, Aadhaar, or passport to random free online 'PDF converter' or 'image compressor' websites. Use Masked Aadhaar (hiding the first 8 digits) whenever full digits aren't legally required.",
+  "<b>Turn Off Public Bluetooth & AirDrop:</b> Leaving Bluetooth, Nearby Share, or AirDrop open to 'Everyone' in crowded metros or cafés lets strangers push spam files or track your device movement.",
+  "<b>Webcam & Mic Awareness:</b> Watch for the green/orange indicator dot on modern phones and laptops showing active camera/mic usage. Use a physical webcam slider when not on calls.",
+  "<b>Limit Cross-Site Tracking:</b> Disable personalized ad IDs in Android/iOS settings, clear tracking cookies periodically, and consider privacy-focused browsers or built-in tracker blockers.",
+  "<b>Delete Abandoned Old Accounts:</b> Old accounts you no longer use still hold your email, phone number, and old passwords—waiting to be exposed in a future breach. Close unused accounts.",
+  "<b>Lock Down Social Profiles:</b> Set Instagram, Facebook, and LinkedIn visibility carefully, hide your WhatsApp 'Last Seen' and profile photo from strangers, and never post real-time vacation updates until you are safely back home."
 ],tr:"Inspect your permissions & digital exposure in the Privacy & Form Audit."},
 {id:"wf",ico:"📶",t:"Safe browsing and Wi‑Fi",s:"Know where you’re connecting",p:[
   "<b>HTTPS & The Padlock Myth:</b> <code>https://</code> encrypts data traveling between your device and the website so eavesdroppers on your network cannot read it. However, scammers can easily get free SSL padlocks for fake domains—always verify <b>both HTTPS and the exact domain spelling</b>.",
   "<b>Public Wi-Fi Risks (MITM & Evil Twin):</b> Free hotspots at cafés, hotels, or railway stations can be snooped on by others on the same network, or spoofed entirely by an attacker creating a rogue router named <i>'Free_Station_WiFi'</i>.",
+  "<b>Captive Portal Traps:</b> Fake public Wi-Fi login pages may ask you to 'Log in with Google/Instagram' or enter your phone OTP just to get internet access. Never enter real social or banking credentials into a Wi-Fi login portal.",
+  "<b>Disable Wi-Fi Auto-Connect:</b> Turn off <i>'Auto-join open networks'</i> on your smartphone and laptop so your device doesn't silently connect to a nearby attacker's spoofed hotspot.",
   "<b>Golden Rule for Sensitive Logins:</b> Never log into bank accounts, UPI portals, or primary email over unencrypted public Wi-Fi. Switch to your <b>mobile cellular data</b> or turn on a trusted <b>VPN</b> to wrap your connection in an encrypted tunnel.",
+  "<b>Use Secure DNS:</b> Consider switching your device or router DNS to privacy-preserving, malware-blocking resolvers like Cloudflare (<code>1.1.1.1</code>) or Quad9 (<code>9.9.9.9</code>) to block known phishing domains automatically.",
   "<b>Browser & Extension Hygiene:</b> Keep Chrome, Edge, or Safari updated to patch actively exploited zero-day vulnerabilities. Remove unnecessary browser extensions, as rogue extensions can read every page you visit and steal session cookies.",
-  "<b>Handling Fake Virus Pop-ups ('Scareware'):</b> If a sketchy website locks your screen with flashing alerts claiming <i>'YOUR PC IS INFECTED! CALL MICROSOFT SUPPORT'</i>, never call the number or download their cleaner. Force-close the browser tab or press <code>Alt + F4</code>."
+  "<b>Handling Fake Virus Pop-ups ('Scareware'):</b> If a sketchy website locks your screen with flashing alerts claiming <i>'YOUR PC IS INFECTED! CALL MICROSOFT SUPPORT'</i>, never call the number or download their cleaner. Force-close the browser tab or press <code>Alt + F4</code>.",
+  "<b>Shared & Library Computer Safety:</b> Never click <i>'Remember Me'</i> or save passwords on college lab, cybercafé, or library PCs. Always use Incognito/Private mode on shared computers and explicitly click <b>Sign Out</b> when finished.",
+  "<b>Verify Downloads Before Running:</b> Only download software from official HTTPS vendor domains—never from sponsored Google Ad links at the top of search results, which scammers frequently buy to push fake installers."
 ],tr:"Test suspicious website addresses inside the Domain Dissector Sandbox."}];
 const QS=[
 ["pw","Which password is the strongest?",["P@ssw0rd1","Sunshine2024","maple-train-orbit-lantern","Qw!9"],2,"Length and randomness win. Four unrelated words are long, memorable, and hard to guess."],
