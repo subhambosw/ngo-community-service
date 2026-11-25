@@ -158,6 +158,48 @@ pre.art{background:var(--soft);border-radius:10px;padding:12px 14px;overflow-x:a
 .body h4{margin:14px 0 4px;font-size:15px}
 
 
+
+/* ==========================================================================
+   CYBERAWARE PHISHING GAMELAB: FORENSIC INVESTIGATOR & DOMAIN DISSECTOR
+   ========================================================================== */
+.gl-container { background: var(--surface); border: 1px solid var(--line); border-radius: 18px; padding: 24px; margin-bottom: 32px; box-shadow: 0 4px 20px rgba(0,0,0,0.06); }
+.gl-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; margin-bottom: 20px; flex-wrap: wrap; }
+.gl-title { font-size: 24px; font-weight: 700; color: var(--ink); margin: 0; }
+.gl-sub { color: var(--muted); font-size: 14.5px; margin: 4px 0 0; max-width: 65ch; }
+.gl-nav { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 22px; border-bottom: 1px solid var(--line); padding-bottom: 14px; }
+.gl-tab { font: inherit; font-size: 13.5px; font-weight: 600; border: 1px solid var(--line); background: var(--soft); color: var(--muted); border-radius: 10px; padding: 8px 16px; cursor: pointer; transition: all .15s; }
+.gl-tab:hover { color: var(--ink); border-color: var(--accent); }
+.gl-tab.active { background: var(--accent); color: var(--on-accent); border-color: var(--accent); }
+.gl-badge { display: inline-flex; align-items: center; gap: 4px; padding: 3px 8px; border-radius: 6px; font-size: 11px; font-weight: 700; text-transform: uppercase; }
+.gl-badge-warn { background: rgba(245,158,11,0.15); color: #d97706; }
+.gl-badge-danger { background: rgba(239,68,68,0.15); color: #dc2626; }
+.gl-badge-good { background: rgba(16,185,129,0.15); color: #059669; }
+
+/* Interactive Email Client Mockup */
+.gl-client { border: 1px solid var(--line); border-radius: 14px; background: var(--bg); overflow: hidden; margin-top: 14px; }
+.gl-client-top { background: var(--soft); padding: 12px 18px; border-bottom: 1px solid var(--line); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; font-size: 13px; color: var(--muted); }
+.gl-client-meta { padding: 16px 20px; border-bottom: 1px solid var(--line); display: flex; flex-direction: column; gap: 8px; }
+.gl-client-body { padding: 22px; font-size: 15px; line-height: 1.65; color: var(--ink); }
+.gl-flag-btn { border: 1px dashed var(--line); border-radius: 6px; padding: 2px 8px; cursor: pointer; background: transparent; font: inherit; color: inherit; transition: all .2s; display: inline-block; text-align: left; }
+.gl-flag-btn:hover { border-color: var(--warn); background: rgba(245,158,11,0.15); }
+.gl-flag-btn.found { border: 1px solid var(--bad); background: rgba(239,68,68,0.15); color: var(--bad); font-weight: 600; text-decoration: underline wavy; }
+.gl-clue-card { border-left: 4px solid var(--bad); background: var(--soft); border-radius: 10px; padding: 14px 18px; margin: 12px 0; font-size: 14px; animation: glFadeIn .3s ease; }
+@keyframes glFadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+
+/* URL Dissector */
+.gl-dissector-wrap { display: flex; flex-direction: column; gap: 14px; }
+.gl-url-parts { display: flex; flex-wrap: wrap; gap: 4px; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; font-size: 15px; padding: 14px; background: var(--soft); border-radius: 12px; border: 1px solid var(--line); align-items: center; }
+.gl-part { padding: 4px 8px; border-radius: 6px; }
+.gl-part-proto { background: rgba(16,185,129,0.18); color: #059669; }
+.gl-part-sub { background: rgba(245,158,11,0.18); color: #d97706; }
+.gl-part-domain { background: rgba(239,68,68,0.22); color: #dc2626; font-weight: bold; border: 1px solid #dc2626; }
+.gl-part-path { background: rgba(100,116,139,0.18); color: var(--muted); }
+
+/* Smartphone Smishing Shell */
+.gl-phone { max-width: 380px; margin: 10px auto; border: 3px solid var(--line); border-radius: 28px; padding: 18px 16px; background: var(--bg); box-shadow: 0 12px 30px rgba(0,0,0,0.15); }
+.gl-phone-notch { width: 120px; height: 16px; background: var(--line); border-radius: 10px; margin: 0 auto 16px; }
+.gl-sms-bubble { background: var(--soft); border-radius: 16px 16px 16px 4px; padding: 14px 16px; font-size: 14px; margin-bottom: 14px; border: 1px solid var(--line); line-height: 1.55; }
+
 /* NAVIGATION REDESIGN STYLES: MEGA MENU + COLLAPSIBLE SIDEBAR + MOBILE DRAWER */
 
 /* ==========================================================================
@@ -2565,17 +2607,454 @@ function quiz(){
  document.querySelectorAll("[data-o]").forEach(b=>b.onclick=()=>{qz.a=+b.dataset.o;if(qz.a==q[3]){qz.s++;xp(10)}quiz()});
  const nx=$("#nx");if(nx)nx.onclick=()=>{qz.i++;qz.a=null;quiz()};
 }
-/* ---------- Games ---------- */
-function phishGame(){
- if(ph.i>=MAILS.length){$("#app").innerHTML=`<h2 style="margin-top:0">Spot the phish: done</h2><p class="sub">You got ${ph.n} of ${MAILS.length} right.</p><div class="row"><button class="btn" id="re">Play again</button></div>`;$("#re").onclick=()=>{ph={i:0,a:null,n:0};games()};return}
- const m=MAILS[ph.i];
- $("#app").innerHTML=`<h2 style="margin-top:0">Spot the phish</h2><p class="sub">Is this message a scam or legitimate? (${ph.i+1} of ${MAILS.length})</p>
- <div class="panel"><div class="mail"><div class="f">From: ${m.f}</div><b>${m.s}</b>${m.b}</div>
- <div class="row"><button class="btn" data-a="1" ${ph.a!==null?"disabled":""}>Phishing</button><button class="btn alt" data-a="0" ${ph.a!==null?"disabled":""}>Legitimate</button></div>
- ${ph.a!==null?`<div class="fb"><b>${ph.a==m.ph?"Correct (+10 XP).":"Not this time."}</b> It is ${m.ph?"phishing":"legitimate"}. ${m.w}</div><button class="btn" id="nx">Next message</button>`:""}</div>`;
- document.querySelectorAll("[data-a]").forEach(b=>b.onclick=()=>{ph.a=+b.dataset.a;if(ph.a==m.ph){ph.n++;S.phish++;if(S.phish>=3)badge(3);xp(10)}games()});
- const nx=$("#nx");if(nx)nx.onclick=()=>{ph.i++;ph.a=null;games()};
+
+/* ---------- CyberAware Phishing GameLab & Forensic Suite ---------- */
+let glTab = "inspect";
+let glIdx = 0;
+let glFound = {}; // { [emailIndex]: [flagId1, flagId2] }
+let glDissectUrl = "https://accounts.google.com.verify-security.net/signin";
+let glSmsIdx = 0;
+let glSmsAns = null;
+
+const GL_EMAILS = [
+  {
+    id: "paypal",
+    title: "PayPal: Account Suspension Warning",
+    senderName: "PayPal Account Security",
+    senderEmail: "security@paypa1-support-verify92.com",
+    subject: "URGENT: Suspicious activity detected on your PayPal account",
+    preview: "We restricted your account from an unrecognized IP in Moscow, Russia.",
+    intro: "We detected unauthorized sign-in attempts from an unverified Russian IP address (194.26.29.112).",
+    warning: "For your immediate safety, we have placed a hold on your balance. You must confirm your account credentials within 24 hours to prevent permanent account termination.",
+    btnText: "Verify Account Identity & Unlock Now",
+    hoverUrl: "http://login.paypal.secure-update-592.com/auth/verify?id=9201",
+    flags: [
+      { id: "sender", target: "sender", label: "Lookalike Domain (Typosquatting)", tip: "Notice the numeral '1' instead of the letter 'l' (paypa1). Legitimate PayPal emails ONLY originate from @paypal.com." },
+      { id: "urgency", target: "urgency", label: "Artificial Urgency Hook", tip: "Attackers manufacture strict 24-hour deadlines to induce panic, coercing victims into bypassing rational judgment." },
+      { id: "link", target: "link", label: "Deceptive Link Target & Insecure HTTP", tip: "Hovering exposes that this link actually resolves to secure-update-592.com, NOT paypal.com. Notice it also transmits over unencrypted HTTP." }
+    ]
+  },
+  {
+    id: "corp_it",
+    title: "University & Corporate IT Password Expiry",
+    senderName: "IT Support Helpdesk",
+    senderEmail: "helpdesk@corp-university-services-portal.net",
+    subject: "MANDATORY ACTION: Your Student / Employee Password Expires Today",
+    preview: "Network, email, and campus Wi-Fi credentials will be blocked at 5:00 PM.",
+    intro: "All staff and student credentials are undergoing mandatory annual security migrations as per IT policy.",
+    warning: "Your portal access and multi-factor session will be terminated at 5:00 PM today unless verified.",
+    btnText: "Keep Current Password / Validate Login",
+    hoverUrl: "https://university-it-service-desk-reset.org/login?redir=campus",
+    flags: [
+      { id: "sender", target: "sender", label: "External Unofficial Domain", tip: "The sender address ends in .net and is hosted outside the official institution or company domain." },
+      { id: "urgency", target: "urgency", label: "Impersonation of Authority", tip: "Cybercriminals leverage deference to authority figures (IT admins, HR) and tight deadlines to force compliance." },
+      { id: "link", target: "link", label: "Credential Harvesting Portal", tip: "Legitimate IT administrators never ask users to 'keep current password' via an external .org portal link." }
+    ]
+  },
+  {
+    id: "tax_refund",
+    title: "Income Tax / Scholarship Refund",
+    senderName: "Central Tax Clearance Office",
+    senderEmail: "refund-officer.gov@gmail.com",
+    subject: "APPROVED: Immediate Refund of ₹24,800 Released to Your Name",
+    preview: "Your direct deposit refund has been calculated and authorized for disbursement.",
+    intro: "A surplus tax assessment calculation has confirmed a refund of ₹24,800 in your favor.",
+    warning: "Reply directly with your 16-digit debit card number, expiry date, and ATM PIN / CVV to credit the sum into your account immediately.",
+    btnText: "Claim ₹24,800 Direct Refund",
+    hoverUrl: "http://incometax-refund-claim.online/portal",
+    flags: [
+      { id: "sender", target: "sender", label: "Free Commercial Webmail", tip: "Government departments and official agencies NEVER conduct financial business via free @gmail.com accounts." },
+      { id: "urgency", target: "urgency", label: "Greed & Reciprocity Trap", tip: "Offering unexpected free cash triggers dopamine and makes victims drop their normal skepticism." },
+      { id: "link", target: "link", label: "Direct PIN / Card Skimming", tip: "Real tax and grant refunds are credited via automated bank mandate (NEFT/ECS). Nobody legitimate EVER asks for your PIN or CVV." }
+    ]
+  },
+  {
+    id: "parcel",
+    title: "India Post: Delivery Address Exception",
+    senderName: "India Post Express Courier",
+    senderEmail: "tracking-notice@indiapost-delivery-help.shop",
+    subject: "PACKAGE ON HOLD: Parcel #IN-99201 Cannot Be Delivered (Incomplete House No.)",
+    preview: "Your package is held at the sorting hub due to missing street information.",
+    intro: "Your parcel arrived at the local distribution center today but cannot be dispatched due to an incomplete address.",
+    warning: "Please update your street address within 12 hours and pay a nominal ₹5 redelivery fee, otherwise the parcel will be destroyed.",
+    btnText: "Update Address & Pay ₹5 Redelivery Fee",
+    hoverUrl: "http://indiapost-parcels-redelivery.top/pay",
+    flags: [
+      { id: "sender", target: "sender", label: "Disposable TLD (.shop / .top)", tip: "Official India Post services run exclusively on government-controlled .gov.in domains, never disposable commercial TLDs." },
+      { id: "urgency", target: "urgency", label: "Routine Disruption & Threat", tip: "Falsely threatens that your package will be 'destroyed' to create artificial urgency." },
+      { id: "link", target: "link", label: "Micro-Payment Card Harvesting", tip: "Asking for a trivial ₹5 fee is a classic trick: victims gladly enter card and CVV details, granting attackers complete financial access." }
+    ]
+  }
+];
+
+const GL_PRESETS = [
+  { url: "https://accounts.google.com/signin", legit: true, note: "Genuine Google sign-in. Domain is google.com." },
+  { url: "https://accounts.google.com.verify-security.net/signin", legit: false, note: "Phishing! The real domain is verify-security.net. 'accounts.google.com' is merely a deceptive subdomain." },
+  { url: "http://www.paypa1-support.com/update", legit: false, note: "Phishing! Typosquatted numeral '1' instead of 'l', plus plain insecure HTTP." },
+  { url: "https://amazon.in.deals-fest2026.shop/claim", legit: false, note: "Phishing! The true owner is deals-fest2026.shop, not Amazon." },
+  { url: "https://onlinesbi.sbi/portal", legit: true, note: "Genuine SBI portal. Registered domain is sbi with official .sbi TLD." }
+];
+
+const GL_SMS = [
+  {
+    sender: "BK-ELEC",
+    msg: "Dear Consumer, your electricity power will be DISCONNECTED tonight at 9:30 PM from the power station due to unpaid bill. Immediately contact our officer at 98765-43210 or install update APK: http://bit.ly/power-bill-apk",
+    ph: 1,
+    tip: "Power companies NEVER send mobile APK installation links or threaten same-night disconnection via personal phone numbers. This APK is a remote-access trojan (RAT)."
+  },
+  {
+    sender: "VM-HDFCBK",
+    msg: "Rs 1,200.00 debited from A/C **4921 on 25-Nov at CAFE COFFEE DAY via UPI Ref 432918491299. If not you, call 18002583838.",
+    ph: 0,
+    tip: "Legitimate automated transaction alert. Includes specific masked account numbers, official toll-free bank number, and contains NO suspicious links or APK requests."
+  },
+  {
+    sender: "AM-REWARD",
+    msg: "Congratulations! You won ₹10,000 cash prize in festive lucky draw. Scan this QR code in PhonePe/GPay and enter your UPI PIN to claim reward into your account.",
+    ph: 1,
+    tip: "QR codes and UPI PINs are SOLELY used to SEND money OUT. You NEVER need to enter a PIN to receive payments. Scanning transfers your funds to the fraudster."
+  }
+];
+
+function dissectURL(inputUrl) {
+  try {
+    const parsed = new URL(inputUrl.startsWith("http") ? inputUrl : "https://" + inputUrl);
+    const host = parsed.hostname;
+    const parts = host.split(".");
+    let domain = host;
+    let sub = "";
+    if (parts.length >= 2) {
+      if (parts.length > 2 && (parts[parts.length-2] === "co" || parts[parts.length-2] === "gov" || parts[parts.length-2] === "ac" || parts[parts.length-2] === "edu")) {
+        domain = parts.slice(-3).join(".");
+        sub = parts.slice(0, -3).join(".");
+      } else {
+        domain = parts.slice(-2).join(".");
+        sub = parts.slice(0, -2).join(".");
+      }
+    }
+    return {
+      proto: parsed.protocol + "//",
+      sub: sub ? sub + "." : "",
+      domain: domain,
+      path: parsed.pathname + parsed.search,
+      isHttps: parsed.protocol === "https:"
+    };
+  } catch(e) {
+    return { proto: "http://", sub: "", domain: inputUrl, path: "", isHttps: false };
+  }
 }
+
+function phishGame(){
+  const e = GL_EMAILS[glIdx];
+  const curFound = glFound[glIdx] || [];
+  const allFound = curFound.length === e.flags.length;
+
+  let body = `
+  <div class="gl-container">
+    <div class="gl-header">
+      <div>
+        <div style="display:flex;align-items:center;gap:6px;margin-bottom:6px">
+          <span class="gl-badge gl-badge-danger">🔬 Forensic Security Lab</span>
+          <span class="gl-badge gl-badge-warn">Level 3 Interactive</span>
+        </div>
+        <h2 class="gl-title">Interactive Phishing GameLab</h2>
+        <p class="gl-sub">Analyze deceptive communication patterns, dissect lookalike domains in real time, and inspect psychological triggers used by social engineers.</p>
+      </div>
+      <div style="display:flex;align-items:center;gap:12px">
+        <span class="xp" style="font-size:14px;padding:6px 14px">Lab XP: <b>${S.phish * 10} XP</b></span>
+      </div>
+    </div>
+
+    <!-- Navigation Tabs -->
+    <div class="gl-nav">
+      <button class="gl-tab ${glTab==='inspect'?'active':''}" id="gl-t-inspect">🕵️ Email Forensic Inspector</button>
+      <button class="gl-tab ${glTab==='dissect'?'active':''}" id="gl-t-dissect">🌐 Domain Dissector Sandbox</button>
+      <button class="gl-tab ${glTab==='smish'?'active':''}" id="gl-t-smish">📱 Mobile Smishing & QR Lab</button>
+      <button class="gl-tab ${glTab==='theory'?'active':''}" id="gl-t-theory">📖 Phishing Psychology & Theory</button>
+    </div>
+  `;
+
+  /* ---------- TAB 1: FORENSIC EMAIL INSPECTOR ---------- */
+  if (glTab === "inspect") {
+    body += `
+    <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:14px">
+      <div style="display:flex;gap:6px;flex-wrap:wrap">
+        ${GL_EMAILS.map((em, i) => `
+          <button class="fc" data-gl-mail="${i}" aria-pressed="${glIdx===i}">
+            ${i+1}. ${em.id.toUpperCase()} ${(glFound[i]||[]).length===em.flags.length?'✔':''}
+          </button>
+        `).join('')}
+      </div>
+      <div style="font-size:14px;color:var(--muted)">
+        Red Flags Spotted: <b style="color:${allFound?'var(--good)':'var(--bad)'};font-size:16px">${curFound.length}/${e.flags.length}</b>
+      </div>
+    </div>
+
+    <div class="gl-client">
+      <div class="gl-client-top">
+        <span><b>Inbox Simulator</b> &middot; Realistic Message Renderer</span>
+        <span class="note">Click suspicious elements (Sender, Urgency, Action Link) to register red flags</span>
+      </div>
+      
+      <div class="gl-client-meta">
+        <div style="display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap">
+          <div>
+            <span style="color:var(--muted)">From:</span>
+            <button class="gl-flag-btn ${curFound.includes('sender')?'found':''}" data-gl-flag="sender" title="Click to inspect sender address">
+              <b>${e.senderName}</b> &lt;${e.senderEmail}&gt; ${curFound.includes('sender')?'🚩':''}
+            </button>
+          </div>
+          <span style="color:var(--muted);font-size:13px">Today, 10:42 AM</span>
+        </div>
+        <div>
+          <span style="color:var(--muted)">Subject:</span>
+          <button class="gl-flag-btn ${curFound.includes('urgency')?'found':''}" data-gl-flag="urgency" title="Click to inspect subject line">
+            <b>${e.subject}</b> ${curFound.includes('urgency')?'🚩':''}
+          </button>
+        </div>
+      </div>
+
+      <div class="gl-client-body">
+        <p style="margin-top:0">${e.intro}</p>
+        <p><b>${e.warning}</b></p>
+        
+        <div style="margin:20px 0 16px">
+          <button class="gl-flag-btn ${curFound.includes('link')?'found':''}" data-gl-flag="link" style="padding:10px 18px;border-radius:10px;background:var(--accent);color:#fff;border:none;cursor:pointer">
+            ${e.btnText} ${curFound.includes('link')?'🚩':''}
+          </button>
+          <div style="font-size:12px;color:var(--muted);font-family:monospace;margin-top:6px">
+            Hover preview destination: <span style="color:var(--bad)">${e.hoverUrl}</span>
+          </div>
+        </div>
+
+        <p class="note" style="margin-bottom:0">Protected by CyberAware Forensic Engine &middot; Simulated Sandbox</p>
+      </div>
+    </div>
+
+    <!-- Feedback / Clues Area -->
+    <div style="margin-top:16px">
+      ${e.flags.map(f => {
+        if (!curFound.includes(f.id)) return '';
+        return `
+        <div class="gl-clue-card">
+          <div style="font-weight:700;color:var(--bad);display:flex;align-items:center;gap:6px">
+            <span>🚩 Red Flag Identified:</span> ${f.label}
+          </div>
+          <div style="margin-top:4px;color:var(--ink)">${f.tip}</div>
+        </div>`;
+      }).join('')}
+
+      ${allFound ? `
+      <div class="fb" style="background:color-mix(in srgb,var(--good) 15%,var(--surface));border:1px solid var(--good);margin-top:14px">
+        <b style="color:var(--good);font-size:16px">🎯 Investigation Complete! (+20 XP)</b>
+        <p style="margin:6px 0 10px">You successfully isolated all forensic indicators in this sample. You demonstrated mastery over lookalike sender identification, artificial urgency detection, and link target verification.</p>
+        <button class="btn" id="gl-next-mail">${glIdx+1<GL_EMAILS.length?'Examine Next Sample':'Re-examine Samples'}</button>
+      </div>
+      ` : `
+      <p class="note" style="margin-top:12px">Tip: Click on the sender email, the urgent subject line, and the action button above to inspect forensic clues.</p>
+      `}
+    </div>
+    `;
+  }
+
+  /* ---------- TAB 2: DOMAIN DISSECTOR SANDBOX ---------- */
+  else if (glTab === "dissect") {
+    const d = dissectURL(glDissectUrl);
+    body += `
+    <div class="gl-dissector-wrap">
+      <p class="sub" style="margin:0">Attackers manipulate subdomains to disguise fraudulent destinations. Use this dissector to learn the <b>Right-to-Left Rule</b>.</p>
+      
+      <div class="row" style="margin:0 0 10px;gap:6px">
+        ${GL_PRESETS.map((p, i) => `
+          <button class="fc" data-gl-preset="${i}" style="font-size:12px;padding:4px 12px">
+            ${p.legit?'✔ Real:':'🚨 Phish:'} ${p.url.split('/')[2]}
+          </button>
+        `).join('')}
+      </div>
+
+      <div style="display:flex;gap:8px">
+        <input id="gl-url-input" class="hi" value="${glDissectUrl}" placeholder="Paste any website address to dissect..." style="font-family:monospace;font-size:14px" />
+        <button class="btn" id="gl-url-btn">Dissect URL</button>
+      </div>
+
+      <div class="gl-url-parts">
+        <span class="gl-part gl-part-proto" title="Protocol: Encrypted HTTPS or unencrypted HTTP">${d.proto}</span>
+        ${d.sub ? `<span class="gl-part gl-part-sub" title="Subdomain: Scammers put famous brands here to trick you!">${d.sub}</span>` : ''}
+        <span class="gl-part gl-part-domain" title="Registered Domain & TLD: THIS is who legally owns and operates the server!">${d.domain}</span>
+        <span class="gl-part gl-part-path" title="Path: The specific page route on the owner's server">${d.path || '/'}</span>
+      </div>
+
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-top:6px">
+        <div class="panel" style="margin:0;padding:16px">
+          <small style="color:var(--muted);text-transform:uppercase;font-weight:700">1. Protocol</small>
+          <div style="font-weight:700;margin-top:4px;color:${d.isHttps?'var(--good)':'var(--bad)'}">${d.isHttps?'🔒 HTTPS (Encrypted)':'⚠️ Insecure HTTP (Unencrypted)'}</div>
+          <p class="note" style="margin:4px 0 0">HTTPS protects traffic in transit, but scammers can also get free SSL certificates. HTTPS alone does NOT mean a site is honest!</p>
+        </div>
+
+        <div class="panel" style="margin:0;padding:16px">
+          <small style="color:var(--muted);text-transform:uppercase;font-weight:700">2. Subdomain Trap</small>
+          <div style="font-weight:700;margin-top:4px;color:var(--warn)">${d.sub || 'None'}</div>
+          <p class="note" style="margin:4px 0 0">Scammers create subdomains like <code>google.com.verify-login.net</code> to fool users who read left-to-right.</p>
+        </div>
+
+        <div class="panel" style="margin:0;padding:16px;border-left:4px solid var(--bad)">
+          <small style="color:var(--muted);text-transform:uppercase;font-weight:700">3. True Registered Domain</small>
+          <div style="font-weight:700;margin-top:4px;color:var(--bad);font-size:18px">${d.domain}</div>
+          <p class="note" style="margin:4px 0 0"><b>The Golden Rule:</b> Find the first single slash (/), look directly to the left, and find the registered domain name. This entity controls your data.</p>
+        </div>
+      </div>
+    </div>
+    `;
+  }
+
+  /* ---------- TAB 3: SMISHING & QR TRAP SIMULATOR ---------- */
+  else if (glTab === "smish") {
+    const s = GL_SMS[glSmsIdx];
+    body += `
+    <div>
+      <p class="sub" style="margin:0 0 16px">Over 70% of phishing attacks now arrive via mobile text messages (Smishing) or malicious QR codes (Quishing). Test your mobile triage skills.</p>
+      
+      <div style="display:flex;justify-content:center;gap:8px;margin-bottom:16px">
+        ${GL_SMS.map((sm, i) => `
+          <button class="fc" data-gl-sms="${i}" aria-pressed="${glSmsIdx===i}">Scenario ${i+1}</button>
+        `).join('')}
+      </div>
+
+      <div class="gl-phone">
+        <div class="gl-phone-notch"></div>
+        <div style="text-align:center;font-size:12px;color:var(--muted);margin-bottom:12px">
+          Messages &middot; <b>${s.sender}</b>
+        </div>
+        
+        <div class="gl-sms-bubble">
+          ${s.msg}
+          <div style="font-size:11px;color:var(--muted);text-align:right;margin-top:6px">Today &middot; Delivered</div>
+        </div>
+
+        <div style="display:flex;gap:8px;margin-top:16px">
+          <button class="btn" style="flex:1" data-sms-ans="1" ${glSmsAns!==null?'disabled':''}>🚨 Phish / Scam</button>
+          <button class="btn alt" style="flex:1" data-sms-ans="0" ${glSmsAns!==null?'disabled':''}>✔ Legitimate</button>
+        </div>
+      </div>
+
+      ${glSmsAns !== null ? `
+      <div class="fb" style="max-width:500px;margin:16px auto 0">
+        <b>${glSmsAns === s.ph ? '🎯 Correct Call (+10 XP)!' : '⚠️ Cautionary Misstep!'}</b>
+        <p style="margin:6px 0 0">${s.tip}</p>
+      </div>
+      ` : ''}
+    </div>
+    `;
+  }
+
+  /* ---------- TAB 4: PHISHING THEORY & PSYCHOLOGY ---------- */
+  else if (glTab === "theory") {
+    body += `
+    <div style="display:grid;gap:16px">
+      <div class="panel" style="margin:0">
+        <h3 style="font-size:18px;margin-bottom:8px">1. The Psychological Mechanics: The "Amygdala Hijack"</h3>
+        <p style="margin:0;color:var(--muted)">Phishing is rarely about technical computer bugs—it is about hacking human emotion. When an email creates intense panic (<i>"Account deleted in 2 hours!"</i>) or extreme excitement (<i>"You won ₹25,000!"</i>), the brain's emotional center (the amygdala) overrides the rational prefrontal cortex. The victim clicks before thinking.</p>
+      </div>
+
+      <div class="panel" style="margin:0">
+        <h3 style="font-size:18px;margin-bottom:8px">2. Cialdini's 6 Psychological Levers Used by Attackers</h3>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-top:10px">
+          <div class="do" style="margin:0"><b>⏰ Scarcity & Urgency:</b> "Confirm within 24h or lose access." Forces rapid, uncritical compliance.</div>
+          <div class="do" style="margin:0"><b>👮 Authority Bias:</b> Impersonating Police, Income Tax, or Company IT Admins to demand obedience.</div>
+          <div class="do" style="margin:0"><b>🎁 Greed & Reciprocity:</b> Fake refunds, free scholarships, and prizes to tempt victims into dropping their guard.</div>
+          <div class="do" style="margin:0"><b>👥 Social Proof:</b> "All your colleagues have migrated their accounts, update yours now."</div>
+        </div>
+      </div>
+
+      <div class="panel" style="margin:0">
+        <h3 style="font-size:18px;margin-bottom:8px">3. The 5-Point Forensic Defense Reflex</h3>
+        <ul class="vl" style="color:var(--muted)">
+          <li><b>Examine the Sender Domain:</b> Ignore the friendly display name. Look at the actual email address after the @ symbol.</li>
+          <li><b>Use the Right-to-Left URL Rule:</b> Trace URLs backwards from the first single slash (/) to locate the true registered domain.</li>
+          <li><b>Never Scan a QR Code to "Receive" Money:</b> In all UPI apps, scanning a QR code and entering your PIN <i>always sends money out</i>.</li>
+          <li><b>Reject Out-of-Band Pressure:</b> If a caller or message claims an emergency, hang up and call the organization back on their official verified phone number.</li>
+          <li><b>Act During the Golden Hour:</b> If you clicked or lost money, immediately freeze your account and dial <b>1930</b>.</li>
+        </ul>
+      </div>
+    </div>
+    `;
+  }
+
+  body += `</div>`;
+
+  // Render GameLab into the page
+  $("#app").innerHTML = body;
+
+  // Tab Switching Events
+  const tabMap = { "gl-t-inspect": "inspect", "gl-t-dissect": "dissect", "gl-t-smish": "smish", "gl-t-theory": "theory" };
+  Object.keys(tabMap).forEach(id => {
+    const btn = $("#" + id);
+    if (btn) btn.onclick = () => { glTab = tabMap[id]; games(); };
+  });
+
+  // Flag click events in Inspector
+  document.querySelectorAll("[data-gl-flag]").forEach(b => {
+    b.onclick = () => {
+      const flagId = b.dataset.glFlag;
+      glFound[glIdx] = glFound[glIdx] || [];
+      if (!glFound[glIdx].includes(flagId)) {
+        glFound[glIdx].push(flagId);
+        xp(10);
+        if (glFound[glIdx].length === GL_EMAILS[glIdx].flags.length) {
+          xp(20);
+          badge(3); // Phish spotter badge
+        }
+      }
+      games();
+    };
+  });
+
+  // Sample Switchers
+  document.querySelectorAll("[data-gl-mail]").forEach(b => {
+    b.onclick = () => { glIdx = +b.dataset.glMail; games(); };
+  });
+
+  const nextMailBtn = $("#gl-next-mail");
+  if (nextMailBtn) nextMailBtn.onclick = () => {
+    glIdx = (glIdx + 1) % GL_EMAILS.length;
+    games();
+  };
+
+  // Dissector Events
+  document.querySelectorAll("[data-gl-preset]").forEach(b => {
+    b.onclick = () => {
+      glDissectUrl = GL_PRESETS[+b.dataset.glPreset].url;
+      games();
+    };
+  });
+
+  const urlInput = $("#gl-url-input");
+  const urlBtn = $("#gl-url-btn");
+  if (urlBtn && urlInput) {
+    urlBtn.onclick = () => {
+      if (urlInput.value.trim()) {
+        glDissectUrl = urlInput.value.trim();
+        games();
+      }
+    };
+  }
+
+  // Smishing Events
+  document.querySelectorAll("[data-gl-sms]").forEach(b => {
+    b.onclick = () => { glSmsIdx = +b.dataset.glSms; glSmsAns = null; games(); };
+  });
+
+  document.querySelectorAll("[data-sms-ans]").forEach(b => {
+    b.onclick = () => {
+      glSmsAns = +b.dataset.smsAns;
+      if (glSmsAns === GL_SMS[glSmsIdx].ph) {
+        xp(10);
+      }
+      games();
+    };
+  });
+}
+
 function games(){phishGame();urlGame();scen();chal()}
 const URLS=[["https://accounts.google.com/signin","https://accounts.google.com.verify-login.net/signin"],["https://www.amazon.in/orders","https://www.amazon.in.secure-orders.co/orders"],["https://netflix.com/login","https://netflix-login.support/login"],["https://github.com/settings","https://github.com.settings-check.io/settings"]];
 let U={i:0,a:null,n:0,f:[1,0,1,0]};
