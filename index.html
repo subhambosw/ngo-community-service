@@ -1695,11 +1695,9 @@ function navTo(targetView, action = null) {
    LEVEL UNLOCK CHECK HELPER
    ========================================================================== */
 function l2ok() {
-  if (typeof S === "undefined" || !S) return false;
-  if (S.demoUnlocked) return true;
-  const doneCount = S.done ? S.done.length : 0;
-  const modsCount = typeof MODS !== "undefined" ? MODS.length : 6;
-  return doneCount >= modsCount && (S.best || 0) >= 8;
+  // All levels permanently unlocked by default
+  if (typeof S !== "undefined" && S && S.allUnlocked === false) return false;
+  return true;
 }
 
 /* ==========================================================================
@@ -2034,9 +2032,9 @@ function renderSidebarAccordion() {
   // Quick demo toggle button for testing level unlock
   html += `
     <div style="padding: 12px 4px 4px;">
-      <button class="sidebar-demo-toggle-btn" id="sidebar-level-unlock-btn" title="Toggle locked / unlocked states for previewing">
-        ${ico(isUnlocked ? "lock" : "sparkles", 13)}
-        <span>${isUnlocked ? "Re-Lock Advanced Levels" : "⚡ Unlock All Levels (Demo)"}</span>
+      <button class="sidebar-demo-toggle-btn" id="sidebar-level-unlock-btn" title="All levels unlocked">
+        ${ico(isUnlocked ? "unlock" : "lock", 13)}
+        <span>${isUnlocked ? "🔓 All Levels Unlocked" : "⚡ Unlock All Levels"}</span>
       </button>
     </div>
   `;
@@ -2049,7 +2047,7 @@ function renderSidebarAccordion() {
     demoBtn.onclick = (e) => {
       e.stopPropagation();
       if (typeof S !== "undefined" && S) {
-        S.demoUnlocked = !S.demoUnlocked;
+        S.allUnlocked = S.allUnlocked === false ? true : false;
         save();
         render();
       }
@@ -2375,7 +2373,7 @@ const MAILS=[
 {f:"library@yourcollege.edu",s:"Book due in 3 days",b:"“Intro to Networks” is due Friday. You can renew it from your library account on the college website.",ph:0,w:"Expected, specific, no pressure, and it points you to the site rather than a link."},
 {f:"CEO <ceo.office@gmail.com>",s:"Quick favour, urgent",b:"I’m in a meeting. Buy five gift cards and send me the codes. Don’t call, I’ll explain later.",ph:1,w:"An executive using a free email address, urgency, secrecy, and gift cards. Verify by calling a known number."}];
 const BADGES=[["🌱","First step","Finish your first lesson"],["📚","Cyber aware","Finish all six lessons"],["🎯","Quiz whiz","Score 80% or more in the quiz"],["🎣","Phish spotter","Get 3 phishing answers right"],["🔐","Password pro","Test a very strong password"],["🧭","Health checked","Complete the security health check"],["🧱","Foundations","Finish all Level 2 lessons"],["🧪","Hands-on","Finish all three Level 3 challenges"],["🗺️","Pathfinder","Explore all six Level 4 tracks"]];
-let S={done:[],xp:0,badges:[],phish:0,best:0,checks:[],news:[],ack:[],hand:[]};
+let S={done:[],xp:0,badges:[],phish:0,best:0,checks:[],news:[],ack:[],hand:[],demoUnlocked:true};
 try{const r=localStorage.getItem("cyberaware");if(r)S=Object.assign(S,JSON.parse(r))}catch(e){}
 function save(){try{localStorage.setItem("cyberaware",JSON.stringify(S))}catch(e){}}
 function xp(n){S.xp+=n;save();head()}
@@ -2441,9 +2439,33 @@ function check(v){
 function fmt(s){if(s<1)return"Cracked instantly";const u=[[31536000*1e3,"millennia"],[31536000,"years"],[86400,"days"],[3600,"hours"],[60,"minutes"],[1,"seconds"]];
  if(s>=31536000*1e6)return"Longer than the age of human history";
  for(const[k,n]of u)if(s>=k)return"About "+Math.round(s/k).toLocaleString()+" "+n;return"Instantly"}
+
+function getLabAction(id) {
+  switch(id) {
+    case 'pw': return `<div style="margin:8px 0 12px"><button class="btn alt" style="font-size:13px;display:inline-flex;align-items:center;gap:6px" onclick="document.getElementById('pw').focus();document.getElementById('pw').scrollIntoView({behavior:'smooth'})">🔑 Try in Password Entropy Lab</button></div>`;
+    case 'ph': return `<div style="margin:8px 0 12px"><button class="btn alt" style="font-size:13px;display:inline-flex;align-items:center;gap:6px" onclick="navTo('games');setTimeout(()=>{glTab='inspect';games();window.scrollTo({top:0,behavior:'smooth'})},60)">🎮 Launch Phishing GameLab</button></div>`;
+    case 'se': return `<div style="margin:8px 0 12px"><button class="btn alt" style="font-size:13px;display:inline-flex;align-items:center;gap:6px" onclick="navTo('games');setTimeout(()=>{window.scrollTo({top:650,behavior:'smooth'})},60)">🎭 Play UPI & WhatsApp Scenarios</button></div>`;
+    case 'mw': return `<div style="margin:8px 0 12px"><button class="btn alt" style="font-size:13px;display:inline-flex;align-items:center;gap:6px" onclick="navTo('health')">🛡️ Start Security Health Check</button></div>`;
+    case 'pv': return `<div style="margin:8px 0 12px"><button class="btn alt" style="font-size:13px;display:inline-flex;align-items:center;gap:6px" onclick="navTo('games');setTimeout(()=>{ch={i:2,qi:0,a:null,s:0};games();window.scrollTo({top:650,behavior:'smooth'})},60)">🔍 Open Permissions & Form Audit</button></div>`;
+    case 'wf': return `<div style="margin:8px 0 12px"><button class="btn alt" style="font-size:13px;display:inline-flex;align-items:center;gap:6px" onclick="navTo('games');setTimeout(()=>{glTab='dissect';games();window.scrollTo({top:0,behavior:'smooth'})},60)">🌐 Open Domain Dissector Sandbox</button></div>`;
+    default: return '';
+  }
+}
+
+function getLabAction2(id) {
+  switch(id) {
+    case 'net': return `<div style="margin:8px 0 12px"><button class="btn alt" style="font-size:13px;display:inline-flex;align-items:center;gap:6px" onclick="navTo('games');setTimeout(()=>{glTab='dissect';games();window.scrollTo({top:0,behavior:'smooth'})},60)">🌐 Test Domain in Sandbox</button></div>`;
+    case 'fw': return `<div style="margin:8px 0 12px"><button class="btn alt" style="font-size:13px;display:inline-flex;align-items:center;gap:6px" onclick="navTo('games');setTimeout(()=>{ch={i:2,qi:0,a:null,s:0};games();window.scrollTo({top:650,behavior:'smooth'})},60)">🧱 Open Insecure Form & Network Lab</button></div>`;
+    case 'enc': return `<div style="margin:8px 0 12px;display:flex;gap:8px;flex-wrap:wrap"><button class="btn alt" style="font-size:13px;display:inline-flex;align-items:center;gap:6px" onclick="document.getElementById('hin').focus()">🔐 Focus SHA-256 Hasher</button> <button class="btn alt" style="font-size:13px;display:inline-flex;align-items:center;gap:6px" onclick="navTo('games');setTimeout(()=>{ch={i:0,qi:0,a:null,s:0};games();window.scrollTo({top:650,behavior:'smooth'})},60)">🧩 Open Caesar Cipher Lab</button></div>`;
+    case 'log': return `<div style="margin:8px 0 12px"><button class="btn alt" style="font-size:13px;display:inline-flex;align-items:center;gap:6px" onclick="navTo('games');setTimeout(()=>{ch={i:1,qi:0,a:null,s:0};games();window.scrollTo({top:650,behavior:'smooth'})},60)">🧾 Open Server Log Challenge</button></div>`;
+    case 'cli': return `<div style="margin:8px 0 12px"><button class="btn alt" style="font-size:13px;display:inline-flex;align-items:center;gap:6px" onclick="navTo('help')">🆘 Open Incident Response Playbook</button></div>`;
+    default: return '';
+  }
+}
+
 function mods(){
  $("#mods").innerHTML=MODS.map(m=>`<div class="mod ${open==m.id?"open":""}"><button data-m="${m.id}" aria-expanded="${open==m.id}"><span class="ico">${m.ico}</span><span class="mt"><b>${m.t}</b><small>${m.s}</small></span><span class="tag ${S.done.includes(m.id)?"done":""}">${S.done.includes(m.id)?"Done":"Open"}</span></button>
- ${open==m.id?`<div class="body"><ul>${m.p.map(x=>`<li>${x}</li>`).join("")}</ul><p class="try">Try this: ${m.tr}</p>${S.done.includes(m.id)?"":`<button class="btn" data-c="${m.id}">Mark as done (+20 XP)</button>`}</div>`:""}</div>`).join("");
+ ${open==m.id?`<div class="body"><ul>${m.p.map(x=>`<li>${x}</li>`).join("")}</ul><p class="try">Try this: ${m.tr}</p>${getLabAction(m.id)}${S.done.includes(m.id)?"":`<button class="btn" data-c="${m.id}">Mark as done (+20 XP)</button>`}</div>`:""}</div>`).join("");
  document.querySelectorAll("[data-m]").forEach(b=>b.onclick=()=>{open=open==b.dataset.m?null:b.dataset.m;mods()});
  document.querySelectorAll("[data-c]").forEach(b=>b.onclick=()=>{S.done.push(b.dataset.c);badge(0);if(S.done.length==MODS.length)badge(1);xp(20);mods()});
 }
@@ -2557,7 +2579,7 @@ let open2=null;
 function mods2(){
  S.done2=S.done2||[];const el=$("#mods2");if(!el)return;
  if(!l2ok()){el.innerHTML=`<div class="panel" style="grid-column:1/-1"><b>Level 2 is locked.</b><p class="note" style="margin:6px 0 0">Unlock it by finishing all six lessons (${S.done.length} of ${MODS.length} so far) and scoring 8 of 10 or more on the quiz (best: ${S.best} of 10).</p></div>`;return}
- el.innerHTML=MODS2.map(m=>`<div class="mod ${open2==m.id?"open":""}"><button data-m2="${m.id}" aria-expanded="${open2==m.id}"><span class="ico">${m.ico}</span><span class="mt"><b>${m.t}</b><small>${m.s}</small></span><span class="tag ${S.done2.includes(m.id)?"done":""}">${S.done2.includes(m.id)?"Done":"Open"}</span></button>${open2==m.id?`<div class="body"><ul>${m.p.map(x=>`<li>${x}</li>`).join("")}</ul>${m.id=="enc"?DEMO:""}<p class="try">Try this: ${m.tr}</p>${S.done2.includes(m.id)?"":`<button class="btn" data-d2="${m.id}">Mark as done (+20 XP)</button>`}</div>`:""}</div>`).join("");
+ el.innerHTML=MODS2.map(m=>`<div class="mod ${open2==m.id?"open":""}"><button data-m2="${m.id}" aria-expanded="${open2==m.id}"><span class="ico">${m.ico}</span><span class="mt"><b>${m.t}</b><small>${m.s}</small></span><span class="tag ${S.done2.includes(m.id)?"done":""}">${S.done2.includes(m.id)?"Done":"Open"}</span></button>${open2==m.id?`<div class="body"><ul>${m.p.map(x=>`<li>${x}</li>`).join("")}</ul>${m.id=="enc"?DEMO:""}<p class="try">Try this: ${m.tr}</p>${getLabAction2(m.id)}${S.done2.includes(m.id)?"":`<button class="btn" data-d2="${m.id}">Mark as done (+20 XP)</button>`}</div>`:""}</div>`).join("");
  el.querySelectorAll("[data-m2]").forEach(b=>b.onclick=()=>{open2=open2==b.dataset.m2?null:b.dataset.m2;mods2()});
  el.querySelectorAll("[data-d2]").forEach(b=>b.onclick=()=>{S.done2.push(b.dataset.d2);if(S.done2.length==MODS2.length)badge(6);xp(20);mods2()});
  const hin=$("#hin");if(hin){const f=async()=>{try{const b=await crypto.subtle.digest("SHA-256",new TextEncoder().encode(hin.value));$("#hout").textContent=[...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,"0")).join("")}catch(e){$("#hout").textContent="Hashing isn’t supported in this browser."}};hin.oninput=f;f()}
@@ -2947,35 +2969,203 @@ function phishGame(){
     `;
   }
 
-  /* ---------- TAB 4: PHISHING THEORY & PSYCHOLOGY ---------- */
+  /* ---------- TAB 4: PHISHING THEORY & PSYCHOLOGY WITH INFOGRAPHICS ---------- */
   else if (glTab === "theory") {
     body += `
-    <div style="display:grid;gap:16px">
-      <div class="panel" style="margin:0">
-        <h3 style="font-size:18px;margin-bottom:8px">1. The Psychological Mechanics: The "Amygdala Hijack"</h3>
-        <p style="margin:0;color:var(--muted)">Phishing is rarely about technical computer bugs—it is about hacking human emotion. When an email creates intense panic (<i>"Account deleted in 2 hours!"</i>) or extreme excitement (<i>"You won ₹25,000!"</i>), the brain's emotional center (the amygdala) overrides the rational prefrontal cortex. The victim clicks before thinking.</p>
+    <div style="display:grid;gap:24px">
+
+      <!-- INTRO CARD -->
+      <div class="panel" style="margin:0;border-left:5px solid var(--accent)">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+          <span class="gl-badge gl-badge-danger">Visual Theory & Architecture</span>
+          <span class="gl-badge gl-badge-warn">Infographic Guide</span>
+        </div>
+        <h3 style="font-size:22px;margin:0 0 6px">The Science & Psychology of Phishing</h3>
+        <p style="margin:0;color:var(--muted);font-size:15px;line-height:1.6">Phishing is social engineering that hacks human psychology rather than software code. Attackers manipulate subconscious cognitive biases—especially urgency, fear, authority, and greed—to trigger an <b>Amygdala Hijack</b>, causing victims to act before their rational brain can inspect technical red flags.</p>
       </div>
 
+      <!-- VISUAL INFOGRAPHIC 1: EMAIL ANATOMY -->
       <div class="panel" style="margin:0">
-        <h3 style="font-size:18px;margin-bottom:8px">2. Cialdini's 6 Psychological Levers Used by Attackers</h3>
-        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-top:10px">
-          <div class="do" style="margin:0"><b>⏰ Scarcity & Urgency:</b> "Confirm within 24h or lose access." Forces rapid, uncritical compliance.</div>
-          <div class="do" style="margin:0"><b>👮 Authority Bias:</b> Impersonating Police, Income Tax, or Company IT Admins to demand obedience.</div>
-          <div class="do" style="margin:0"><b>🎁 Greed & Reciprocity:</b> Fake refunds, free scholarships, and prizes to tempt victims into dropping their guard.</div>
-          <div class="do" style="margin:0"><b>👥 Social Proof:</b> "All your colleagues have migrated their accounts, update yours now."</div>
+        <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:12px">
+          <h3 style="font-size:18px;margin:0">🖼️ Infographic 1: Forensic Anatomy of a Phishing Email</h3>
+          <span class="note" style="font-size:13px">Diagram: Common Exploitation Pins</span>
+        </div>
+        
+        <svg viewBox="0 0 760 370" style="width:100%;height:auto;background:var(--soft);border:1px solid var(--line);border-radius:12px;display:block">
+          <!-- Window Header -->
+          <rect x="0" y="0" width="760" height="36" fill="rgba(15,23,42,0.12)" />
+          <circle cx="20" cy="18" r="5" fill="#ef4444" />
+          <circle cx="36" cy="18" r="5" fill="#f59e0b" />
+          <circle cx="52" cy="18" r="5" fill="#10b981" />
+          <text x="80" y="22" font-family="system-ui, sans-serif" font-size="12" fill="var(--muted)" font-weight="600">Simulated Malicious Communication &middot; Red Flag Anatomy</text>
+
+          <!-- Email Content Panel -->
+          <rect x="20" y="52" width="720" height="300" rx="10" fill="var(--surface)" stroke="var(--line)" stroke-width="1.5" />
+
+          <!-- Sender Row -->
+          <text x="40" y="80" font-family="system-ui, sans-serif" font-size="13" fill="var(--muted)">From:</text>
+          <text x="85" y="80" font-family="system-ui, sans-serif" font-size="13" font-weight="700" fill="var(--ink)">PayPal Security</text>
+          <rect x="195" y="65" width="230" height="22" rx="4" fill="rgba(239,68,68,0.15)" stroke="#ef4444" stroke-dasharray="3,3" />
+          <text x="202" y="80" font-family="monospace" font-size="12" fill="#ef4444" font-weight="bold">&lt;security@paypa1.com&gt;</text>
+          
+          <!-- Callout Pin 1 -->
+          <path d="M 435 76 L 500 76" stroke="#ef4444" stroke-width="2" marker-end="url(#arrow)" />
+          <rect x="500" y="64" width="220" height="25" rx="6" fill="#ef4444" />
+          <text x="510" y="81" font-family="system-ui, sans-serif" font-size="11" fill="#fff" font-weight="bold">🚩 1. LOOKALIKE TYPOSQUATTING</text>
+
+          <!-- Subject Row -->
+          <text x="40" y="116" font-family="system-ui, sans-serif" font-size="13" fill="var(--muted)">Subject:</text>
+          <rect x="95" y="100" width="310" height="24" rx="4" fill="rgba(245,158,11,0.18)" stroke="#f59e0b" stroke-dasharray="3,3" />
+          <text x="102" y="116" font-family="system-ui, sans-serif" font-size="13" font-weight="bold" fill="var(--ink)">URGENT: Account Locked (24 Hours to Confirm)</text>
+
+          <!-- Callout Pin 2 -->
+          <path d="M 415 112 L 500 112" stroke="#f59e0b" stroke-width="2" />
+          <rect x="500" y="100" width="220" height="25" rx="6" fill="#f59e0b" />
+          <text x="510" y="117" font-family="system-ui, sans-serif" font-size="11" fill="#000" font-weight="bold">🚩 2. ARTIFICIAL URGENCY HOOK</text>
+
+          <!-- Body Text -->
+          <text x="40" y="156" font-family="system-ui, sans-serif" font-size="13" fill="var(--ink)">Dear Customer,</text>
+          <text x="40" y="180" font-family="system-ui, sans-serif" font-size="13" fill="var(--muted)">We observed unauthorized login attempts from an unknown device in Moscow, Russia.</text>
+          <text x="40" y="200" font-family="system-ui, sans-serif" font-size="13" fill="var(--muted)">To restore your funds, confirm your username, password, and card PIN immediately.</text>
+
+          <!-- Callout Pin 3 (Credential Harvesting) -->
+          <rect x="40" y="215" width="280" height="22" rx="4" fill="rgba(239,68,68,0.15)" stroke="#ef4444" stroke-dasharray="3,3" />
+          <text x="48" y="230" font-family="system-ui, sans-serif" font-size="12" fill="#ef4444" font-weight="bold">&bull; Asks for Card PIN / Password</text>
+          <path d="M 325 226 L 500 150" stroke="#ef4444" stroke-width="2" />
+          <rect x="500" y="137" width="220" height="25" rx="6" fill="#ef4444" />
+          <text x="510" y="154" font-family="system-ui, sans-serif" font-size="11" fill="#fff" font-weight="bold">🚩 3. CREDENTIAL HARVESTING</text>
+
+          <!-- Action Button & Tooltip -->
+          <rect x="40" y="255" width="200" height="38" rx="8" fill="#2563eb" />
+          <text x="65" y="278" font-family="system-ui, sans-serif" font-size="13" fill="#fff" font-weight="bold">Unlock Account Now</text>
+
+          <!-- Fake Hover Tooltip -->
+          <rect x="40" y="300" width="310" height="26" rx="6" fill="#0f172a" stroke="#475569" />
+          <text x="50" y="317" font-family="monospace" font-size="11" fill="#38bdf8">http://login.paypa1-update.biz/auth</text>
+
+          <!-- Callout Pin 4 -->
+          <path d="M 355 313 L 500 240" stroke="#dc2626" stroke-width="2" />
+          <rect x="500" y="228" width="220" height="42" rx="6" fill="#dc2626" />
+          <text x="510" y="245" font-family="system-ui, sans-serif" font-size="11" fill="#fff" font-weight="bold">🚩 4. DECEPTIVE HOVER TARGET</text>
+          <text x="510" y="260" font-family="system-ui, sans-serif" font-size="10" fill="#fee2e2">Unencrypted HTTP & Fake .biz Host</text>
+        </svg>
+      </div>
+
+      <!-- VISUAL INFOGRAPHIC 2: DOMAIN HIERARCHY -->
+      <div class="panel" style="margin:0">
+        <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:12px">
+          <h3 style="font-size:18px;margin:0">🖼️ Infographic 2: The Right-to-Left Domain Rule</h3>
+          <span class="note" style="font-size:13px">How Scammers Trick the Eye</span>
+        </div>
+        
+        <svg viewBox="0 0 760 210" style="width:100%;height:auto;background:var(--soft);border:1px solid var(--line);border-radius:12px;display:block">
+          <text x="30" y="34" font-family="system-ui, sans-serif" font-size="13" font-weight="700" fill="var(--ink)">Example Attack URL:</text>
+          <text x="180" y="34" font-family="monospace" font-size="14" fill="var(--muted)">https://accounts.google.com.verify-login.net/signin</text>
+
+          <!-- Colored URL Segments -->
+          <!-- 1. Protocol -->
+          <rect x="30" y="55" width="80" height="36" rx="6" fill="rgba(16,185,129,0.2)" stroke="#10b981" stroke-width="1.5" />
+          <text x="42" y="77" font-family="monospace" font-size="12" fill="#059669" font-weight="bold">https://</text>
+
+          <!-- 2. Subdomain Bait -->
+          <rect x="115" y="55" width="200" height="36" rx="6" fill="rgba(245,158,11,0.2)" stroke="#f59e0b" stroke-width="1.5" />
+          <text x="125" y="77" font-family="monospace" font-size="12" fill="#d97706" font-weight="bold">accounts.google.com.</text>
+
+          <!-- 3. Registered Domain (The Owner) -->
+          <rect x="320" y="50" width="230" height="46" rx="8" fill="rgba(239,68,68,0.25)" stroke="#ef4444" stroke-width="2.5" />
+          <text x="330" y="78" font-family="monospace" font-size="14" fill="#dc2626" font-weight="bold">verify-login.net</text>
+
+          <!-- 4. Path -->
+          <rect x="555" y="55" width="175" height="36" rx="6" fill="rgba(100,116,139,0.2)" stroke="#64748b" stroke-width="1.5" />
+          <text x="575" y="77" font-family="monospace" font-size="12" fill="var(--muted)">/signin</text>
+
+          <!-- Descriptions -->
+          <text x="35" y="115" font-family="system-ui, sans-serif" font-size="11" fill="#059669" font-weight="600">Protocol (SSL)</text>
+          <text x="125" y="115" font-family="system-ui, sans-serif" font-size="11" fill="#d97706" font-weight="600">Fake Brand Subdomain Bait</text>
+          <text x="330" y="122" font-family="system-ui, sans-serif" font-size="12" fill="#dc2626" font-weight="bold">🚨 REAL OWNER (ATTACKER)</text>
+          <text x="590" y="115" font-family="system-ui, sans-serif" font-size="11" fill="var(--muted)">Server Path</text>
+
+          <!-- Right to left arrow banner -->
+          <rect x="30" y="145" width="700" height="45" rx="8" fill="var(--surface)" stroke="var(--accent)" stroke-width="1.5" />
+          <text x="50" y="172" font-family="system-ui, sans-serif" font-size="13" font-weight="bold" fill="var(--accent)">
+            &larr; THE GOLDEN RULE: Start at the first single slash (/), look directly to the left. The domain right before the TLD is the real website!
+          </text>
+        </svg>
+      </div>
+
+      <!-- VISUAL INFOGRAPHIC 3: THE UPI / QR CODE SCAM FLOW -->
+      <div class="panel" style="margin:0">
+        <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:12px">
+          <h3 style="font-size:18px;margin:0">🖼️ Infographic 3: The UPI QR Code Reverse Fraud Trap</h3>
+          <span class="note" style="font-size:13px">How Money is Stolen in Reverse</span>
+        </div>
+
+        <svg viewBox="0 0 760 210" style="width:100%;height:auto;background:var(--soft);border:1px solid var(--line);border-radius:12px;display:block">
+          <!-- Step 1 -->
+          <rect x="20" y="30" width="150" height="90" rx="8" fill="var(--surface)" stroke="var(--line)" />
+          <text x="35" y="55" font-family="system-ui, sans-serif" font-size="12" font-weight="bold" fill="var(--ink)">Step 1: The Bait</text>
+          <text x="35" y="75" font-family="system-ui, sans-serif" font-size="10" fill="var(--muted)">Buyer: "I've paid ₹15k.</text>
+          <text x="35" y="90" font-family="system-ui, sans-serif" font-size="10" fill="var(--muted)">Scan QR to accept</text>
+          <text x="35" y="105" font-family="system-ui, sans-serif" font-size="10" fill="var(--muted)">the credit."</text>
+
+          <text x="185" y="80" font-family="system-ui, sans-serif" font-size="18" fill="var(--accent)">&rarr;</text>
+
+          <!-- Step 2 -->
+          <rect x="210" y="30" width="150" height="90" rx="8" fill="var(--surface)" stroke="var(--line)" />
+          <text x="225" y="55" font-family="system-ui, sans-serif" font-size="12" font-weight="bold" fill="var(--ink)">Step 2: QR Sent</text>
+          <text x="225" y="75" font-family="system-ui, sans-serif" font-size="10" fill="var(--muted)">Victim scans QR in</text>
+          <text x="225" y="90" font-family="system-ui, sans-serif" font-size="10" fill="var(--muted)">PhonePe / GPay /</text>
+          <text x="225" y="105" font-family="system-ui, sans-serif" font-size="10" fill="var(--muted)">Paytm app.</text>
+
+          <text x="375" y="80" font-family="system-ui, sans-serif" font-size="18" fill="var(--accent)">&rarr;</text>
+
+          <!-- Step 3 -->
+          <rect x="400" y="30" width="150" height="90" rx="8" fill="rgba(245,158,11,0.15)" stroke="#f59e0b" stroke-width="1.5" />
+          <text x="415" y="55" font-family="system-ui, sans-serif" font-size="12" font-weight="bold" fill="#d97706">Step 3: The Trap</text>
+          <text x="415" y="75" font-family="system-ui, sans-serif" font-size="10" fill="var(--ink)">App asks to enter</text>
+          <text x="415" y="90" font-family="system-ui, sans-serif" font-size="10" font-weight="bold" fill="#d97706">4 or 6 Digit PIN</text>
+          <text x="415" y="105" font-family="system-ui, sans-serif" font-size="10" fill="var(--muted)">to proceed.</text>
+
+          <text x="565" y="80" font-family="system-ui, sans-serif" font-size="18" fill="#ef4444">&rarr;</text>
+
+          <!-- Step 4 -->
+          <rect x="590" y="30" width="150" height="90" rx="8" fill="rgba(239,68,68,0.2)" stroke="#ef4444" stroke-width="2" />
+          <text x="605" y="55" font-family="system-ui, sans-serif" font-size="12" font-weight="bold" fill="#dc2626">Step 4: DEBITED!</text>
+          <text x="605" y="75" font-family="system-ui, sans-serif" font-size="10" font-weight="bold" fill="#dc2626">&minus;₹15,000 SENT OUT</text>
+          <text x="605" y="90" font-family="system-ui, sans-serif" font-size="10" fill="var(--ink)">Money exits to</text>
+          <text x="605" y="105" font-family="system-ui, sans-serif" font-size="10" fill="var(--ink)">fraudster's wallet.</text>
+
+          <!-- Warning Strip -->
+          <rect x="20" y="140" width="720" height="50" rx="10" fill="#dc2626" />
+          <text x="50" y="170" font-family="system-ui, sans-serif" font-size="13" font-weight="bold" fill="#ffffff">
+            🛑 CRITICAL DEFENSE RULE: A UPI PIN is EXCLUSIVELY used to SEND money OUT. You NEVER enter a PIN to receive payments!
+          </text>
+        </svg>
+      </div>
+
+      <!-- VISUAL INFOGRAPHIC 4: 5-POINT TRIAGE -->
+      <div class="panel" style="margin:0">
+        <h3 style="font-size:18px;margin-bottom:12px">🖼️ Infographic 4: The 5-Point Quick Triage Protocol</h3>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px">
+          <div class="do" style="margin:0;border-top:3px solid #3b82f6">
+            <b>1. Sender Address</b><br/>
+            <small style="color:var(--muted)">Look past the display name. Check the exact domain after the @ symbol.</small>
+          </div>
+          <div class="do" style="margin:0;border-top:3px solid #10b981">
+            <b>2. Hover Before Clicking</b><br/>
+            <small style="color:var(--muted)">Hover over links to reveal the actual destination server URL.</small>
+          </div>
+          <div class="do" style="margin:0;border-top:3px solid #f59e0b">
+            <b>3. Zero PIN Receipts</b><br/>
+            <small style="color:var(--muted)">No legit financial service asks for OTPs, PINs, or QR scans to credit money.</small>
+          </div>
+          <div class="do" style="margin:0;border-top:3px solid #ef4444">
+            <b>4. Block Unknown APKs</b><br/>
+            <small style="color:var(--muted)">Never install Android .apk files received via WhatsApp or SMS links.</small>
+          </div>
         </div>
       </div>
 
-      <div class="panel" style="margin:0">
-        <h3 style="font-size:18px;margin-bottom:8px">3. The 5-Point Forensic Defense Reflex</h3>
-        <ul class="vl" style="color:var(--muted)">
-          <li><b>Examine the Sender Domain:</b> Ignore the friendly display name. Look at the actual email address after the @ symbol.</li>
-          <li><b>Use the Right-to-Left URL Rule:</b> Trace URLs backwards from the first single slash (/) to locate the true registered domain.</li>
-          <li><b>Never Scan a QR Code to "Receive" Money:</b> In all UPI apps, scanning a QR code and entering your PIN <i>always sends money out</i>.</li>
-          <li><b>Reject Out-of-Band Pressure:</b> If a caller or message claims an emergency, hang up and call the organization back on their official verified phone number.</li>
-          <li><b>Act During the Golden Hour:</b> If you clicked or lost money, immediately freeze your account and dial <b>1930</b>.</li>
-        </ul>
-      </div>
     </div>
     `;
   }
