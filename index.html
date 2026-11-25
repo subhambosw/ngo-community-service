@@ -3028,7 +3028,7 @@ const MODS2=[
   "<b>Why Defenders Learn Linux:</b> Over 90% of cloud servers, containers, web hosts, and forensic toolkits run on Linux—making terminal fluency a superpower for security work.",
   "<b>Safe Navigation Commands:</b> <code>pwd</code> prints your current directory, <code>ls -la</code> lists all files (including hidden dotfiles), and <code>cd /var/log</code> moves into folders.",
   "<b>Reading Files Safely:</b> Use <code>cat</code> for short files, <code>less</code> to scroll long logs, and <code>tail -f auth.log</code> to watch live incoming server events in real time.",
-  "<b>Threat Hunting with <code>grep</code>:</b> Defenders search massive logs instantly using <code>grep</code>—for example, <code>grep "Failed password" /var/log/auth.log</code> reveals brute-force attackers.",
+  "<b>Threat Hunting with <code>grep</code>:</b> Defenders search massive logs instantly using <code>grep</code>—for example, <code>grep 'Failed password' /var/log/auth.log</code> reveals brute-force attackers.",
   "<b>Combining Tools with Pipes (<code>|</code>):</b> Chain commands together to analyze data fast, e.g., piping <code>grep</code> results into <code>sort | uniq -c</code> to count top attacking IP addresses.",
   "<b>Understanding File Permissions (<code>rwx</code>):</b> Every Linux file has Read (4), Write (2), and Execute (1) permissions split across Owner, Group, and Others.",
   "<b>Securing Keys with <code>chmod</code>:</b> Use <code>chmod 600 private.key</code> so only you can read/write a secret file. Never blindly run <code>chmod 777</code>, which gives everyone full access.",
