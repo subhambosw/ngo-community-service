@@ -37,3 +37,4 @@ generate_*.py
 build_*.py
 orig_script.js
 orig_style.css
+*.pdf
