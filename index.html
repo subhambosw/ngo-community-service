@@ -444,8 +444,8 @@ header#site-header {
 /* Mega Menu Columns */
 .mega-grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 28px;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 20px;
 }
 
 .mega-col-title {
@@ -1501,6 +1501,15 @@ const NAV_CONFIG = [
             { id: "enc", label: "Encryption & Ciphers", desc: "Ciphers, digests & hashes", icon: "lock", view: "learn", action: { type: "scroll", id: "mods2" } },
             { id: "log", label: "Login & Session Security", desc: "Cookies, tokens & 2FA mechanisms", icon: "key-round", view: "learn", action: { type: "scroll", id: "mods2" } },
             { id: "cli", label: "Linux Command Line", desc: "Essential server shell commands", icon: "terminal", view: "learn", action: { type: "scroll", id: "mods2" } }
+          ]
+        },
+        {
+          title: "Level 3: Security Labs",
+          icon: "cpu",
+          items: [
+            { id: "lab-caesar", label: "LAB-01: Caesar Cipher Lab", desc: "Interactive frequency & shift breaker", icon: "lock", view: "games", action: { type: "open-lab", index: 0 } },
+            { id: "lab-logs", label: "LAB-02: SIEM Log Forensics", desc: "Hunt brute-force IPs in server logs", icon: "file-code", view: "games", action: { type: "open-lab", index: 1 } },
+            { id: "lab-https", label: "LAB-03: Insecure Form & HTTPS Lab", desc: "Audit HTTP forms & credential risks", icon: "sliders", view: "games", action: { type: "open-lab", index: 2 } }
           ]
         },
         {
