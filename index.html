@@ -2502,7 +2502,7 @@ function learn(){
  $("#app").innerHTML=`<section class="banner"><h1>Stay safe online, one small habit at a time</h1><p>Short lessons, real examples, and practice drills that teach you to spot threats and protect your accounts.</p><button class="btn" id="cta" style="background:#fff;color:#0B1B3A;border-color:#fff">Start the basics</button></section>
  <div class="panel pwp"><h3 style="font-size:19px;margin-bottom:14px">How long would your password last?</h3><div class="pw"><input id="pw" type="password" autocomplete="off" placeholder="Try a password or passphrase" aria-label="Password to test"><button class="btn alt" id="show">Show</button></div>
  <div class="meter" id="meter"><i></i><i></i><i></i><i></i></div><div class="time" id="time">Start typing…</div><div class="note" id="tip">Runs only in your browser. Nothing is sent or stored.</div><ul class="checks" id="chk"></ul><p class="note" style="margin-top:14px">The time is a rough estimate that assumes a fast offline attack. A unique passphrase plus 2FA matters more than any score.</p></div>
- <h2>Lessons</h2><p class="sub">Six short lessons. Finish each for 20 XP.</p><div class="mgrid" id="mods"></div>
+ <h2>Level 1: Core Cybersecurity Curriculum</h2><p class="sub">Six comprehensive foundational guides with real-world case studies, visual diagrams, and interactive labs. Finish each for 20 XP.</p><div class="mgrid" id="mods"></div>
  <h2>Level 2: Foundations</h2><p class="sub">For when you want to go deeper. How the internet, networks, encryption and logins really work.</p><div class="mgrid" id="mods2"></div>
  <h2>Level 4: Choose a track</h2><p class="sub">When you’re ready to aim at a career, explore six directions and see what each one involves.</p><div id="l4m"></div><div class="mgrid" id="l4" style="margin-top:14px"></div>
  <h2>Your safety checklist</h2><p class="sub">Tick off the habits you already have, and set up the rest this week.</p><div class="panel" id="safe"></div>
@@ -2536,6 +2536,53 @@ function fmt(s){if(s<1)return"Cracked instantly";const u=[[31536000*1e3,"millenn
  if(s>=31536000*1e6)return"Longer than the age of human history";
  for(const[k,n]of u)if(s>=k)return"About "+Math.round(s/k).toLocaleString()+" "+n;return"Instantly"}
 
+
+
+function getTopicExtras(id) {
+  const data = {
+    pw: {
+      overview: "Passwords remain the primary lock on your digital life—guarding your bank accounts, university portals, social media, and personal photos. Yet over 80% of hacking-related breaches involve weak, default, or stolen passwords. Understanding how attackers crack passwords is the first step to building an unbreakable defense.",
+      caseStudy: "<b>Real-World Case: The LinkedIn &amp; College Portal Chain Reaction</b><br/>A student used the same password (<code>Rahul@2003</code>) for a free gaming forum and their primary Gmail. When the gaming forum was breached, automated bots ('credential stuffing') tested that exact email and password on Gmail, Instagram, and Amazon—gaining access to all three within 4 minutes.",
+      myth: "<b>Myth:</b> 'Complex passwords like P@ssw0rd!23 are impossible to guess.'<br/><b>Reality:</b> Hackers program dictionary rules to swap 'a' for '@' and 'o' for '0' automatically. A 24-character simple word passphrase like <code>coffee-bicycle-planet-river</code> is millions of times stronger."
+    },
+    ph: {
+      overview: "Phishing is the #1 initial entry point for cyberattacks worldwide. Instead of attacking your computer's software directly, phishing targets human psychology—using urgency, authority, or greed to trick you into willingly giving up passwords, OTPs, or financial details on fake websites.",
+      caseStudy: "<b>Real-World Case: The Fake Scholarship Refund Email</b><br/>Hundreds of university students received an email from <code>hr-desk@university-payroll.co</code> claiming an ₹18,500 scholarship refund was waiting. Students who clicked the button were taken to an identical clone of their college login page, handing attackers their email and banking passwords.",
+      myth: "<b>Myth:</b> 'If a website has the HTTPS padlock icon, it is safe and legitimate.'<br/><b>Reality:</b> Scammers can get free SSL/HTTPS certificates for fake phishing domains in under 60 seconds. The padlock only means your connection to that server is encrypted—it does NOT prove the website belongs to the real company!"
+    },
+    se: {
+      overview: "Social engineering is the art of hacking people rather than machines. Attackers study human behavior—trust, politeness, fear of authority, and excitement—and craft believable stories ('pretexts') to bypass security rules without writing a single line of malicious code.",
+      caseStudy: "<b>Real-World Case: The 'Digital Arrest' Video Call Extortion</b><br/>A student received an automated IVR call claiming a parcel in their name contained illegal drugs. They were transferred to a WhatsApp video call with a scammer wearing a fake police uniform. Using fake arrest warrants, the scammers kept the victim on camera for hours and coerced an ₹80,000 'verification transfer'.",
+      myth: "<b>Myth:</b> 'Only gullible or elderly people fall for social engineering.'<br/><b>Reality:</b> Even cybersecurity engineers and CEOs fall for well-timed pretexting when tired, distracted, or rushed. The only reliable defense is slowing down and verifying through an independent second channel."
+    },
+    mw: {
+      overview: "Malware (malicious software) includes viruses, spyware, keyloggers, ransomware, and trojans designed to steal data, spy on your screen, or lock your files for ransom. Today, malware spreads primarily through deceptive downloads, pirated software cracks, and fake Android APK files.",
+      caseStudy: "<b>Real-World Case: The Fake Traffic E-Challan APK Trap</b><br/>Drivers received an SMS saying: <i>'Pending traffic fine of ₹500. Download E-Challan_Receipt.apk to view photo evidence.'</i> Once installed, the hidden Android trojan silently requested SMS permissions, intercepted every incoming bank OTP, and drained accounts overnight.",
+      myth: "<b>Myth:</b> 'Macs, iPhones, and Linux computers cannot get malware or viruses.'<br/><b>Reality:</b> Every operating system can be compromised by spyware, browser hijackers, or malicious profiles. No device is 100% immune—safe download habits and automatic updates are mandatory on every platform."
+    },
+    pv: {
+      overview: "Privacy is your ability to control who sees your personal data, location, and habits. Every public photo, phone permission, and 'Sign in with Google' click leaves behind a breadcrumb. Attackers use Open-Source Intelligence (OSINT) to piece these breadcrumbs together to answer security questions or execute targeted scams.",
+      caseStudy: "<b>Real-World Case: The Boarding Pass &amp; EXIF Location Leak</b><br/>A traveler excitedly posted a photo of their flight boarding pass on Instagram. Using a free barcode scanner, a bad actor read the PNR number, logged into the airline's 'Manage Booking' portal, viewed the traveler's passport details, and cancelled their return flight.",
+      myth: "<b>Myth:</b> 'I have nothing to hide, so privacy settings don't matter.'<br/><b>Reality:</b> Privacy isn't about hiding wrongdoing—it is about protecting yourself from identity theft, stalking, harassment, and targeted financial fraud using your personal details."
+    },
+    wf: {
+      overview: "Every time you browse the web or connect to Wi-Fi, your data travels across routers and cables managed by other people. Understanding how to verify website encryption, avoid spoofed public hotspots, and spot malicious browser extensions keeps your credentials safe on the move.",
+      caseStudy: "<b>Real-World Case: The 'Evil Twin' Café Wi-Fi Attack</b><br/>An attacker sat in a busy airport café with a laptop broadcasting a free Wi-Fi hotspot named <code>Airport_Free_5G</code>. When travelers connected and opened their email or shopping apps, the attacker intercepted unencrypted session cookies and hijacked active accounts.",
+      myth: "<b>Myth:</b> 'Using Browser Incognito / Private Mode makes me invisible and safe on public Wi-Fi.'<br/><b>Reality:</b> Incognito mode ONLY stops your own browser from saving history and cookies locally on your laptop. Your school, ISP, Wi-Fi owner, and websites can still see every site you visit."
+    }
+  };
+  const d = data[id];
+  if (!d) return '';
+  return `
+    <p style="margin:0 0 14px;color:var(--ink);font-size:15.5px;line-height:1.65">${d.overview}</p>
+    <div style="background:rgba(245,158,11,0.08);border-left:4px solid #f59e0b;border-radius:8px;padding:12px 16px;margin:14px 0;font-size:14px;line-height:1.55;color:var(--ink)">
+      ${d.caseStudy}
+    </div>
+    <div style="background:rgba(59,130,246,0.08);border-left:4px solid #3b82f6;border-radius:8px;padding:12px 16px;margin:14px 0;font-size:14px;line-height:1.55;color:var(--ink)">
+      ${d.myth}
+    </div>
+  `;
+}
 
 function getTopicImage(id) {
   const wrap = (svg) => `<div style="margin: 12px 0 16px; border-radius: 12px; overflow: hidden; border: 1px solid var(--line); background: var(--soft);">${svg}</div>`;
@@ -2774,7 +2821,7 @@ function getLabAction2(id) {
 
 function mods(){
  $("#mods").innerHTML=MODS.map(m=>`<div class="mod ${open==m.id?"open":""}"><button data-m="${m.id}" aria-expanded="${open==m.id}"><span class="ico">${m.ico}</span><span class="mt"><b>${m.t}</b><small>${m.s}</small></span><span class="tag ${S.done.includes(m.id)?"done":""}">${S.done.includes(m.id)?"Done":"Open"}</span></button>
- ${open==m.id?`<div class="body">${getTopicImage(m.id)}<ul>${m.p.map(x=>`<li>${x}</li>`).join("")}</ul><p class="try">Try this: ${m.tr}</p>${getLabAction(m.id)}${S.done.includes(m.id)?"":`<button class="btn" data-c="${m.id}">Mark as done (+20 XP)</button>`}</div>`:""}</div>`).join("");
+ ${open==m.id?`<div class="body">${getTopicImage(m.id)}${getTopicExtras(m.id)}<h4 style="margin:14px 0 6px;font-size:15px">Key Defensive Rules &amp; Mechanics</h4><ul>${m.p.map(x=>`<li>${x}</li>`).join("")}</ul><p class="try">Try this: ${m.tr}</p>${getLabAction(m.id)}${S.done.includes(m.id)?"":`<button class="btn" data-c="${m.id}">Mark as done (+20 XP)</button>`}</div>`:""}</div>`).join("");
  document.querySelectorAll("[data-m]").forEach(b=>b.onclick=()=>{open=open==b.dataset.m?null:b.dataset.m;mods()});
  document.querySelectorAll("[data-c]").forEach(b=>b.onclick=()=>{S.done.push(b.dataset.c);badge(0);if(S.done.length==MODS.length)badge(1);xp(20);mods()});
 }
